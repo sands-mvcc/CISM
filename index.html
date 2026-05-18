@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCyTE CISM Course — Interactive Lesson Library</title>
+<style>
+  :root {
+    --primary: #1F4E79;
+    --primary-light: #2E75B6;
+    --primary-lighter: #5B9BD5;
+    --accent: #E8A33D;
+    --bg: #F5F7FA;
+    --surface: #FFFFFF;
+    --ink: #1A2332;
+    --ink-soft: #4A5568;
+    --line: #D8E1EA;
+    --success: #2F855A;
+    --warning: #C05621;
+    --danger: #C53030;
+    --shade: #EAF3FB;
+    --shade-2: #F0F6FC;
+    --shadow: 0 2px 8px rgba(31, 78, 121, 0.08);
+    --shadow-lg: 0 6px 24px rgba(31, 78, 121, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Calibri", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    font-size: 16px;
+  }
+
+  /* ============ HEADER ============ */
+  header.site {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  header.site::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(232,163,61,0.08) 0%, transparent 40%);
+    pointer-events: none;
+  }
+  header.site .eyebrow {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    opacity: 0.9;
+    margin-bottom: 0.75rem;
+    position: relative;
+  }
+  header.site h1 {
+    margin: 0.25rem 0;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+  header.site .subtitle {
+    font-size: 1.15rem;
+    opacity: 0.94;
+    margin-top: 0.75rem;
+    font-style: italic;
+    position: relative;
+  }
+  header.site .meta {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.75rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+    position: relative;
+  }
+  header.site .meta span {
+    background: rgba(255,255,255,0.15);
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+
+  /* ============ NAV BAR ============ */
+  nav.modules {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 2px solid var(--primary);
+    box-shadow: var(--shadow);
+    padding: 0.5rem 1rem;
+  }
+  nav.modules .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  nav.modules .brand {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.95rem;
+    padding-right: 0.75rem;
+    border-right: 1px solid var(--line);
+    margin-right: 0.5rem;
+  }
+  nav.modules a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  nav.modules a:hover { background: var(--shade); color: var(--primary); }
+  nav.modules a.active { background: var(--primary); color: #fff; }
+
+  /* ============ MAIN LAYOUT ============ */
+  main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  section.module {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+    scroll-margin-top: 80px;
+  }
+
+  section.module .module-tag {
+    display: inline-block;
+    background: var(--shade);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+
+  h2 { color: var(--primary); font-size: 1.85rem; margin: 0 0 1rem; line-height: 1.3; }
+  h3 { color: var(--primary-light); font-size: 1.3rem; margin: 2rem 0 0.75rem; }
+  p { margin: 0.75rem 0; }
+  ul { padding-left: 1.5rem; margin: 0.75rem 0; }
+  li { margin: 0.35rem 0; }
+  strong { color: var(--primary); font-weight: 600; }
+
+  /* ============ CALLOUTS ============ */
+  .callout {
+    background: var(--shade);
+    border-left: 5px solid var(--primary-light);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .callout .label {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .callout .label::before { content: "💡"; font-size: 1.1rem; }
+  .callout.analogy { background: #FFF8E1; border-left-color: var(--accent); }
+  .callout.analogy .label { color: #B7791F; }
+  .callout.analogy .label::before { content: "🧭"; }
+
+  /* ============ DOMAIN BLOCKS ============ */
+  .domain-block {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 2rem;
+    margin-bottom: 1.75rem;
+    box-shadow: var(--shadow);
+    border-top: 5px solid var(--primary);
+    position: relative;
+    overflow: hidden;
+  }
+  .domain-block.in-progress { border-top-color: var(--accent); }
+  .domain-block::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(31,78,121,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .domain-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .domain-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .domain-num {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    box-shadow: var(--shadow);
+  }
+  .domain-block.in-progress .domain-num {
+    background: linear-gradient(135deg, var(--accent), #D4882B);
+  }
+  .domain-title h3 {
+    margin: 0;
+    color: var(--primary);
+    font-size: 1.4rem;
+    line-height: 1.3;
+  }
+  .domain-title .domain-eyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .domain-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .domain-status.complete {
+    background: #C6F6D5;
+    color: #22543D;
+  }
+  .domain-status.in-progress {
+    background: #FEEBC8;
+    color: #7B341E;
+  }
+  .domain-status .dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .domain-status.complete .dot { background: var(--success); }
+  .domain-status.in-progress .dot {
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .domain-description {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+    padding-left: 4.25rem;
+  }
+
+  /* ============ LESSON CARDS ============ */
+  .lessons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .lesson-card {
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    position: relative;
+  }
+  .lesson-card:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+  .lesson-card.disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .lesson-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .lesson-badge {
+    background: var(--primary);
+    color: #fff;
+    padding: 0.25rem 0.6rem;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .lesson-card.disabled .lesson-badge {
+    background: var(--ink-soft);
+  }
+  .lesson-arrow {
+    color: var(--primary-light);
+    font-size: 1.2rem;
+    transition: transform 0.2s ease;
+  }
+  .lesson-card:hover .lesson-arrow { transform: translateX(4px); }
+  .lesson-title {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 1.02rem;
+    line-height: 1.35;
+    margin: 0;
+  }
+  .lesson-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+  .lesson-meta .pill {
+    background: var(--shade);
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+  }
+  .lesson-desc {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .lesson-soon {
+    background: linear-gradient(135deg, var(--accent), #D4882B);
+    color: #fff;
+    padding: 0.25rem 0.6rem;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ============ PROGRESS TRACKER ============ */
+  .progress-summary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 2rem;
+    border-radius: 14px;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: center;
+  }
+  .progress-summary .stat-block {
+    text-align: center;
+  }
+  .progress-summary .stat-num {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .progress-summary .stat-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    opacity: 0.9;
+  }
+  .progress-summary .progress-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .progress-summary .progress-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr auto;
+    gap: 1rem;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+  .progress-summary .progress-track-line {
+    height: 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-summary .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #FFE082);
+    border-radius: 999px;
+    transition: width 0.6s ease;
+  }
+  .progress-summary .progress-fill.full {
+    background: linear-gradient(90deg, #C6F6D5, #68D391);
+  }
+  .progress-summary .progress-pct {
+    font-weight: 700;
+    min-width: 50px;
+    text-align: right;
+  }
+
+  /* ============ START HERE BANNER ============ */
+  .quickstart {
+    background: linear-gradient(135deg, #FFF8E1 0%, #FEF3CD 100%);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .quickstart .qs-icon { font-size: 2.5rem; }
+  .quickstart .qs-body { flex: 1; min-width: 240px; }
+  .quickstart .qs-body h3 {
+    margin: 0 0 0.25rem;
+    color: #B7791F;
+    font-size: 1.2rem;
+  }
+  .quickstart .qs-body p {
+    margin: 0;
+    color: #744210;
+    font-size: 0.92rem;
+  }
+  .quickstart .qs-action {
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .quickstart .qs-action:hover {
+    background: var(--primary-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+  }
+
+  /* ============ ABOUT CARDS ============ */
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .about-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+  .about-card .icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .about-card h4 {
+    margin: 0.4rem 0;
+    color: var(--primary);
+    font-size: 1rem;
+    font-style: normal;
+  }
+  .about-card p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  /* ============ FEATURE LIST ============ */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .feature {
+    background: var(--shade-2);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--primary-light);
+    font-size: 0.92rem;
+  }
+  .feature strong {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .feature .feat-icon {
+    font-size: 1.3rem;
+    margin-right: 0.5rem;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    font-size: 0.88rem;
+  }
+  footer .footer-grid {
+    max-width: 1100px;
+    margin: 0 auto 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    text-align: left;
+  }
+  footer .footer-col h5 {
+    color: #FFE082;
+    margin: 0 0 0.5rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  footer .footer-col a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    display: block;
+    padding: 0.2rem 0;
+    font-size: 0.85rem;
+    transition: color 0.15s;
+  }
+  footer .footer-col a:hover { color: #FFE082; }
+  footer .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 1.25rem;
+    font-size: 0.82rem;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 768px) {
+    section.module, .domain-block { padding: 1.5rem; }
+    h2 { font-size: 1.5rem; }
+    header.site h1 { font-size: 2rem; }
+    .progress-summary { grid-template-columns: 1fr; }
+    .progress-summary .progress-row { grid-template-columns: 1fr; gap: 0.25rem; }
+    .domain-description { padding-left: 0; }
+    nav.modules .brand { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="eyebrow">National CyberWatch Education Center</div>
+  <h1>NCyTE CISM Course</h1>
+  <div class="subtitle">Certified Information Security Manager — Interactive Lesson Library</div>
+  <div class="meta">
+    <span>📚 4 Domains · 8 Lessons</span>
+    <span>⏱ ~28–32 instructional hours</span>
+    <span>🎓 ISACA-aligned</span>
+  </div>
+</header>
+
+<nav class="modules" id="topNav">
+  <div class="inner">
+    <span class="brand">CISM Library</span>
+    <a href="#welcome">Welcome</a>
+    <a href="#progress">Progress</a>
+    <a href="#d1">Domain 1</a>
+    <a href="#d2">Domain 2</a>
+    <a href="#d3">Domain 3</a>
+    <a href="#d4">Domain 4</a>
+    <a href="#about">About</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ===================== WELCOME ===================== -->
+<section class="module" id="welcome">
+  <span class="module-tag">Welcome</span>
+  <h2>The Path from Practitioner to Manager</h2>
+  <p>This course library contains the interactive lessons for the NCyTE Certified Information Security Manager (CISM) program. CISM is ISACA's flagship credential for security managers, focused on the four domains of <strong>governance</strong>, <strong>risk management</strong>, <strong>program development</strong>, and <strong>incident management</strong>. The certification is widely recognized as the management complement to technical credentials like CISSP — it tests your ability to <em>lead</em> a security program, not just operate one.</p>
+
+  <p>Each lesson is a single-page interactive experience: scenario-driven, lab-style exercises, embedded calculators, knowledge checks, and a final 10-question assessment. Open one and work straight through, or use the sticky navigation inside each lesson to revisit specific modules.</p>
+
+  <div class="callout analogy">
+    <div class="label">A Note on How This Course Is Built</div>
+    <p>Each lesson follows the same pattern — a strategic concept anchored by a memorable analogy, expanded with examples drawn from real incidents, and reinforced with hands-on interactive exercises. The goal isn't to memorize ISACA's vocabulary; it's to build the <strong>judgment</strong> that a CISM-certified manager uses every day. The exam tests vocabulary. The job tests judgment. We aim for both.</p>
+  </div>
+
+  <div class="quickstart">
+    <div class="qs-icon">🚀</div>
+    <div class="qs-body">
+      <h3>New to the course? Start here.</h3>
+      <p>Begin with <strong>Domain 2, Part 1</strong> — Information Risk Management Fundamentals. It establishes the vocabulary and frameworks that the rest of the course builds on.</p>
+    </div>
+    <a href="cism-d2p1.html" class="qs-action">Start Domain 2.1 →</a>
+  </div>
+</section>
+
+<!-- ===================== PROGRESS ===================== -->
+<section class="module" id="progress">
+  <span class="module-tag">Course Status</span>
+  <h2>Where We Are</h2>
+  <div class="progress-summary">
+    <div class="stat-block">
+      <div class="stat-num">4 / 8</div>
+      <div class="stat-label">Lessons Complete</div>
+    </div>
+    <div class="progress-detail">
+      <div class="progress-row">
+        <span>Domain 1 — Governance</span>
+        <div class="progress-track-line"><div class="progress-fill" style="width:0%"></div></div>
+        <span class="progress-pct">0%</span>
+      </div>
+      <div class="progress-row">
+        <span>Domain 2 — Risk Management</span>
+        <div class="progress-track-line"><div class="progress-fill full" style="width:100%"></div></div>
+        <span class="progress-pct">100%</span>
+      </div>
+      <div class="progress-row">
+        <span>Domain 3 — Program Development</span>
+        <div class="progress-track-line"><div class="progress-fill" style="width:0%"></div></div>
+        <span class="progress-pct">0%</span>
+      </div>
+      <div class="progress-row">
+        <span>Domain 4 — Incident Management</span>
+        <div class="progress-track-line"><div class="progress-fill full" style="width:100%"></div></div>
+        <span class="progress-pct">100%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DOMAIN 1 ===================== -->
+<div class="domain-block in-progress" id="d1">
+  <div class="domain-header">
+    <div class="domain-title">
+      <div class="domain-num">1</div>
+      <div>
+        <div class="domain-eyebrow">Domain 1</div>
+        <h3>Information Security Governance</h3>
+      </div>
+    </div>
+    <div class="domain-status in-progress">
+      <span class="dot"></span> In Development
+    </div>
+  </div>
+  <p class="domain-description">Establishing and maintaining an information security governance framework aligned to business strategy. Covers strategy, policies, roles, and the relationship between security leadership and executive direction.</p>
+
+  <div class="lessons">
+    <div class="lesson-card disabled">
+      <div class="lesson-head">
+        <span class="lesson-badge">CISM 1.1</span>
+        <span class="lesson-soon">Coming Soon</span>
+      </div>
+      <h4 class="lesson-title">Part 1 — Governance Foundations &amp; Strategy</h4>
+      <div class="lesson-meta">
+        <span class="pill">Intermediate</span>
+        <span class="pill">~6 hours</span>
+      </div>
+      <p class="lesson-desc">Governance principles, security strategy development, alignment with business strategy, and the role of the CISO in executive decision-making.</p>
+    </div>
+
+    <div class="lesson-card disabled">
+      <div class="lesson-head">
+        <span class="lesson-badge">CISM 1.2</span>
+        <span class="lesson-soon">Coming Soon</span>
+      </div>
+      <h4 class="lesson-title">Part 2 — Roles, Policies &amp; Reporting</h4>
+      <div class="lesson-meta">
+        <span class="pill">Intermediate–Advanced</span>
+        <span class="pill">~6 hours</span>
+      </div>
+      <p class="lesson-desc">Organizational structures, RACI assignments, policy frameworks, security metrics, and board-level reporting on security posture.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DOMAIN 2 ===================== -->
+<div class="domain-block" id="d2">
+  <div class="domain-header">
+    <div class="domain-title">
+      <div class="domain-num">2</div>
+      <div>
+        <div class="domain-eyebrow">Domain 2</div>
+        <h3>Information Risk Management</h3>
+      </div>
+    </div>
+    <div class="domain-status complete">
+      <span class="dot"></span> Complete
+    </div>
+  </div>
+  <p class="domain-description">Identifying, analyzing, and responding to information security risk in alignment with business objectives. The largest and most heavily-tested domain on the CISM exam.</p>
+
+  <div class="lessons">
+    <a href="cism-d2p1.html" class="lesson-card">
+      <div class="lesson-head">
+        <span class="lesson-badge">CISM 2.1</span>
+        <span class="lesson-arrow">→</span>
+      </div>
+      <h4 class="lesson-title">Part 1 — Information Risk Management Fundamentals</h4>
+      <div class="lesson-meta">
+        <span class="pill">Intermediate–Advanced</span>
+        <span class="pill">6–8 hours</span>
+        <span class="pill">10 modules</span>
+      </div>
+      <p class="lesson-desc">GRC functions, foundational risk concepts (inherent, residual, appetite, tolerance, capacity), risk identification, threat actors, attack surfaces, vulnerability management, CVSS, pen testing, and risk assessment methodologies.</p>
+    </a>
+
+    <a href="cism-d2p2.html" class="lesson-card">
+      <div class="lesson-head">
+        <span class="lesson-badge">CISM 2.2</span>
+        <span class="lesson-arrow">→</span>
+      </div>
+      <h4 class="lesson-title">Part 2 — Risk Response</h4>
+      <div class="lesson-meta">
+        <span class="pill">Intermediate–Advanced</span>
+        <span class="pill">3–4 hours</span>
+        <span class="pill">12 modules</span>
+      </div>
+      <p class="lesson-desc">The four risk responses, residual risk governance, business impact analysis, security economics (ROI calculator), control taxonomy, ownership models, KRIs, and executive communication.</p>
+    </a>
+  </div>
+</div>
+
+<!-- ===================== DOMAIN 3 ===================== -->
+<div class="domain-block in-progress" id="d3">
+  <div class="domain-header">
+    <div class="domain-title">
+      <div class="domain-num">3</div>
+      <div>
+        <div class="domain-eyebrow">Domain 3</div>
+        <h3>Information Security Program</h3>
+      </div>
+    </div>
+    <div class="domain-status in-progress">
+      <span class="dot"></span> In Development
+    </div>
+  </div>
+  <p class="domain-description">Developing, managing, and maintaining an information security program. Translating governance and risk decisions into operational capabilities, resources, and continuous improvement.</p>
+
+  <div class="lessons">
+    <div class="lesson-card disabled">
+      <div class="lesson-head">
+        <span class="lesson-badge">CISM 3.1</span>
+        <span class="lesson-soon">Coming Soon</span>
+      </div>
+      <h4 class="lesson-title">Part 1 — Program Development &amp; Architecture</h4>
+      <div class="lesson-meta">
+        <span class="pill">Advanced</span>
+        <span class="pill">~6 hours</span>
+      </div>
+      <p class="lesson-desc">Security program structure, control frameworks, security architecture, technology selection, and the relationship between program design and organizational risk appetite.</p>
+    </div>
+
+    <div class="lesson-card disabled">
+      <div class="lesson-head">
+        <span class="lesson-badge">CISM 3.2</span>
+        <span class="lesson-soon">Coming Soon</span>
+      </div>
+      <h4 class="lesson-title">Part 2 — Program Operations &amp; Maturity</h4>
+      <div class="lesson-meta">
+        <span class="pill">Advanced</span>
+        <span class="pill">~6 hours</span>
+      </div>
+      <p class="lesson-desc">Awareness and training, third-party security, metrics and reporting, continuous improvement, and maturity model assessment.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DOMAIN 4 ===================== -->
+<div class="domain-block" id="d4">
+  <div class="domain-header">
+    <div class="domain-title">
+      <div class="domain-num">4</div>
+      <div>
+        <div class="domain-eyebrow">Domain 4</div>
+        <h3>Information Security Incident Management</h3>
+      </div>
+    </div>
+    <div class="domain-status complete">
+      <span class="dot"></span> Complete
+    </div>
+  </div>
+  <p class="domain-description">Preparing for, detecting, responding to, and recovering from information security incidents — strategically and operationally. The "last line of defense" when prevention fails.</p>
+
+  <div class="lessons">
+    <a href="cism-d4p1.html" class="lesson-card">
+      <div class="lesson-head">
+        <span class="lesson-badge">CISM 4.1</span>
+        <span class="lesson-arrow">→</span>
+      </div>
+      <h4 class="lesson-title">Part 1 — Information Security Incident Management</h4>
+      <div class="lesson-meta">
+        <span class="pill">Intermediate–Advanced</span>
+        <span class="pill">6–8 hours</span>
+        <span class="pill">9 modules</span>
+      </div>
+      <p class="lesson-desc">Incident management vs. response, priority hierarchy (Safety → CIA → Reputation), governance authority, the six-stage NIST lifecycle, crisis communication, BIA with RTO/RPO/MTD, BCP vs. DRP, classification, and testing methodologies.</p>
+    </a>
+
+    <a href="cism-d4p2.html" class="lesson-card">
+      <div class="lesson-head">
+        <span class="lesson-badge">CISM 4.2</span>
+        <span class="lesson-arrow">→</span>
+      </div>
+      <h4 class="lesson-title">Part 2 — Security Operations, IR &amp; Digital Forensics</h4>
+      <div class="lesson-meta">
+        <span class="pill">Intermediate–Advanced</span>
+        <span class="pill">7–9 hours</span>
+        <span class="pill">8 modules</span>
+      </div>
+      <p class="lesson-desc">SOC operations, SIEM correlation, EDR/XDR/MDR, team structures, digital forensics, chain of custody, order of volatility, containment-eradication-recovery, out-of-band comms, PIRs, and vendor accountability.</p>
+    </a>
+  </div>
+</div>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="module" id="about">
+  <span class="module-tag">About the Course</span>
+  <h2>How These Lessons Work</h2>
+
+  <p>Each interactive lesson is a self-contained HTML page — no external dependencies, no logins, no tracking. The lessons run identically on a classroom projector, a student laptop, or a phone on the bus. Bookmark the page; the work is preserved as long as the tab stays open. Refresh and the lesson resets cleanly.</p>
+
+  <h3>What's Inside Every Lesson</h3>
+  <div class="features">
+    <div class="feature"><span class="feat-icon">📋</span><strong>Learning Objectives</strong>Numbered, measurable, mapped to CISM exam content.</div>
+    <div class="feature"><span class="feat-icon">🧭</span><strong>Anchoring Analogies</strong>Every major concept introduced through a memorable real-world parallel.</div>
+    <div class="feature"><span class="feat-icon">🔄</span><strong>Flip Cards</strong>Quick-recall cards for vocabulary and key concepts.</div>
+    <div class="feature"><span class="feat-icon">🧩</span><strong>Matching Exercises</strong>Apply concepts to scenarios with instant feedback.</div>
+    <div class="feature"><span class="feat-icon">🧮</span><strong>Interactive Calculators</strong>ROI, ALE, BIA, severity, and CVSS calculators throughout.</div>
+    <div class="feature"><span class="feat-icon">📊</span><strong>Live Dashboards</strong>KRI tiles, SIEM correlation, attack surface mapping.</div>
+    <div class="feature"><span class="feat-icon">📚</span><strong>Accordions &amp; Tables</strong>Reference content organized for quick scanning.</div>
+    <div class="feature"><span class="feat-icon">🎯</span><strong>10-Question Final Quiz</strong>Each lesson ends with a scored knowledge check.</div>
+  </div>
+
+  <h3>Designed For</h3>
+  <div class="about-grid">
+    <div class="about-card">
+      <div class="icon">🎓</div>
+      <h4>Cybersecurity Students</h4>
+      <p>Community college and university students preparing for entry-level GRC, SOC, and management roles.</p>
+    </div>
+    <div class="about-card">
+      <div class="icon">📜</div>
+      <h4>CISM Candidates</h4>
+      <p>Working professionals studying for the ISACA Certified Information Security Manager exam.</p>
+    </div>
+    <div class="about-card">
+      <div class="icon">👔</div>
+      <h4>Security Managers</h4>
+      <p>Current managers looking to refresh their command of governance, risk, program development, and incident management.</p>
+    </div>
+    <div class="about-card">
+      <div class="icon">🏫</div>
+      <h4>Faculty &amp; Instructors</h4>
+      <p>Educators delivering CISM-aligned curriculum who need ready-to-use interactive lesson plans.</p>
+    </div>
+  </div>
+
+  <h3>How to Use the Lessons</h3>
+  <ul>
+    <li><strong>Self-paced study</strong> — open a lesson, work through every module in order, end with the final quiz. Plan on a single lesson per study session.</li>
+    <li><strong>Classroom delivery</strong> — instructors project the lesson and lead the class through interactive exercises together. Each module includes discussion prompts.</li>
+    <li><strong>Reference</strong> — once worked through, the sticky module navigation makes it easy to return to a specific concept (BIA, CVSS, lifecycle, etc.) without re-reading the lesson.</li>
+    <li><strong>Exam prep</strong> — work through every lesson's final quiz; lessons where you score below 8/10 are the ones to revisit.</li>
+  </ul>
+
+  <div class="callout">
+    <div class="label">A Word About the CISM Exam</div>
+    <p>ISACA's CISM exam is 150 questions, four hours, and four domains weighted approximately: Governance (17%), Risk Management (20%), Program Development (33%), Incident Management (30%). This course covers all four. The two largest domains — Risk and Program Development — are the highest leverage for exam prep time. The two domains with the most "scenario judgment" questions — Risk and Incident Management — are where strong reading comprehension and the priority frameworks taught here will earn the most points.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Course</h5>
+      <a href="#d1">Domain 1 — Governance</a>
+      <a href="#d2">Domain 2 — Risk Management</a>
+      <a href="#d3">Domain 3 — Program Development</a>
+      <a href="#d4">Domain 4 — Incident Management</a>
+    </div>
+    <div class="footer-col">
+      <h5>Available Lessons</h5>
+      <a href="cism-d2p1.html">CISM 2.1 — Risk Fundamentals</a>
+      <a href="cism-d2p2.html">CISM 2.2 — Risk Response</a>
+      <a href="cism-d4p1.html">CISM 4.1 — Incident Management</a>
+      <a href="cism-d4p2.html">CISM 4.2 — Security Ops &amp; Forensics</a>
+    </div>
+    <div class="footer-col">
+      <h5>About</h5>
+      <a href="#welcome">Welcome</a>
+      <a href="#progress">Course Status</a>
+      <a href="#about">How It Works</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p><strong>NCyTE CISM Course</strong> · Interactive lessons by Dr. John Sands</p>
+    <p>National AI Training Initiative · Moraine Valley Community College · ISACA CISM-aligned curriculum</p>
+  </div>
+</footer>
+
+<script>
+// ============ NAV ACTIVE STATE ============
+const sections = document.querySelectorAll('section.module, .domain-block');
+const navLinks = document.querySelectorAll('nav.modules a');
+
+function onScroll() {
+  const scrollTop = window.scrollY;
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 120;
+    if (scrollTop >= top) current = sec.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+</script>
+</body>
+</html>
