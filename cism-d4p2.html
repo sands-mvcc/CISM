@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CISM Domain 4, Part 2: Security Operations, Incident Response & Digital Forensics — Interactive Lesson</title>
+<style>
+  :root {
+    --primary: #1F4E79;
+    --primary-light: #2E75B6;
+    --primary-lighter: #5B9BD5;
+    --accent: #E8A33D;
+    --bg: #F5F7FA;
+    --surface: #FFFFFF;
+    --ink: #1A2332;
+    --ink-soft: #4A5568;
+    --line: #D8E1EA;
+    --success: #2F855A;
+    --warning: #C05621;
+    --danger: #C53030;
+    --shade: #EAF3FB;
+    --shade-2: #F0F6FC;
+    --shadow: 0 2px 8px rgba(31, 78, 121, 0.08);
+    --shadow-lg: 0 6px 24px rgba(31, 78, 121, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Calibri", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    font-size: 16px;
+  }
+
+  /* ============ HEADER ============ */
+  header.site {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+  }
+  header.site .eyebrow {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+  }
+  header.site h1 {
+    margin: 0.25rem 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  header.site .subtitle {
+    font-size: 1.05rem;
+    opacity: 0.92;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  header.site .meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+  }
+  header.site .meta span {
+    background: rgba(255,255,255,0.15);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+
+  /* ============ NAV BAR ============ */
+  nav.modules {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 2px solid var(--primary);
+    box-shadow: var(--shadow);
+    padding: 0.5rem 1rem;
+  }
+  nav.modules .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  nav.modules .brand {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.95rem;
+    padding-right: 0.75rem;
+    border-right: 1px solid var(--line);
+    margin-right: 0.5rem;
+  }
+  nav.modules a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  nav.modules a:hover { background: var(--shade); color: var(--primary); }
+  nav.modules a.active { background: var(--primary); color: #fff; }
+
+  /* ============ PROGRESS BAR ============ */
+  .progress-track {
+    position: sticky;
+    top: 56px;
+    height: 4px;
+    background: var(--line);
+    z-index: 99;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--primary-light));
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+
+  /* ============ MAIN LAYOUT ============ */
+  main {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem;
+  }
+  section.module {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+    scroll-margin-top: 80px;
+  }
+  section.module .module-tag {
+    display: inline-block;
+    background: var(--shade);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+  section.module .duration {
+    display: inline-block;
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+  }
+  h2 { color: var(--primary); font-size: 1.85rem; margin: 0 0 1rem; line-height: 1.3; }
+  h3 { color: var(--primary-light); font-size: 1.3rem; margin: 2rem 0 0.75rem; }
+  h4 { color: var(--primary); font-size: 1.05rem; margin: 1.5rem 0 0.5rem; font-style: italic; }
+  p { margin: 0.75rem 0; }
+  ul, ol { padding-left: 1.5rem; margin: 0.75rem 0; }
+  li { margin: 0.35rem 0; }
+  strong { color: var(--primary); font-weight: 600; }
+
+  /* ============ CALLOUTS ============ */
+  .callout {
+    background: var(--shade);
+    border-left: 5px solid var(--primary-light);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .callout .label {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .callout .label::before { content: "💡"; font-size: 1.1rem; }
+  .callout.analogy { background: #FFF8E1; border-left-color: var(--accent); }
+  .callout.analogy .label { color: #B7791F; }
+  .callout.analogy .label::before { content: "🧭"; }
+  .callout.emphasis { background: #FEE; border-left-color: var(--danger); }
+  .callout.emphasis .label { color: var(--danger); }
+  .callout.emphasis .label::before { content: "⚠️"; }
+
+  /* ============ TABLES ============ */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    background: var(--surface);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    font-size: 0.92rem;
+  }
+  th { background: var(--primary); color: #fff; padding: 0.85rem 1rem; text-align: left; font-weight: 600; }
+  td { padding: 0.75rem 1rem; border-top: 1px solid var(--line); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--shade-2); }
+  tr:hover td { background: var(--shade); }
+
+  /* ============ OBJECTIVES ============ */
+  .objectives {
+    background: linear-gradient(135deg, var(--shade) 0%, var(--shade-2) 100%);
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .objectives ol { list-style: none; counter-reset: obj; padding-left: 0; }
+  .objectives li {
+    counter-increment: obj;
+    padding-left: 2.5rem;
+    position: relative;
+    margin: 0.75rem 0;
+  }
+  .objectives li::before {
+    content: counter(obj);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--primary);
+    color: #fff;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  /* ============ FLIP CARDS ============ */
+  .flip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .flip-card { perspective: 1000px; height: 220px; cursor: pointer; }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .flip-front {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+  }
+  .flip-front .icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .flip-front h4 { color: #fff; margin: 0; font-style: normal; font-size: 1.2rem; }
+  .flip-front .hint { font-size: 0.75rem; opacity: 0.8; margin-top: 0.5rem; }
+  .flip-back {
+    background: var(--surface);
+    color: var(--ink);
+    transform: rotateY(180deg);
+    border: 2px solid var(--primary-light);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .flip-back strong { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; }
+
+  /* ============ MATCHER ============ */
+  .matcher {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .match-row {
+    display: grid;
+    grid-template-columns: 1.5fr auto 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    padding: 0.6rem;
+    background: var(--surface);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+  }
+  .match-scenario { font-size: 0.92rem; }
+  .match-select {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .match-select:focus { outline: none; border-color: var(--primary-light); }
+  .match-feedback { font-size: 0.85rem; font-weight: 600; min-width: 90px; }
+  .match-feedback.correct { color: var(--success); }
+  .match-feedback.wrong { color: var(--danger); }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    margin: 0.25rem;
+  }
+  .btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+  .btn.secondary { background: var(--surface); color: var(--primary); border: 2px solid var(--primary); }
+  .btn.secondary:hover { background: var(--shade); }
+
+  /* ============ QUIZ ============ */
+  .quiz {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .quiz-question { font-weight: 600; margin-bottom: 0.75rem; color: var(--primary); }
+  .quiz-option {
+    display: block;
+    padding: 0.75rem 1rem;
+    margin: 0.4rem 0;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 0.92rem;
+  }
+  .quiz-option:hover { border-color: var(--primary-light); background: var(--shade); }
+  .quiz-option.selected { border-color: var(--primary); background: var(--shade); }
+  .quiz-option.correct { border-color: var(--success); background: #E8F5E9; }
+  .quiz-option.wrong { border-color: var(--danger); background: #FFEBEE; }
+  .quiz-explanation {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border-left: 4px solid var(--primary-light);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+    display: none;
+  }
+  .quiz-explanation.show { display: block; }
+
+  /* ============ ACCORDION ============ */
+  .accordion-item {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 0.6rem 0;
+    overflow: hidden;
+  }
+  .accordion-header {
+    padding: 1rem 1.25rem;
+    background: var(--shade-2);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .accordion-header:hover { background: var(--shade); }
+  .accordion-header .arrow { transition: transform 0.2s; }
+  .accordion-item.open .accordion-header .arrow { transform: rotate(90deg); }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 1.25rem;
+  }
+  .accordion-item.open .accordion-body {
+    max-height: 2500px;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  /* ============ COMM CARDS ============ */
+  .comm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .comm-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-light);
+  }
+  .comm-card.exec { border-left-color: var(--success); }
+  .comm-card .tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+  }
+  .comm-card ul { padding-left: 1.2rem; margin: 0.5rem 0; }
+  .comm-card li { font-size: 0.88rem; }
+
+  /* ============ SIEM LOG SIM (Module 1) ============ */
+  .siem-panel {
+    background: #0E1B2C;
+    color: #C8D6E5;
+    border-radius: 10px;
+    padding: 1.25rem;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    font-size: 0.82rem;
+    margin: 1rem 0;
+    max-height: 380px;
+    overflow-y: auto;
+    border: 1px solid #1F4E79;
+  }
+  .siem-log {
+    padding: 0.4rem 0.6rem;
+    margin: 0.25rem 0;
+    border-left: 3px solid #4A5568;
+    background: rgba(255,255,255,0.03);
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .siem-log:hover { background: rgba(46,117,182,0.15); }
+  .siem-log.flagged { border-left-color: var(--danger); background: rgba(197,48,48,0.12); }
+  .siem-log .ts { color: #5B9BD5; }
+  .siem-log .src { color: #E8A33D; font-weight: 600; }
+  .siem-log .ev { color: #C8D6E5; }
+  .siem-controls {
+    background: var(--shade-2);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .siem-verdict {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    background: var(--surface);
+    border-left: 4px solid var(--primary-light);
+  }
+  .siem-verdict.win { background: #C6F6D5; border-left-color: var(--success); color: #22543D; }
+  .siem-verdict.fail { background: #FED7D7; border-left-color: var(--danger); color: #742A2A; }
+
+  /* ============ TECH COMPARE (Module 2) ============ */
+  .tech-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+    margin-bottom: 1rem;
+  }
+  .tech-card h4 {
+    margin: 0 0 0.3rem;
+    font-style: normal;
+    color: var(--primary);
+    font-size: 1.15rem;
+  }
+  .tech-card .acronym { font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 0.75rem; }
+  .tech-card .meter { display: grid; grid-template-columns: 130px 1fr; gap: 0.5rem; margin: 0.4rem 0; align-items: center; font-size: 0.82rem; }
+  .tech-card .bar { background: var(--shade); height: 8px; border-radius: 4px; overflow: hidden; }
+  .tech-card .fill { height: 100%; background: linear-gradient(90deg, var(--primary-light), var(--primary)); border-radius: 4px; }
+
+  /* ============ CHAIN OF CUSTODY (Module 4) ============ */
+  .coc-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin: 1rem 0;
+    border-left: 4px solid var(--primary);
+  }
+  .coc-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+  .coc-row label { font-weight: 600; color: var(--ink-soft); font-size: 0.82rem; }
+  .coc-row input { width: 100%; padding: 0.5rem 0.7rem; border: 2px solid var(--line); border-radius: 6px; font-family: inherit; font-size: 0.9rem; }
+  .coc-row input:focus { outline: none; border-color: var(--primary-light); }
+  .hash-display {
+    background: #0E1B2C;
+    color: #5B9BD5;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 0.78rem;
+    word-break: break-all;
+    margin: 0.75rem 0;
+  }
+  .integrity-check {
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  .integrity-check.valid { background: #C6F6D5; color: #22543D; }
+  .integrity-check.broken { background: #FED7D7; color: #742A2A; }
+
+  /* ============ VOLATILITY ORDER (Module 4) ============ */
+  .volatility-list {
+    counter-reset: vol;
+    list-style: none;
+    padding-left: 0;
+  }
+  .volatility-list li {
+    counter-increment: vol;
+    background: var(--surface);
+    padding: 0.85rem 1rem 0.85rem 3.5rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    position: relative;
+    border-left: 4px solid var(--primary-light);
+  }
+  .volatility-list li::before {
+    content: counter(vol);
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--primary);
+    color: #fff;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .volatility-list li.most { border-left-color: var(--danger); }
+  .volatility-list li.least { border-left-color: var(--success); }
+  .volatility-list .vol-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 0.5rem;
+  }
+  .vol-tag.high { background: #FED7D7; color: #742A2A; }
+  .vol-tag.med { background: #FEEBC8; color: #7B341E; }
+  .vol-tag.low { background: #C6F6D5; color: #22543D; }
+
+  /* ============ PIR FRAMEWORK (Module 7) ============ */
+  .pir-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .pir-tile {
+    background: var(--surface);
+    padding: 1.25rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+  }
+  .pir-tile h5 {
+    margin: 0 0 0.4rem;
+    font-size: 0.95rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .pir-tile p { font-size: 0.85rem; color: var(--ink-soft); margin: 0; }
+
+  /* ============ ACCOUNTABILITY GRAPH (Module 8) ============ */
+  .accountability {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .acct-side {
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff;
+  }
+  .acct-side.transfer {
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  }
+  .acct-side.retain {
+    background: linear-gradient(135deg, var(--danger), #9B2C2C);
+  }
+  .acct-side .acct-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .acct-side h4 { color: #fff; margin: 0 0 0.5rem; font-style: normal; font-size: 1.2rem; }
+  .acct-side p { font-size: 0.92rem; margin: 0; opacity: 0.95; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.85rem;
+  }
+  footer a { color: #FFE082; text-decoration: none; font-weight: 600; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 768px) {
+    section.module { padding: 1.5rem; }
+    h2 { font-size: 1.5rem; }
+    header.site h1 { font-size: 1.7rem; }
+    .match-row, .comm-grid, .accountability { grid-template-columns: 1fr; }
+    .coc-row { grid-template-columns: 1fr; }
+    nav.modules .brand { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="eyebrow">NCyTE CISM Course</div>
+  <h1>Domain 4, Part 2: Security Operations, Incident Response &amp; Digital Forensics</h1>
+  <div class="subtitle">Interactive Lesson — SOC Operations, Detection &amp; Response, Forensics, and Governance</div>
+  <div class="meta">
+    <span>📚 Intermediate–Advanced</span>
+    <span>⏱ 7–9 instructional hours</span>
+    <span>🎓 8 Modules + Integration Exercise</span>
+  </div>
+</header>
+
+<nav class="modules" id="topNav">
+  <div class="inner">
+    <span class="brand">CISM 4.2</span>
+    <a href="#overview">Overview</a>
+    <a href="#m1">1 · SOC &amp; SIEM</a>
+    <a href="#m2">2 · EDR/XDR/MDR</a>
+    <a href="#m3">3 · Teams</a>
+    <a href="#m4">4 · Forensics</a>
+    <a href="#m5">5 · CER</a>
+    <a href="#m6">6 · Comms</a>
+    <a href="#m7">7 · PIR</a>
+    <a href="#m8">8 · Vendors</a>
+    <a href="#capstone">Capstone</a>
+    <a href="#assessment">Quiz</a>
+  </div>
+</nav>
+<div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+
+<main>
+
+<!-- ===================== OVERVIEW ===================== -->
+<section class="module" id="overview">
+  <span class="module-tag">Lesson Overview</span>
+  <h2>From Governance to the Operating Floor</h2>
+  <p>Part 1 of Domain 4 covered the <em>strategic</em> side of incident management — preparation, governance, communication, and lifecycle theory. Part 2 takes you onto the operating floor. This is where SOC analysts triage alerts at 3 AM, where EDR consoles isolate hosts, where forensic investigators image disks under the watchful eye of legal counsel, and where vendor failures expose the brutal truth that <strong>you cannot outsource accountability</strong>.</p>
+
+  <div class="callout analogy">
+    <div class="label">Anchoring Analogy: The Surgery, Not the Hospital</div>
+    <p>If Part 1 was the hospital — accreditation, staffing models, protocols, training curricula — then Part 2 is the surgery itself. The scrub procedures, the instrument tray, the chain of evidence in the operating room, the post-op review, the malpractice exposure when something goes wrong. Both matter; this is the half where lives are saved or lost.</p>
+  </div>
+
+  <h3>Learning Objectives</h3>
+  <div class="objectives">
+    <ol>
+      <li>Explain the role of automation and SIEM technologies in SOC operations.</li>
+      <li>Differentiate EDR, XDR, and MDR detection and response technologies.</li>
+      <li>Identify incident response team structures and governance models.</li>
+      <li>Explain digital forensic evidence handling and chain of custody.</li>
+      <li>Perform containment, eradication, and recovery planning.</li>
+      <li>Develop incident communication strategies for technical and executive audiences.</li>
+      <li>Conduct post-incident reviews (PIR) focused on improvement, not blame.</li>
+      <li>Evaluate outsourcing governance and vendor accountability.</li>
+      <li>Apply forensic integrity principles — hashing, custody, volatility order — during investigations.</li>
+      <li>Analyze operational incident response workflows end-to-end.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== MODULE 1 ===================== -->
+<section class="module" id="m1">
+  <span class="module-tag">Module 1</span>
+  <span class="duration">60 min</span>
+  <h2>Security Operations &amp; Automation</h2>
+  <p>A modern enterprise generates tens of millions of log events per day. Firewalls, endpoints, identity providers, cloud control planes, applications, network sensors — all producing telemetry around the clock. No human team can read it manually. The Security Operations Center (SOC) and its Security Information and Event Management (SIEM) platform exist to turn that flood into actionable signal.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Air Traffic Control Tower</div>
+    <p>An air traffic controller doesn't watch every plane on every screen at every moment. The radar system flags conflicts — two aircraft converging, an altitude deviation, a frequency dropout — and the controller decides which to act on. The radar is the SIEM. The controller is the analyst. <strong>Automation surfaces the signal; humans make the call.</strong> Take away the radar and the airspace becomes uncontrollable. Take away the controller and the radar is just blinking lights.</p>
+  </div>
+
+  <h3>Why Manual SOCs Fail</h3>
+  <table>
+    <tr><th>Problem</th><th>Why It Breaks Manual Operations</th></tr>
+    <tr><td><strong>Volume</strong></td><td>An average mid-size enterprise generates 5–20 million log events daily. Reading them is mathematically impossible.</td></tr>
+    <tr><td><strong>Heterogeneity</strong></td><td>Logs from 40+ sources in different formats, time zones, and severity scales. Without normalization, correlation is guesswork.</td></tr>
+    <tr><td><strong>Velocity</strong></td><td>An attacker can move laterally in minutes. A SOC that needs an hour to assemble a picture is already behind.</td></tr>
+    <tr><td><strong>Alert fatigue</strong></td><td>If 95% of alerts are false positives, analysts begin to ignore the 5% that matter. This is how breaches go undetected for 200+ days.</td></tr>
+  </table>
+
+  <h3>What Automation Actually Does</h3>
+  <ul>
+    <li><strong>Normalization</strong> — translate every log source into a common schema so events from a firewall and a Windows server can be compared</li>
+    <li><strong>Correlation</strong> — connect events across sources: <em>"failed login at the VPN followed by a privilege escalation on a domain controller is one story, not two events"</em></li>
+    <li><strong>Enrichment</strong> — add threat intel, asset criticality, user context to raw events so analysts get a complete picture, not a fragment</li>
+    <li><strong>Prioritization</strong> — score alerts by likely impact so analysts work the worst cases first</li>
+    <li><strong>SOAR (orchestration)</strong> — execute repeatable response actions automatically: isolate the host, block the IP, disable the account</li>
+  </ul>
+
+  <h3>Interactive: SIEM Correlation Exercise</h3>
+  <p>Below is a stream of raw log events. Click each event you believe correlates into a single attack chain — then check your work. The kill chain involves <strong>3–4 related events</strong>. Routine activity should be left unflagged.</p>
+  <div class="siem-panel" id="siemPanel">
+    <div class="siem-log" data-attack="false" onclick="flagLog(this)">
+      <span class="ts">02:14:22</span> <span class="src">[FIREWALL]</span> <span class="ev">ALLOW tcp 10.4.22.18 → 8.8.8.8:443 (DNS-over-HTTPS)</span>
+    </div>
+    <div class="siem-log" data-attack="true" onclick="flagLog(this)">
+      <span class="ts">02:15:01</span> <span class="src">[O365-AUTH]</span> <span class="ev">FAIL login user=j.morgan src=185.220.101.45 (Tor exit node, Estonia)</span>
+    </div>
+    <div class="siem-log" data-attack="false" onclick="flagLog(this)">
+      <span class="ts">02:15:10</span> <span class="src">[EMAIL]</span> <span class="ev">Marketing newsletter sent to 12,400 recipients via SendGrid</span>
+    </div>
+    <div class="siem-log" data-attack="true" onclick="flagLog(this)">
+      <span class="ts">02:15:34</span> <span class="src">[O365-AUTH]</span> <span class="ev">SUCCESS login user=j.morgan src=185.220.101.45 (after 14 failed attempts in 33 sec)</span>
+    </div>
+    <div class="siem-log" data-attack="false" onclick="flagLog(this)">
+      <span class="ts">02:15:47</span> <span class="src">[BACKUP]</span> <span class="ev">Nightly backup of file-share-03 completed, 412GB</span>
+    </div>
+    <div class="siem-log" data-attack="true" onclick="flagLog(this)">
+      <span class="ts">02:16:08</span> <span class="src">[EDR]</span> <span class="ev">PowerShell base64-encoded execution on HOST-FIN-08, user context j.morgan</span>
+    </div>
+    <div class="siem-log" data-attack="false" onclick="flagLog(this)">
+      <span class="ts">02:16:11</span> <span class="src">[VPN]</span> <span class="ev">User k.patel connected from corporate office IP, normal location</span>
+    </div>
+    <div class="siem-log" data-attack="true" onclick="flagLog(this)">
+      <span class="ts">02:16:42</span> <span class="src">[FIREWALL]</span> <span class="ev">ALLOW tcp HOST-FIN-08 → 185.220.101.45:443, 18MB outbound (encrypted)</span>
+    </div>
+    <div class="siem-log" data-attack="false" onclick="flagLog(this)">
+      <span class="ts">02:17:02</span> <span class="src">[DHCP]</span> <span class="ev">Lease renewed for PRINTER-LOBBY-2 (10.4.99.12)</span>
+    </div>
+  </div>
+  <div class="siem-controls">
+    <button class="btn" onclick="checkSIEM()">Check My Correlation</button>
+    <button class="btn secondary" onclick="resetSIEM()">Reset</button>
+    <div class="siem-verdict" id="siemVerdict" style="display:none;"></div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Instructor Emphasis</div>
+    <p><strong>Continuous SIEM tuning is mandatory.</strong> A SIEM deployed with vendor-default rules and never touched again becomes a noise machine within months. Tuning is a job, not a project — every false positive that survives is a vote for analysts to ignore the next alert. Budget for at least one full-time engineer on use case and detection content development.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 2 ===================== -->
+<section class="module" id="m2">
+  <span class="module-tag">Module 2</span>
+  <span class="duration">60 min</span>
+  <h2>Detection &amp; Response Technologies</h2>
+  <p>Three closely-related acronyms get confused constantly: EDR, XDR, and MDR. They are not competitors — they describe different scopes and different operating models. Choosing among them is one of the most consequential security architecture decisions an organization makes.</p>
+
+  <h3>The Three Technologies</h3>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">💻</div>
+          <h4>EDR</h4>
+          <div class="hint">Endpoint Detection &amp; Response</div>
+        </div>
+        <div class="flip-back">
+          <strong>Focus: endpoint telemetry</strong>
+          Monitors processes, file changes, network connections, and registry activity on individual hosts. Can isolate machines, terminate processes, and roll back changes. <em>The microscope.</em>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🌐</div>
+          <h4>XDR</h4>
+          <div class="hint">Extended Detection &amp; Response</div>
+        </div>
+        <div class="flip-back">
+          <strong>Focus: cross-platform telemetry</strong>
+          Correlates endpoint, network, cloud, email, and identity events into unified timelines. ML-based detection across the stack. <em>The control tower.</em>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">👥</div>
+          <h4>MDR</h4>
+          <div class="hint">Managed Detection &amp; Response</div>
+        </div>
+        <div class="flip-back">
+          <strong>Focus: outsourced operations</strong>
+          A vendor provides 24×7 monitoring, threat hunting, and incident response — typically built on top of EDR or XDR tooling. <em>Renting the SOC.</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Three Ways to Watch a House</div>
+    <p><strong>EDR</strong> is putting motion sensors on every window and door — detailed coverage of each entry point, but each sensor reports independently. <strong>XDR</strong> is adding a central security panel that combines all sensors, the doorbell camera, and the neighborhood watch feed into one timeline. <strong>MDR</strong> is hiring a monitoring company that watches the panel for you and dispatches help when something happens. You still own the house, the keys, and the liability.</p>
+  </div>
+
+  <h3>Technology Comparison Matrix</h3>
+  <div class="tech-card">
+    <h4>EDR — Endpoint Detection &amp; Response</h4>
+    <div class="acronym">Best for: enterprises with internal SOC capability and significant endpoint estate</div>
+    <div class="meter"><span>Telemetry scope</span><div class="bar"><div class="fill" style="width:35%"></div></div></div>
+    <div class="meter"><span>Automation</span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+    <div class="meter"><span>Human staffing burden</span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+    <div class="meter"><span>Typical cost</span><div class="bar"><div class="fill" style="width:40%"></div></div></div>
+  </div>
+  <div class="tech-card">
+    <h4>XDR — Extended Detection &amp; Response</h4>
+    <div class="acronym">Best for: mature SOCs that need cross-domain correlation and unified investigation</div>
+    <div class="meter"><span>Telemetry scope</span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+    <div class="meter"><span>Automation</span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+    <div class="meter"><span>Human staffing burden</span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+    <div class="meter"><span>Typical cost</span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+  </div>
+  <div class="tech-card">
+    <h4>MDR — Managed Detection &amp; Response</h4>
+    <div class="acronym">Best for: small/mid organizations without 24×7 SOC capability or specialized talent</div>
+    <div class="meter"><span>Telemetry scope</span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+    <div class="meter"><span>Automation</span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+    <div class="meter"><span>Human staffing burden</span><div class="bar"><div class="fill" style="width:25%"></div></div></div>
+    <div class="meter"><span>Typical cost</span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+  </div>
+
+  <h3>Match the Right Technology to the Right Organization</h3>
+  <div class="matcher" id="techMatcher">
+    <div class="match-row" data-correct="mdr">
+      <div class="match-scenario">120-person law firm with no in-house security staff, regulatory exposure to client data</div>
+      <select class="match-select">
+        <option value="">Select…</option>
+        <option value="edr">EDR alone</option>
+        <option value="xdr">XDR with internal SOC</option>
+        <option value="mdr">MDR (outsourced)</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="xdr">
+      <div class="match-scenario">15,000-employee financial services firm with mature internal SOC and aggressive correlation needs</div>
+      <select class="match-select">
+        <option value="">Select…</option>
+        <option value="edr">EDR alone</option>
+        <option value="xdr">XDR with internal SOC</option>
+        <option value="mdr">MDR (outsourced)</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="edr">
+      <div class="match-scenario">Mid-size manufacturer with capable IT team but only endpoint coverage required for initial maturity step</div>
+      <select class="match-select">
+        <option value="">Select…</option>
+        <option value="edr">EDR alone</option>
+        <option value="xdr">XDR with internal SOC</option>
+        <option value="mdr">MDR (outsourced)</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <button class="btn" onclick="checkMatcher('techMatcher')">Check Answers</button>
+    <button class="btn secondary" onclick="resetMatcher('techMatcher')">Reset</button>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Outsourcing Does NOT Transfer Accountability</div>
+    <p>An MDR contract transfers <em>operations</em>. It does not transfer the regulator's letter, the lawsuit, the customer churn, or the board's questions. When an MDR provider misses a ransomware detection at 2 AM and the customer wakes up to encrypted servers at 6 AM, the headline reads <strong>"Company X Hit by Ransomware,"</strong> not <strong>"Vendor Y Failed to Detect."</strong> The contract is the floor, not the ceiling.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 3 ===================== -->
+<section class="module" id="m3">
+  <span class="module-tag">Module 3</span>
+  <span class="duration">60 min</span>
+  <h2>People, Team Structures &amp; Skills</h2>
+  <p>The most expensive SIEM in the world produces nothing without the team that operates it. SOC and IR teams come in three structural patterns, each with strengths and failure modes.</p>
+
+  <h3>Three SOC Structures</h3>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🏢</div>
+          <h4>Centralized SOC</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Single team, single location</strong>
+          Faster coordination, easier governance, simpler tooling. Risk: regional blind spots, single point of failure, limited time-zone coverage without overnight shifts.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🌍</div>
+          <h4>Distributed SOC</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Multiple regional teams</strong>
+          Follow-the-sun coverage, regional expertise, geographic redundancy. Risk: coordination complexity, handoff gaps, inconsistent procedures across sites.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🤝</div>
+          <h4>Outsourced SOC</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Vendor-operated</strong>
+          Predictable cost, instant 24×7 coverage, deep specialty talent. Risk: vendor dependency, contextual blindness, escalation friction at the worst moments.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: City vs. County vs. Contract Fire Service</div>
+    <p>A <strong>centralized</strong> SOC is the city fire department — one station, one chief, everyone trained the same way. A <strong>distributed</strong> SOC is a county system — multiple stations covering different areas, shared standards, coordinated dispatch. An <strong>outsourced</strong> SOC is a contracted fire service — a company hired to provide coverage, with a contract specifying response times. Each model works; each fails differently.</p>
+  </div>
+
+  <h3>Incident Response Team Roles</h3>
+  <table>
+    <tr><th>Role</th><th>Responsibilities</th><th>Typical Background</th></tr>
+    <tr><td><strong>IR Manager</strong></td><td>Leadership, executive communication, strategic decisions, scene command</td><td>Senior security manager, often with CISM/CISSP</td></tr>
+    <tr><td><strong>Incident Handler / Lead Analyst</strong></td><td>Investigation, containment direction, technical analysis, handoff to forensics</td><td>Tier 3 SOC analyst, GCIH/GCFA certified</td></tr>
+    <tr><td><strong>SOC Analyst (Tier 1/2)</strong></td><td>Triage, initial investigation, escalation</td><td>Security generalist with SIEM/EDR fluency</td></tr>
+    <tr><td><strong>Forensic Investigator</strong></td><td>Evidence collection, chain of custody, deep technical analysis</td><td>Digital forensics specialist, GCFA, EnCE</td></tr>
+    <tr><td><strong>IT Operations / Engineers</strong></td><td>Infrastructure recovery, system remediation, rebuilds</td><td>Sysadmin, network engineer, cloud engineer</td></tr>
+    <tr><td><strong>Legal Counsel</strong></td><td>Privilege, regulatory obligations, law enforcement liaison</td><td>In-house or outside counsel with cyber experience</td></tr>
+    <tr><td><strong>Communications / PR</strong></td><td>Internal, customer, media, regulator messaging</td><td>Corporate communications, crisis specialist</td></tr>
+    <tr><td><strong>HR Partner</strong></td><td>Employee-involved investigations, internal messaging, disciplinary action</td><td>HR business partner</td></tr>
+  </table>
+
+  <div class="callout emphasis">
+    <div class="label">Soft Skills Are Operationally Critical</div>
+    <p>It is tempting to hire IR talent purely on technical credentials. Do not. A brilliant analyst who cannot brief an executive under pressure, write a clear ticket, or stay calm at 3 AM will be a liability at exactly the wrong moment. The skills that matter most when the stakes are highest are: <strong>communication, leadership under stress, integrity, and the ability to say "I don't know yet" without panicking.</strong></p>
+  </div>
+
+  <h3>Build an Incident Response Team</h3>
+  <p>For a mid-sized regional hospital launching its first formal IR team, propose the minimum viable team. Click each tile to reveal a recommended role.</p>
+  <div class="accordion">
+    <div class="accordion-item">
+      <div class="accordion-header">Step 1 — Who owns the incident at the executive level? <span class="arrow">▶</span></div>
+      <div class="accordion-body"><p><strong>CISO or VP of IT/Security</strong> — accountable to the Board. Has authority to declare a major incident, approve shutdowns, and approve external engagement.</p></div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">Step 2 — Who coordinates the response in the moment? <span class="arrow">▶</span></div>
+      <div class="accordion-body"><p><strong>IR Manager (incident commander)</strong> — the scene leader. Runs the war room, manages the cadence, makes operational calls. Reports to CISO.</p></div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">Step 3 — Who does the technical work? <span class="arrow">▶</span></div>
+      <div class="accordion-body"><p><strong>Lead Analyst + 1–2 SOC analysts + IT engineer</strong>. Forensics is often hybrid — a retainer with a specialist firm for deep investigation, especially for litigation-sensitive incidents.</p></div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">Step 4 — Who handles the non-technical fallout? <span class="arrow">▶</span></div>
+      <div class="accordion-body"><p><strong>Legal counsel (engaged pre-incident, on retainer), Communications lead, HR partner, Compliance officer.</strong> All four are core team members — not "called in if needed."</p></div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">Step 5 — Who covers nights and weekends? <span class="arrow">▶</span></div>
+      <div class="accordion-body"><p><strong>On-call rotation with paging, plus an MDR vendor for after-hours triage.</strong> A 24×7 internal SOC for a hospital of this size is rarely economical; hybrid models are standard.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MODULE 4 ===================== -->
+<section class="module" id="m4">
+  <span class="module-tag">Module 4</span>
+  <span class="duration">90 min</span>
+  <h2>Identification, Investigation &amp; Digital Forensics</h2>
+  <p>Forensics is the discipline that turns chaos into evidence — and evidence into something that holds up in court. Done correctly, it determines what happened, how, and (sometimes) by whom. Done sloppily, it produces conclusions a court will throw out and an attacker the organization can never prosecute.</p>
+
+  <h3>The Critical Distinction: Event vs. Incident</h3>
+  <div class="comm-grid">
+    <div class="comm-card">
+      <div class="tag">📡 Event</div>
+      <p><strong>Any observable occurrence in a system or network.</strong></p>
+      <ul>
+        <li>A user logs in</li>
+        <li>A firewall blocks a packet</li>
+        <li>A backup completes</li>
+        <li>A patch installs</li>
+      </ul>
+      <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:0.5rem"><em>Events are the raw material. Most events are routine.</em></p>
+    </div>
+    <div class="comm-card exec">
+      <div class="tag">🚨 Incident</div>
+      <p><strong>An event (or series of events) that requires formal response due to business impact or security implications.</strong></p>
+      <ul>
+        <li>Confirmed malware infection</li>
+        <li>Unauthorized data access</li>
+        <li>Successful phishing leading to credential theft</li>
+        <li>Service outage with regulatory exposure</li>
+      </ul>
+      <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:0.5rem"><em>Incidents are events that demand action and decisions.</em></p>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Smoke Alarms and House Fires</div>
+    <p>A smoke alarm chirping because someone burned toast is an <strong>event</strong>. The same alarm pattern combined with visible flames and the smell of plastic is an <strong>incident</strong>. The alarm hardware doesn't know the difference — humans do. SIEM alerts work the same way: every alert is an event; only some are incidents.</p>
+  </div>
+
+  <h3>E-Discovery vs. Digital Forensics</h3>
+  <table>
+    <tr><th>Discipline</th><th>Purpose</th><th>Scope</th></tr>
+    <tr><td><strong>E-Discovery</strong></td><td>Identify and produce electronically stored information (ESI) for litigation</td><td>Broad — emails, documents, chat logs, databases. Quantity over depth.</td></tr>
+    <tr><td><strong>Digital Forensics</strong></td><td>Scientifically collect, preserve, and analyze evidence of what happened</td><td>Deep — disk images, memory captures, log timelines, network packet captures. Depth over quantity.</td></tr>
+  </table>
+
+  <h3>Chain of Custody — The Legal Backbone</h3>
+  <p>Chain of custody is the documented trail showing who handled a piece of evidence, when, where, and why — from the moment of collection to its presentation in court. <strong>Break the chain, and the evidence is usually inadmissible.</strong> This is the rule that makes everything else in forensics matter.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Witness Stand</div>
+    <p>Imagine a witness testifying that they saw something happen. The judge asks: "Where were you? Who else was there? How did you get there? What did you do next?" If the witness can't answer coherently, the testimony is dismissed. Chain of custody is the evidence's testimony. If you can't say <em>who had this evidence at every moment between the incident and now</em>, the court will not let it speak.</p>
+  </div>
+
+  <h3>Interactive: Build a Chain of Custody Record</h3>
+  <p>Complete the fields below to generate a properly-structured chain of custody entry. Then simulate a hash check — note how a single bit change breaks integrity.</p>
+
+  <div class="coc-card">
+    <div class="coc-row"><label>Evidence ID</label><input type="text" id="cocId" value="EV-2026-0418-001"></div>
+    <div class="coc-row"><label>Description</label><input type="text" id="cocDesc" value="Forensic image of HOST-FIN-08 system drive, 512 GB SSD"></div>
+    <div class="coc-row"><label>Collected By</label><input type="text" id="cocBy" value="J. Rivera, GCFA #12847"></div>
+    <div class="coc-row"><label>Collected At</label><input type="text" id="cocWhere" value="MidStream HQ, Server Room B, 2026-04-18 04:22 UTC"></div>
+    <div class="coc-row"><label>Method</label><input type="text" id="cocMethod" value="FTK Imager 4.7.1, write-blocker T8u, raw DD format"></div>
+    <div class="coc-row"><label>Witnesses</label><input type="text" id="cocWitness" value="M. Chen (IT Director), R. Singh (Legal Counsel)"></div>
+
+    <h4 style="margin-top:1.5rem">SHA-256 Hash at Collection</h4>
+    <div class="hash-display" id="hashOrig">a7b9c2d4e8f1a3b5c7d9e2f4a6b8c0d2e4f6a8b0c2d4e6f8a0b2c4d6e8f0a2b4</div>
+
+    <h4>Verify Integrity — Simulate a Hash Check</h4>
+    <button class="btn" onclick="verifyHash(true)">Verify (intact)</button>
+    <button class="btn secondary" onclick="verifyHash(false)">Verify (one bit changed)</button>
+    <div class="integrity-check" id="hashResult" style="display:none;"></div>
+  </div>
+
+  <h3>The Order of Volatility</h3>
+  <p>When investigating, capture evidence in order from <em>most volatile</em> to <em>least volatile</em>. Volatile data disappears with reboot, time, or routine system activity. Get it first — or lose it forever.</p>
+
+  <ol class="volatility-list">
+    <li class="most">CPU registers and cache <span class="vol-tag high">Highest volatility</span><br><span style="font-size:0.85rem;color:var(--ink-soft)">Gone in nanoseconds. Captured only with specialized memory acquisition tools.</span></li>
+    <li class="most">RAM (live memory) <span class="vol-tag high">Highest volatility</span><br><span style="font-size:0.85rem;color:var(--ink-soft)">Gone at reboot. Contains running processes, decrypted secrets, network connections, malware artifacts that never touch disk.</span></li>
+    <li><span class="vol-tag med">Medium volatility</span> Network state — active connections, ARP tables, routing tables<br><span style="font-size:0.85rem;color:var(--ink-soft)">Changes second to second. Capture before disconnecting from network.</span></li>
+    <li><span class="vol-tag med">Medium volatility</span> Running processes and open files<br><span style="font-size:0.85rem;color:var(--ink-soft)">Lost at shutdown. Document before any containment action.</span></li>
+    <li><span class="vol-tag med">Medium volatility</span> Disk contents — file systems, slack space, unallocated areas<br><span style="font-size:0.85rem;color:var(--ink-soft)">Persistent but writable. Capture via forensic image with write-blocker.</span></li>
+    <li class="least"><span class="vol-tag low">Lower volatility</span> Remote logs (SIEM, cloud) and archived backups<br><span style="font-size:0.85rem;color:var(--ink-soft)">Generally durable. Snapshot to prevent retention rotation from destroying them.</span></li>
+    <li class="least"><span class="vol-tag low">Lower volatility</span> Physical media — DVDs, optical archives, printed records<br><span style="font-size:0.85rem;color:var(--ink-soft)">Most durable. Capture last unless it is the only copy of relevant evidence.</span></li>
+  </ol>
+
+  <div class="callout emphasis">
+    <div class="label">The First Responder Trap</div>
+    <p>The instinct of a panicked first responder is to <em>reboot the machine</em>. Don't. A reboot destroys the most valuable evidence you'll ever have access to — live memory containing the malware in execution, attacker tooling in flight, decrypted credentials, and command-and-control session state. <strong>Capture memory first. Reboot last, if at all.</strong></p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 5 ===================== -->
+<section class="module" id="m5">
+  <span class="module-tag">Module 5</span>
+  <span class="duration">75 min</span>
+  <h2>Containment, Eradication &amp; Recovery</h2>
+  <p>Three operational phases, three distinct missions. Confusing them — or compressing them — produces the most common failure mode in IR: <strong>declaring victory too soon and getting reinfected within days</strong>.</p>
+
+  <h3>The Three Operational Phases</h3>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🚧</div>
+          <h4>Containment</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Stop the bleeding</strong>
+          Isolate affected systems, reset compromised credentials, update firewalls, quarantine malicious files. Goal: limit blast radius while preserving evidence.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🧹</div>
+          <h4>Eradication</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Remove the threat completely</strong>
+          Remove rootkits, patch vulnerabilities, eliminate persistence mechanisms, rotate any potentially compromised credentials. Verify the environment is clean before recovery.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">♻️</div>
+          <h4>Recovery</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Return to normal — carefully</strong>
+          Restore from trusted backups, validate system integrity, monitor for reintroduction. Sequence restoration by business priority per the BIA.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: A Termite Infestation</div>
+    <p><strong>Containment</strong> is sealing off the affected rooms so the termites can't spread. <strong>Eradication</strong> is the pest-control treatment that kills the colony and finds the queen. <strong>Recovery</strong> is rebuilding the chewed wood and moving the family back in. Try to skip eradication and move family back in after containment, and the termites are right back — only now you don't notice them until the floor collapses.</p>
+  </div>
+
+  <h3>Containment Strategies</h3>
+  <table>
+    <tr><th>Type</th><th>Action</th><th>Trade-off</th></tr>
+    <tr><td><strong>Short-term containment</strong></td><td>Network isolation via EDR, firewall block, account disable</td><td>Fast but rough — may alert the attacker or destroy in-flight evidence</td></tr>
+    <tr><td><strong>System backup</strong></td><td>Forensic image of affected systems before any cleanup</td><td>Required for both legal evidence and post-incident learning</td></tr>
+    <tr><td><strong>Long-term containment</strong></td><td>Temporary patches, monitored rebuilds, controlled re-enablement</td><td>Methodical but slower — buys time for proper eradication</td></tr>
+  </table>
+
+  <h3>Why Eradication Cannot Be Skipped</h3>
+  <p>The single most damaging IR mistake is restoring systems before the threat is fully eradicated. Variations of this story repeat every week in incident reports:</p>
+  <ul>
+    <li>Team restores from a backup taken <em>after</em> the initial compromise — backup is already infected.</li>
+    <li>Team rebuilds the original system but reuses the same compromised credentials — attacker walks right back in.</li>
+    <li>Team eliminates the malware but misses the persistence mechanism (scheduled task, registry run key, malicious service) — malware reinstalls on next boot.</li>
+    <li>Team focuses on the obvious infected host and misses lateral movement — attacker is already on the file server.</li>
+  </ul>
+
+  <div class="callout emphasis">
+    <div class="label">Recovery Without Root-Cause Analysis Risks Reinfection</div>
+    <p>If you do not know <em>how</em> the attacker got in, you cannot prove they are out. Eradication requires identifying the initial vector, every persistence mechanism, every compromised credential, and every lateral movement path — and verifying each is closed before recovery begins. Anything less is hope, not response.</p>
+  </div>
+
+  <h3>Scenario: Enterprise Ransomware — Sequencing the Response</h3>
+  <p>A mid-sized manufacturer detects ransomware encrypting files on a finance department fileshare at 3:47 AM. EDR shows the encryption originated from a workstation, HOST-FIN-08.</p>
+
+  <div class="quiz" data-quiz>
+    <div class="quiz-question">What is the CORRECT first action?</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Restoring from backup before containment means the attacker — likely still active — encrypts the restored files too. And without eradication, the persistence mechanism reinfects the restore.">Immediately restore the encrypted fileshare from last night's backup</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Rebooting HOST-FIN-08 destroys the volatile evidence (running malware, network connections, decrypted artifacts) that you need to understand what happened. Always capture memory before reboot.">Reboot HOST-FIN-08 to disrupt the malware</div>
+    <div class="quiz-option" data-answer="correct" data-explain="Correct. EDR isolation severs the attacker's reach without destroying volatile evidence (the host stays powered on). Memory acquisition then captures the malware in execution before any cleanup begins. Containment + evidence preservation, in that order.">Isolate HOST-FIN-08 via EDR (network quarantine, keep it running), then capture memory before any cleanup</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Notifying the regulator before you know what was actually accessed will require corrections and undermine credibility. Stabilize and scope first; notify within required windows once you have a defensible picture.">Notify the regulator within the first 30 minutes</div>
+  </div>
+</section>
+
+<!-- ===================== MODULE 6 ===================== -->
+<section class="module" id="m6">
+  <span class="module-tag">Module 6</span>
+  <span class="duration">60 min</span>
+  <h2>Incident Communication &amp; Notification</h2>
+  <p>If Part 1 established that <em>communication failures often cause more damage than technical failures</em>, this module is the operational follow-through. During an active incident, every audience needs a different message at a different cadence — and at least one channel of communication you control must be assumed compromised.</p>
+
+  <h3>Out-of-Band Communication — The Channel That Survives</h3>
+  <div class="callout analogy">
+    <div class="label">Analogy: The Phone in the Locked Drawer</div>
+    <p>If the attacker is reading your email — and during many breaches, they are — then every IR plan you email, every status update you send, and every credential reset announcement you broadcast is being read by both teams. Mature IR programs maintain an <strong>out-of-band communication channel</strong>: a separate platform (Signal, dedicated phone tree, separate cloud tenant) used <em>only</em> during incidents. The phone in the locked drawer that the attacker doesn't have a key to.</p>
+  </div>
+
+  <h3>The Single Source of Truth</h3>
+  <p>During a serious incident, you will have a dozen people simultaneously reading different versions of reality from different channels. The cure is a single, named, authoritative status document — updated on a fixed cadence by a named individual — that everyone references and no one duplicates. Without it, by hour three the executives, the engineers, and the call center will be working from incompatible facts.</p>
+
+  <h3>The Three Audiences and Their Briefings</h3>
+  <div class="comm-grid">
+    <div class="comm-card exec">
+      <div class="tag">🏛️ Executive Briefing</div>
+      <p style="font-size:0.92rem;line-height:1.5"><em>"At 03:47 EDR detected ransomware on a finance workstation. Host isolated within 4 minutes. No lateral movement detected. ~40 GB of finance fileshare encrypted; data restorable from immutable backup. Expected impact: $200K in lost productivity, no customer data exposure. Next update at 9 AM."</em></p>
+      <ul>
+        <li>Business impact in dollars and time</li>
+        <li>Customer/regulatory exposure</li>
+        <li>Decisions awaiting executive input</li>
+        <li>Next-update commitment</li>
+      </ul>
+    </div>
+    <div class="comm-card">
+      <div class="tag">⚙️ Technical Operations</div>
+      <p style="font-size:0.92rem;line-height:1.5"><em>"Variant: LockBit 3.0 affiliate build, sha256 d4f8…. C2 to 185.220.101.45 blocked. Initial vector: phishing via DocuSign lure opened 02:15. Confirmed persistence via scheduled task SCHTASK_RANSOM-7. Memory image captured by 04:22. Need: validation that 03:00 backup snapshot pre-dates compromise."</em></p>
+      <ul>
+        <li>Indicators of compromise (IOCs)</li>
+        <li>Specific procedures and tasks</li>
+        <li>Decisions awaiting technical input</li>
+        <li>Dependencies between activities</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="comm-card" style="grid-column: 1 / -1; border-left-color: var(--accent);">
+    <div class="tag">📣 Public / Customer Statement</div>
+    <p style="font-size:0.92rem;line-height:1.5"><em>"We detected a security incident affecting an internal finance system early this morning. The affected system has been isolated and we are investigating. At this time we have no indication that customer data was accessed. We will provide updates as our investigation progresses. Customers with questions may contact support@example.com."</em></p>
+    <ul>
+      <li>Acknowledge the incident — don't deny what you can't prove</li>
+      <li>State what is known, what is being investigated, and what is not yet known</li>
+      <li>Provide a path for affected parties to get more information</li>
+      <li>Commit to updates without committing to a fixed timeline</li>
+    </ul>
+  </div>
+
+  <h3>Legal Notification — Know the Clocks</h3>
+  <table>
+    <tr><th>Regulation</th><th>Trigger</th><th>Window</th></tr>
+    <tr><td><strong>GDPR (EU)</strong></td><td>Personal data breach affecting EU residents</td><td>72 hours to supervisory authority</td></tr>
+    <tr><td><strong>HIPAA Breach Notification Rule (US)</strong></td><td>Unauthorized access to PHI affecting 500+ individuals</td><td>60 days; immediate for major media notification</td></tr>
+    <tr><td><strong>SEC Cybersecurity Rules (US public companies)</strong></td><td>Material cybersecurity incident</td><td>4 business days from materiality determination via 8-K</td></tr>
+    <tr><td><strong>State breach notification laws (all 50 states)</strong></td><td>Unauthorized acquisition of personal information</td><td>Varies — typically "without unreasonable delay"; some states 30–60 days</td></tr>
+    <tr><td><strong>NIS2 (EU)</strong></td><td>Significant incident at essential or important entity</td><td>Early warning within 24 hours; full notification within 72</td></tr>
+  </table>
+
+  <div class="callout emphasis">
+    <div class="label">Coordinate Law Enforcement Engagement With Legal</div>
+    <p>Engaging the FBI or other law enforcement is sometimes the right move — but never a unilateral decision by the IR team. Law enforcement involvement changes evidence-handling requirements, disclosure constraints, and litigation posture. The call goes through Legal Counsel, who weighs prosecution potential, regulatory implications, and attorney-client privilege before recommending to executive leadership.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 7 ===================== -->
+<section class="module" id="m7">
+  <span class="module-tag">Module 7</span>
+  <span class="duration">45 min</span>
+  <h2>Post-Incident Review &amp; Continuous Improvement</h2>
+  <p>The Post-Incident Review (PIR) — sometimes called the after-action review, retrospective, or "lessons learned" — is where mature programs distinguish themselves. Done well, it produces concrete improvements that prevent the next incident. Done badly, it produces blame, defensive postures, and a team that learns to hide what really happened.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The NTSB, Not the Inquisition</div>
+    <p>When an airliner crashes, the National Transportation Safety Board investigates not to punish but to learn. Crew members are interviewed under explicit non-punitive protections so they tell the truth about what they did and why. The resulting findings change aviation safety for everyone, forever. A PIR conducted as an inquisition produces lies and turnover; a PIR conducted as an NTSB-style investigation produces a stronger organization.</p>
+  </div>
+
+  <h3>The Four Core PIR Activities</h3>
+  <div class="pir-grid">
+    <div class="pir-tile">
+      <h5>📅 Timeline Documentation</h5>
+      <p>Reconstruct the incident minute by minute — what was detected when, what action was taken when, who made which decision. The factual record.</p>
+    </div>
+    <div class="pir-tile">
+      <h5>🗣️ Stakeholder Feedback</h5>
+      <p>Hear from every party involved — technical responders, executives, business owners, vendors. What did they need that they didn't get?</p>
+    </div>
+    <div class="pir-tile">
+      <h5>🔬 Root Cause Analysis</h5>
+      <p>Why did this happen? Not just the technical vector, but the process, people, and decisions that made it possible. The "five whys" applied to organizational failure.</p>
+    </div>
+    <div class="pir-tile">
+      <h5>💰 Budget &amp; Policy Recommendations</h5>
+      <p>What investments, tooling, training, or policy changes would have prevented this — or detected it sooner? Concrete asks tied to evidence.</p>
+    </div>
+  </div>
+
+  <h3>The Three PIR Questions</h3>
+  <p>Run every PIR through these three questions. They produce useful output reliably; almost anything else produces blame.</p>
+  <ol>
+    <li><strong>What worked?</strong> — name the people, tools, decisions, and processes that performed well. Reinforce them.</li>
+    <li><strong>What failed?</strong> — name the gaps in capability, communication, or decision-making. Without naming, they cannot be fixed.</li>
+    <li><strong>What do we change?</strong> — for every "failed" finding, propose a specific action: a control, a training, a tool, a policy, a contract change.</li>
+  </ol>
+
+  <div class="callout emphasis">
+    <div class="label">PIR Is Not Blame-Focused — It Is Improvement-Focused</div>
+    <p>When the PIR finds that an analyst missed an alert, the question is not <em>"why did Tier-1 fail?"</em> — it is <em>"why was this alert detectable only by manual review?"</em> When the PIR finds that an executive made the wrong call, the question is not <em>"why did the CFO panic?"</em> — it is <em>"why did the CFO not have the information needed to make a better call?"</em> The same finding produces a firing in a blame culture and a control improvement in a learning culture. Choose deliberately.</p>
+  </div>
+
+  <h3>The 30/60/90 Pattern</h3>
+  <p>Mature programs run PIRs on a predictable schedule after every major incident:</p>
+  <ul>
+    <li><strong>Hot wash within 24–48 hours</strong> — quick debrief while memory is fresh. Capture the timeline; identify immediate fixes.</li>
+    <li><strong>Formal PIR at 30 days</strong> — full investigation with stakeholder interviews, RCA, and recommendations.</li>
+    <li><strong>Follow-up at 90 days</strong> — were the recommendations implemented? What residual exposure remains?</li>
+  </ul>
+
+  <p>Organizations that stop at the hot wash never institutionalize the learning. Organizations that file the PIR report and never revisit it discover, 18 months later, that nothing actually changed.</p>
+</section>
+
+<!-- ===================== MODULE 8 ===================== -->
+<section class="module" id="m8">
+  <span class="module-tag">Module 8</span>
+  <span class="duration">45 min</span>
+  <h2>Accountability, Outsourcing &amp; Governance</h2>
+  <p>The most expensive lesson many organizations learn after a major incident is the same one: <strong>operational tasks can be outsourced; accountability cannot</strong>. The MDR provider's missed alert becomes your breach notification. The cloud provider's misconfigured default becomes your data leak. The forensic vendor's broken chain of custody becomes your inadmissible evidence.</p>
+
+  <div class="accountability">
+    <div class="acct-side transfer">
+      <div class="acct-icon">📤</div>
+      <h4>What You CAN Transfer</h4>
+      <p>The day-to-day operation: monitoring, triage, alert handling, even initial response. Specialized capabilities like forensics, dark-web monitoring, threat hunting. Financial loss via cyber insurance.</p>
+    </div>
+    <div class="acct-side retain">
+      <div class="acct-icon">⚖️</div>
+      <h4>What You CANNOT Transfer</h4>
+      <p>Regulatory accountability. Fiduciary duty to shareholders. The duty of care to customers. The headline. The lawsuit. The board's questions. The cost of brand damage. The decision authority over your own incident.</p>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Hiring a Property Manager</div>
+    <p>Hiring a property manager for a rental house transfers the operational headache — tenant calls, lawn care, maintenance scheduling. It does <em>not</em> transfer the mortgage, the property tax, the homeowner's liability, or the legal responsibility to maintain a habitable dwelling. If the property manager misses a code violation, the city cites the owner, not the manager. The contract may give the owner recourse against the manager — but the owner answers to the city first.</p>
+  </div>
+
+  <h3>What a Defensible MDR Contract Specifies</h3>
+  <ul>
+    <li><strong>SLA on detection time</strong> — minutes from log ingestion to alert, by severity</li>
+    <li><strong>SLA on escalation time</strong> — from analyst triage to customer notification, by severity</li>
+    <li><strong>Data ownership and portability</strong> — who owns the logs, alerts, and case data; how is it returned at contract end</li>
+    <li><strong>Evidence handling</strong> — chain of custody procedures, forensic preservation, court-admissibility commitments</li>
+    <li><strong>Escalation paths</strong> — named contacts on both sides, including after-hours and weekends</li>
+    <li><strong>Incident response support</strong> — what the vendor will do when something fires, not just what they will detect</li>
+    <li><strong>Audit rights</strong> — your ability to review their performance and procedures</li>
+    <li><strong>Termination provisions</strong> — what happens to your data if you switch vendors or in-source</li>
+    <li><strong>Indemnification limits</strong> — what the vendor pays if they fail to perform (almost always less than your actual loss)</li>
+  </ul>
+
+  <h3>Scenario: The MDR That Didn't Escalate</h3>
+  <p>At 2:14 AM Sunday, your MDR provider's system detected unusual encryption activity on three corporate file servers. Their analyst reviewed the alert, classified it as "user-initiated bulk operation," and closed it without escalation. By Monday morning, 4.2 TB of customer data was encrypted and a ransom note was on every desktop.</p>
+
+  <div class="quiz" data-quiz>
+    <div class="quiz-question">When the SEC, state regulators, and customers ask <em>"who is responsible for this breach?"</em>, the answer is:</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="The MDR vendor failed contractually — but external authorities and customers hold the organization accountable. You may have recourse against the vendor, but you are the named responsible party.">The MDR vendor — their analyst made the wrong call</div>
+    <div class="quiz-option" data-answer="correct" data-explain="Correct. The organization always retains accountability. The contract may provide some financial recourse against the vendor, but the regulator, the customer, and the board hold the company responsible. Vendor performance is a risk you accepted when you signed the contract.">The organization — accountability cannot be outsourced</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Cyber insurance offsets some financial loss but does not transfer accountability — and many policies exclude losses caused by vendor failure to meet SLA.">The cyber insurance carrier — that's what the policy is for</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="The CISO is accountable to the Board and may face consequences, but they are not 'responsible' externally — the organization is. Individual scapegoating does not transfer accountability either.">The CISO personally — they chose the vendor</div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Governance Oversight of Vendors Is Continuous</div>
+    <p>Signing the contract is the start, not the end. Mature programs review MDR performance against SLAs quarterly, conduct annual purple-team-style tests of vendor detection capability, audit a sample of their alert handling decisions, and treat vendor governance as a named program owned by a named person — not a side task for the procurement team.</p>
+  </div>
+</section>
+
+<!-- ===================== CAPSTONE ===================== -->
+<section class="module" id="capstone">
+  <span class="module-tag">Final Integration Exercise</span>
+  <span class="duration">90 min</span>
+  <h2>Enterprise SOC Incident Simulation</h2>
+
+  <h3>Scenario: GlobalOps Manufacturing — Multi-Stage Compromise</h3>
+  <p>You are the IR Manager at GlobalOps, a multinational manufacturer with $3B revenue, 12,000 employees, operations on three continents, and a hybrid cloud environment. Over 72 hours, the following timeline unfolds:</p>
+  <ul>
+    <li><strong>Day -14 (discovered Day 0):</strong> A finance director's M365 credentials were stolen via a phishing campaign. The attacker accessed her mailbox via OAuth grant, established mail forwarding rules, and began reconnaissance.</li>
+    <li><strong>Day -7:</strong> The attacker pivoted to AWS via federated identity, harvested IAM keys, and provisioned persistence (a new IAM user with admin privileges, named to blend in with legitimate accounts).</li>
+    <li><strong>Day -2:</strong> The attacker exfiltrated approximately 80 GB of customer pricing, supply chain contracts, and HR data via legitimate AWS APIs.</li>
+    <li><strong>Day 0, 04:14:</strong> The attacker deployed ransomware via the AWS persistence to encrypt EC2-hosted ERP instances. Your MDR provider detected the encryption activity but classified it as "scheduled maintenance" and did not escalate.</li>
+    <li><strong>Day 0, 07:30:</strong> Plant operations report ERP outage. You declare an incident.</li>
+  </ul>
+
+  <h3>Team Roles</h3>
+  <table>
+    <tr><th>Role</th><th>Responsibility</th></tr>
+    <tr><td>IR Manager (Incident Commander)</td><td>Overall coordination, decision authority, war room operation</td></tr>
+    <tr><td>Lead Forensic Investigator</td><td>Evidence preservation, chain of custody, root cause analysis</td></tr>
+    <tr><td>Legal Counsel</td><td>Privilege, regulatory clocks, MDR contract enforcement, law enforcement</td></tr>
+    <tr><td>Communications Lead</td><td>Internal, customer, regulator, and media messaging</td></tr>
+    <tr><td>Cloud Engineering Lead</td><td>AWS containment, credential rotation, infrastructure recovery</td></tr>
+    <tr><td>MDR Liaison</td><td>Vendor coordination, SLA review, escalation enforcement</td></tr>
+  </table>
+
+  <h3>Required Deliverables</h3>
+  <ol>
+    <li><strong>Incident timeline</strong> — reconstruct the 14-day attack chain from available evidence</li>
+    <li><strong>Escalation decisions</strong> — document each major decision, who made it, and when</li>
+    <li><strong>Forensic evidence handling plan</strong> — preservation strategy across endpoint, cloud, and identity domains, with chain of custody documentation</li>
+    <li><strong>Communication strategy</strong> — separate executive, technical, customer, and regulator messages</li>
+    <li><strong>Containment actions</strong> — specific cloud, identity, and endpoint containment sequence</li>
+    <li><strong>Recovery recommendations</strong> — restoration sequence by business priority, with named compensating controls during recovery</li>
+    <li><strong>PIR documentation</strong> — preliminary 24-hour hot-wash findings plus the structure of the formal 30-day PIR</li>
+    <li><strong>Vendor accountability response</strong> — MDR contract review, SLA enforcement plan, governance changes</li>
+  </ol>
+
+  <h3>Evaluation Rubric</h3>
+  <table>
+    <tr><th>Criterion</th><th>Weight</th><th>"Excellent" Looks Like</th></tr>
+    <tr><td>Multi-domain investigation</td><td>15%</td><td>Evidence collected across endpoint, cloud, and identity — not just one domain</td></tr>
+    <tr><td>Forensic integrity</td><td>15%</td><td>Order of volatility respected, chain of custody documented, hashes calculated</td></tr>
+    <tr><td>Containment without destroying evidence</td><td>15%</td><td>Isolation before reboot, memory captured before cleanup, credentials rotated systematically</td></tr>
+    <tr><td>Communication quality</td><td>15%</td><td>Audience-appropriate messages, regulatory clocks tracked, single source of truth maintained</td></tr>
+    <tr><td>Eradication completeness</td><td>15%</td><td>Initial vector, persistence, and lateral movement all identified and closed before recovery</td></tr>
+    <tr><td>Vendor accountability</td><td>10%</td><td>MDR failure analyzed; SLA enforced; governance changes proposed without scapegoating</td></tr>
+    <tr><td>PIR depth</td><td>15%</td><td>Process, technology, AND people-level findings; specific budget/policy recommendations</td></tr>
+  </table>
+</section>
+
+<!-- ===================== ASSESSMENT ===================== -->
+<section class="module" id="assessment">
+  <span class="module-tag">Final Assessment</span>
+  <h2>Knowledge Check — 10 Questions</h2>
+  <p>Test your mastery of Domain 4 Part 2. Each question gives instant feedback and an explanation.</p>
+  <div id="finalQuiz"></div>
+  <div id="finalScore" style="margin-top:1.5rem;padding:1.5rem;background:var(--primary);color:#fff;border-radius:10px;display:none;text-align:center;">
+    <div style="font-size:0.9rem;text-transform:uppercase;letter-spacing:0.1em;opacity:0.85;">Your Score</div>
+    <div style="font-size:3rem;font-weight:700;margin:0.5rem 0;" id="scoreNum">0 / 10</div>
+    <div id="scoreMessage" style="opacity:0.9;"></div>
+  </div>
+  <button class="btn" onclick="gradeFinal()" style="margin-top:1rem;">Grade My Quiz</button>
+  <button class="btn secondary" onclick="resetFinal()">Reset</button>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>NCyTE CISM Course</strong> · Domain 4, Part 2: Security Operations, Incident Response &amp; Digital Forensics</p>
+  <p>Interactive lesson by Dr. John Sands · National AI Training Initiative · Moraine Valley Community College</p>
+</footer>
+
+<script>
+// ============ NAV ACTIVE STATE + PROGRESS BAR ============
+const sections = document.querySelectorAll('section.module');
+const navLinks = document.querySelectorAll('nav.modules a');
+const progressBar = document.getElementById('progressBar');
+
+function onScroll() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = Math.min(100, (scrollTop / docHeight) * 100) + '%';
+
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 120;
+    if (scrollTop >= top) current = sec.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+// ============ INLINE QUIZ ============
+document.querySelectorAll('[data-quiz]').forEach(quiz => {
+  const options = quiz.querySelectorAll('.quiz-option');
+  let explainDiv = document.createElement('div');
+  explainDiv.className = 'quiz-explanation';
+  quiz.appendChild(explainDiv);
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      options.forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      if (opt.dataset.answer === 'correct') opt.classList.add('correct');
+      else opt.classList.add('wrong');
+      explainDiv.textContent = opt.dataset.explain || '';
+      explainDiv.classList.add('show');
+    });
+  });
+});
+
+// ============ ACCORDIONS ============
+document.querySelectorAll('.accordion-header').forEach(h => {
+  h.addEventListener('click', () => {
+    h.parentElement.classList.toggle('open');
+  });
+});
+
+// ============ MATCHER ============
+const matchLabels = {
+  edr: 'EDR alone', xdr: 'XDR with internal SOC', mdr: 'MDR (outsourced)'
+};
+function checkMatcher(id) {
+  const rows = document.querySelectorAll('#' + id + ' .match-row');
+  rows.forEach(row => {
+    const select = row.querySelector('select');
+    const fb = row.querySelector('.match-feedback');
+    const ans = row.dataset.correct;
+    if (!select.value) {
+      fb.textContent = 'Pick one';
+      fb.className = 'match-feedback';
+      return;
+    }
+    if (select.value === ans) {
+      fb.textContent = '✓ Correct';
+      fb.className = 'match-feedback correct';
+    } else {
+      fb.textContent = '✗ ' + (matchLabels[ans] || ans);
+      fb.className = 'match-feedback wrong';
+    }
+  });
+}
+function resetMatcher(id) {
+  document.querySelectorAll('#' + id + ' .match-row').forEach(row => {
+    row.querySelector('select').value = '';
+    const fb = row.querySelector('.match-feedback');
+    fb.textContent = '';
+    fb.className = 'match-feedback';
+  });
+}
+
+// ============ SIEM CORRELATION (Module 1) ============
+function flagLog(el) {
+  el.classList.toggle('flagged');
+}
+function checkSIEM() {
+  const logs = document.querySelectorAll('#siemPanel .siem-log');
+  let truePositives = 0, falsePositives = 0, missed = 0;
+  logs.forEach(l => {
+    const isAttack = l.dataset.attack === 'true';
+    const flagged = l.classList.contains('flagged');
+    if (isAttack && flagged) truePositives++;
+    else if (!isAttack && flagged) falsePositives++;
+    else if (isAttack && !flagged) missed++;
+  });
+  const total = 4; // attack events
+  const v = document.getElementById('siemVerdict');
+  v.style.display = 'block';
+  if (truePositives === total && falsePositives === 0) {
+    v.className = 'siem-verdict win';
+    v.innerHTML = '🎯 <strong>Perfect correlation.</strong> You connected all 4 attack-chain events (failed login burst → successful login from Tor → encoded PowerShell → outbound exfil) without any false positives. This is the kind of pattern recognition that separates senior analysts from juniors.';
+  } else {
+    let msg = '<strong>Score:</strong> ' + truePositives + '/' + total + ' attack events caught';
+    if (falsePositives > 0) msg += ', ' + falsePositives + ' false positive' + (falsePositives>1?'s':'');
+    if (missed > 0) msg += ', ' + missed + ' missed';
+    msg += '.<br><br>The attack chain: <strong>02:15 failed login burst from Tor → 02:15:34 success after brute force → 02:16:08 encoded PowerShell on FIN endpoint → 02:16:42 18MB outbound to attacker IP</strong>. Routine events (firewall ALLOW, DHCP renewal, newsletter, backup) should not have been flagged.';
+    v.className = 'siem-verdict fail';
+    v.innerHTML = msg;
+  }
+}
+function resetSIEM() {
+  document.querySelectorAll('#siemPanel .siem-log').forEach(l => l.classList.remove('flagged'));
+  document.getElementById('siemVerdict').style.display = 'none';
+}
+
+// ============ HASH VERIFICATION (Module 4) ============
+function verifyHash(intact) {
+  const r = document.getElementById('hashResult');
+  r.style.display = 'block';
+  if (intact) {
+    r.className = 'integrity-check valid';
+    r.innerHTML = '✓ <strong>Hash matches.</strong> Evidence integrity intact — admissible.';
+  } else {
+    r.className = 'integrity-check broken';
+    r.innerHTML = '✗ <strong>Hash mismatch.</strong> A single bit change produces a completely different SHA-256. Chain of custody is broken; evidence is presumed altered and likely inadmissible.';
+  }
+}
+
+// ============ FINAL QUIZ ============
+const finalQs = [
+  {
+    q: "Why is continuous SIEM tuning mandatory?",
+    options: [
+      { t: "To reduce licensing costs over time", c: false, e: "Tuning doesn't directly reduce licensing — it improves signal quality." },
+      { t: "Because static rule sets produce false positives, missed incidents, and analyst burnout", c: true, e: "Correct. A SIEM that never gets tuned becomes a noise generator. Tuning is operational maintenance, not a project." },
+      { t: "Because regulators require quarterly rule reviews", c: false, e: "While some regulations encourage review, the primary reason is operational effectiveness." },
+      { t: "To prepare for vendor renewal negotiations", c: false, e: "Tuning serves detection quality, not commercial discussions." }
+    ]
+  },
+  {
+    q: "Which technology BEST fits a 120-person law firm with no in-house security operations team?",
+    options: [
+      { t: "EDR alone, managed by IT staff", c: false, e: "EDR requires active monitoring and response. IT staff without security specialization typically can't operate it effectively, especially after hours." },
+      { t: "XDR with an in-house SOC", c: false, e: "A 120-person firm rarely has the budget or talent to build a full XDR-capable internal SOC." },
+      { t: "MDR — outsourced monitoring and response", c: true, e: "Correct. MDR provides 24×7 coverage, specialized talent, and predictable cost — well-matched to small/mid organizations without an internal SOC." },
+      { t: "SIEM with no detection content", c: false, e: "A SIEM without content is just storage. This is exactly the failure mode that creates false confidence." }
+    ]
+  },
+  {
+    q: "An MDR vendor fails to escalate a ransomware alert. Who is accountable to the regulator and customers?",
+    options: [
+      { t: "The MDR vendor — they had the contractual obligation to escalate", c: false, e: "The contract may give you recourse, but external accountability stays with the organization." },
+      { t: "The organization — accountability is never transferred by outsourcing", c: true, e: "Correct. Operations transfer; accountability does not. The headline reads 'Company X breached,' not 'Vendor Y missed an alert.'" },
+      { t: "The cyber insurance carrier — that's what the policy is for", c: false, e: "Insurance offsets financial loss; it doesn't transfer regulatory or fiduciary accountability." },
+      { t: "The CISO personally — they chose the vendor", c: false, e: "CISOs may face consequences but external accountability rests with the organization, not an individual scapegoat." }
+    ]
+  },
+  {
+    q: "What is the BEST description of the difference between an event and an incident?",
+    options: [
+      { t: "Events are technical; incidents are business-related", c: false, e: "Both can have technical and business dimensions. The distinction is response posture, not subject." },
+      { t: "Events occur on endpoints; incidents occur on networks", c: false, e: "Both can occur anywhere. The distinction is whether formal response is required." },
+      { t: "An event is any observable occurrence; an incident is an event requiring formal response due to business impact", c: true, e: "Correct. All incidents are events; not all events are incidents. SIEM alerts are events — humans decide which become incidents." },
+      { t: "Events are detected by automation; incidents are detected by humans", c: false, e: "Both are detected by both — automation often triggers initial detection of incidents too." }
+    ]
+  },
+  {
+    q: "When investigating a compromised live system, the FIRST evidence to capture is:",
+    options: [
+      { t: "Disk image of the system drive", c: false, e: "Disk images are important but disk contents are less volatile than memory. Capture more volatile data first." },
+      { t: "RAM (live memory)", c: true, e: "Correct. Memory contains running malware, active network connections, decrypted secrets, and artifacts that never touch disk. It is gone at reboot, so it goes first (after CPU registers and cache, which require special tooling)." },
+      { t: "Cloud audit logs from the last 30 days", c: false, e: "Cloud logs are typically durable — capture them, but they can wait. Memory cannot." },
+      { t: "Network packet capture from the last 24 hours", c: false, e: "If packet capture exists, it's stored — less volatile. Live network state on the host is more time-critical, and memory more so." }
+    ]
+  },
+  {
+    q: "What does a SHA-256 hash mismatch on a forensic image indicate?",
+    options: [
+      { t: "Normal entropy in modern storage devices", c: false, e: "Hash functions are deterministic — identical inputs produce identical hashes. Mismatch is not normal." },
+      { t: "The evidence has been altered, even if by a single bit; chain of custody is presumed broken", c: true, e: "Correct. SHA-256 is designed so a single bit change produces a completely different hash. Mismatch = altered evidence = likely inadmissible." },
+      { t: "The imaging software has a bug", c: false, e: "Possible in rare cases, but the assumption must be alteration until proven otherwise. Burden is on the investigator." },
+      { t: "The file was correctly compressed", c: false, e: "Compression changes content; hashes are calculated post-compression intentionally. Mismatch still means altered evidence." }
+    ]
+  },
+  {
+    q: "Which is the GREATEST risk of skipping eradication and moving directly to recovery?",
+    options: [
+      { t: "Increased recovery time", c: false, e: "Skipping eradication actually appears to save time short-term — that's why teams do it. The risk is what comes next." },
+      { t: "Reinfection from missed persistence mechanisms or backups taken after compromise", c: true, e: "Correct. Without identifying the initial vector, persistence mechanisms, and lateral movement, restored systems are reinfected within hours or days." },
+      { t: "Higher legal exposure", c: false, e: "Legal exposure exists either way; the immediate operational risk is reinfection." },
+      { t: "Vendor SLA violations", c: false, e: "Vendor SLAs may be affected, but the primary risk is reinfection." }
+    ]
+  },
+  {
+    q: "Why is an out-of-band communication channel important during major incidents?",
+    options: [
+      { t: "It reduces email server load", c: false, e: "Email server load is rarely the constraint during an incident." },
+      { t: "It provides a channel that cannot be read by an attacker who has compromised email or chat", c: true, e: "Correct. If the attacker is reading your primary communications, your incident response is happening in front of them. Out-of-band channels preserve operational secrecy." },
+      { t: "It is required by SOC 2", c: false, e: "Some frameworks reference it, but the primary purpose is operational — denying the attacker visibility." },
+      { t: "It logs communications for forensic purposes", c: false, e: "All channels can be logged. The distinction is who can read the channel during the incident." }
+    ]
+  },
+  {
+    q: "What is the PRIMARY purpose of a Post-Incident Review (PIR)?",
+    options: [
+      { t: "To identify and discipline the individuals responsible for failures", c: false, e: "Blame-focused PIRs produce defensive cultures and hidden truths — exactly the opposite of what's needed." },
+      { t: "To document the incident for regulatory submission", c: false, e: "Regulatory documentation matters but is not the primary purpose of a PIR." },
+      { t: "To produce concrete improvements that prevent or detect the next similar incident sooner", c: true, e: "Correct. PIRs are NTSB-style learning exercises, not inquisitions. The output is improvements, not punishments." },
+      { t: "To produce evidence for the cyber insurance claim", c: false, e: "Insurance documentation may be a byproduct, not the purpose." }
+    ]
+  },
+  {
+    q: "Which statement BEST captures the relationship between EDR, XDR, and MDR?",
+    options: [
+      { t: "They are competing technologies — organizations should pick one", c: false, e: "They are complementary, not competing. MDR is often built on top of EDR or XDR." },
+      { t: "EDR and XDR are technologies; MDR is an operating model that uses EDR or XDR as its foundation", c: true, e: "Correct. EDR scopes endpoints, XDR scopes cross-domain telemetry, and MDR is an outsourced operating model often built on top of either." },
+      { t: "MDR is more advanced than XDR, which is more advanced than EDR", c: false, e: "They aren't a maturity ladder — they're different scopes and operating models." },
+      { t: "Only enterprises need XDR; small organizations can use EDR alone", c: false, e: "Small organizations without internal SOCs typically need MDR, not EDR alone. EDR requires operators." }
+    ]
+  }
+];
+
+function buildFinal() {
+  const c = document.getElementById('finalQuiz');
+  c.innerHTML = finalQs.map((q, qi) => `
+    <div class="quiz" data-qi="${qi}">
+      <div class="quiz-question">Q${qi+1}. ${q.q}</div>
+      ${q.options.map((opt, oi) => `
+        <div class="quiz-option" data-qi="${qi}" data-oi="${oi}" data-correct="${opt.c}" data-explain="${opt.e.replace(/"/g,'&quot;')}">${opt.t}</div>
+      `).join('')}
+      <div class="quiz-explanation"></div>
+    </div>
+  `).join('');
+  c.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const qi = opt.dataset.qi;
+      const quiz = c.querySelector(`.quiz[data-qi="${qi}"]`);
+      quiz.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      opt.classList.add(opt.dataset.correct === 'true' ? 'correct' : 'wrong');
+      const ex = quiz.querySelector('.quiz-explanation');
+      ex.textContent = opt.dataset.explain;
+      ex.classList.add('show');
+    });
+  });
+}
+buildFinal();
+
+function gradeFinal() {
+  let score = 0;
+  finalQs.forEach((q, qi) => {
+    const selected = document.querySelector(`.quiz[data-qi="${qi}"] .quiz-option.selected`);
+    if (selected && selected.dataset.correct === 'true') score++;
+  });
+  document.getElementById('scoreNum').textContent = score + ' / ' + finalQs.length;
+  let msg;
+  if (score === 10) msg = "🏆 Perfect score — exam-ready on Domain 4.2.";
+  else if (score >= 8) msg = "🎯 Strong mastery — review the missed items and you're set.";
+  else if (score >= 6) msg = "📚 Solid foundation — revisit the modules covering missed questions.";
+  else msg = "📖 Re-read the modules and try again — focus on the concepts you missed.";
+  document.getElementById('scoreMessage').textContent = msg;
+  document.getElementById('finalScore').style.display = 'block';
+  document.getElementById('finalScore').scrollIntoView({behavior:'smooth', block:'center'});
+}
+function resetFinal() {
+  document.querySelectorAll('#finalQuiz .quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+  document.querySelectorAll('#finalQuiz .quiz-explanation').forEach(e => { e.classList.remove('show'); e.textContent = ''; });
+  document.getElementById('finalScore').style.display = 'none';
+}
+</script>
+</body>
+</html>
