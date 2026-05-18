@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CISM Domain 4, Part 1: Information Security Incident Management — Interactive Lesson</title>
+<style>
+  :root {
+    --primary: #1F4E79;
+    --primary-light: #2E75B6;
+    --primary-lighter: #5B9BD5;
+    --accent: #E8A33D;
+    --bg: #F5F7FA;
+    --surface: #FFFFFF;
+    --ink: #1A2332;
+    --ink-soft: #4A5568;
+    --line: #D8E1EA;
+    --success: #2F855A;
+    --warning: #C05621;
+    --danger: #C53030;
+    --shade: #EAF3FB;
+    --shade-2: #F0F6FC;
+    --shadow: 0 2px 8px rgba(31, 78, 121, 0.08);
+    --shadow-lg: 0 6px 24px rgba(31, 78, 121, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Calibri", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    font-size: 16px;
+  }
+
+  /* ============ HEADER ============ */
+  header.site {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+  }
+  header.site .eyebrow {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+  }
+  header.site h1 {
+    margin: 0.25rem 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  header.site .subtitle {
+    font-size: 1.05rem;
+    opacity: 0.92;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  header.site .meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+  }
+  header.site .meta span {
+    background: rgba(255,255,255,0.15);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+
+  /* ============ NAV BAR ============ */
+  nav.modules {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 2px solid var(--primary);
+    box-shadow: var(--shadow);
+    padding: 0.5rem 1rem;
+  }
+  nav.modules .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  nav.modules .brand {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.95rem;
+    padding-right: 0.75rem;
+    border-right: 1px solid var(--line);
+    margin-right: 0.5rem;
+  }
+  nav.modules a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  nav.modules a:hover {
+    background: var(--shade);
+    color: var(--primary);
+  }
+  nav.modules a.active {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  /* ============ PROGRESS BAR ============ */
+  .progress-track {
+    position: sticky;
+    top: 56px;
+    height: 4px;
+    background: var(--line);
+    z-index: 99;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--primary-light));
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+
+  /* ============ MAIN LAYOUT ============ */
+  main {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  section.module {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+    scroll-margin-top: 80px;
+  }
+
+  section.module .module-tag {
+    display: inline-block;
+    background: var(--shade);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+  section.module .duration {
+    display: inline-block;
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+  }
+
+  h2 {
+    color: var(--primary);
+    font-size: 1.85rem;
+    margin: 0 0 1rem;
+    line-height: 1.3;
+  }
+  h3 {
+    color: var(--primary-light);
+    font-size: 1.3rem;
+    margin: 2rem 0 0.75rem;
+  }
+  h4 {
+    color: var(--primary);
+    font-size: 1.05rem;
+    margin: 1.5rem 0 0.5rem;
+    font-style: italic;
+  }
+  p { margin: 0.75rem 0; }
+  ul, ol { padding-left: 1.5rem; margin: 0.75rem 0; }
+  li { margin: 0.35rem 0; }
+  strong { color: var(--primary); font-weight: 600; }
+
+  /* ============ CALLOUTS ============ */
+  .callout {
+    background: var(--shade);
+    border-left: 5px solid var(--primary-light);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .callout .label {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .callout .label::before {
+    content: "💡";
+    font-size: 1.1rem;
+  }
+  .callout.analogy { background: #FFF8E1; border-left-color: var(--accent); }
+  .callout.analogy .label { color: #B7791F; }
+  .callout.analogy .label::before { content: "🧭"; }
+  .callout.emphasis { background: #FEE; border-left-color: var(--danger); }
+  .callout.emphasis .label { color: var(--danger); }
+  .callout.emphasis .label::before { content: "⚠️"; }
+
+  /* ============ TABLES ============ */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    background: var(--surface);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    font-size: 0.92rem;
+  }
+  th {
+    background: var(--primary);
+    color: #fff;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--line);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: var(--shade-2); }
+  tr:hover td { background: var(--shade); }
+
+  /* ============ LEARNING OBJECTIVES ============ */
+  .objectives {
+    background: linear-gradient(135deg, var(--shade) 0%, var(--shade-2) 100%);
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .objectives ol { list-style: none; counter-reset: obj; padding-left: 0; }
+  .objectives li {
+    counter-increment: obj;
+    padding-left: 2.5rem;
+    position: relative;
+    margin: 0.75rem 0;
+  }
+  .objectives li::before {
+    content: counter(obj);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--primary);
+    color: #fff;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  /* ============ FLIP CARDS ============ */
+  .flip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .flip-card {
+    perspective: 1000px;
+    height: 220px;
+    cursor: pointer;
+  }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .flip-front {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+  }
+  .flip-front .icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .flip-front h4 { color: #fff; margin: 0; font-style: normal; font-size: 1.2rem; }
+  .flip-front .hint { font-size: 0.75rem; opacity: 0.8; margin-top: 0.5rem; }
+  .flip-back {
+    background: var(--surface);
+    color: var(--ink);
+    transform: rotateY(180deg);
+    border: 2px solid var(--primary-light);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .flip-back strong { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; }
+
+  /* ============ MATCHER ============ */
+  .matcher {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .match-row {
+    display: grid;
+    grid-template-columns: 1.5fr auto 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    padding: 0.6rem;
+    background: var(--surface);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+  }
+  .match-scenario { font-size: 0.92rem; }
+  .match-select {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .match-select:focus { outline: none; border-color: var(--primary-light); }
+  .match-feedback {
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 90px;
+  }
+  .match-feedback.correct { color: var(--success); }
+  .match-feedback.wrong { color: var(--danger); }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    margin: 0.25rem;
+  }
+  .btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+  .btn.secondary { background: var(--surface); color: var(--primary); border: 2px solid var(--primary); }
+  .btn.secondary:hover { background: var(--shade); }
+
+  /* ============ QUIZ ============ */
+  .quiz {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .quiz-question {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--primary);
+  }
+  .quiz-option {
+    display: block;
+    padding: 0.75rem 1rem;
+    margin: 0.4rem 0;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 0.92rem;
+  }
+  .quiz-option:hover { border-color: var(--primary-light); background: var(--shade); }
+  .quiz-option.selected { border-color: var(--primary); background: var(--shade); }
+  .quiz-option.correct { border-color: var(--success); background: #E8F5E9; }
+  .quiz-option.wrong { border-color: var(--danger); background: #FFEBEE; }
+  .quiz-explanation {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border-left: 4px solid var(--primary-light);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+    display: none;
+  }
+  .quiz-explanation.show { display: block; }
+
+  /* ============ ACCORDION ============ */
+  .accordion-item {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 0.6rem 0;
+    overflow: hidden;
+  }
+  .accordion-header {
+    padding: 1rem 1.25rem;
+    background: var(--shade-2);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .accordion-header:hover { background: var(--shade); }
+  .accordion-header .arrow { transition: transform 0.2s; }
+  .accordion-item.open .accordion-header .arrow { transform: rotate(90deg); }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 1.25rem;
+  }
+  .accordion-item.open .accordion-body {
+    max-height: 2500px;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  /* ============ CALC FIELDS / RESULTS ============ */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .calc-field label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+  .calc-field input, .calc-field select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+  .calc-field input:focus, .calc-field select:focus { outline: none; border-color: var(--primary-light); }
+  .calc-result {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 1.25rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+  }
+  .calc-result .result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  .calc-result .result-row:last-child { border-bottom: none; font-weight: 700; font-size: 1.1rem; }
+
+  /* ============ LIFECYCLE STAGES (Module 4) ============ */
+  .lifecycle {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+  .lifecycle-stage {
+    background: var(--surface);
+    padding: 1rem 0.5rem;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-top: 4px solid var(--line);
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .lifecycle-stage:hover { transform: translateY(-3px); border-top-color: var(--primary-light); }
+  .lifecycle-stage.active { border-top-color: var(--accent); background: var(--shade); }
+  .lifecycle-stage .stage-num {
+    background: var(--primary);
+    color: #fff;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    margin: 0 auto 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .lifecycle-stage .stage-icon { font-size: 1.4rem; }
+  .lifecycle-stage .stage-name { font-size: 0.78rem; font-weight: 700; color: var(--primary); margin-top: 0.3rem; }
+  .lifecycle-detail {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+    min-height: 140px;
+  }
+  .lifecycle-detail h4 { margin-top: 0; color: var(--primary); font-style: normal; }
+  .lifecycle-detail .stage-meta {
+    display: inline-block;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    background: var(--surface);
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    margin-left: 0.5rem;
+  }
+
+  /* ============ PRIORITY HIERARCHY (Module 2) ============ */
+  .priority-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+  .priority-tier {
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow);
+    cursor: default;
+  }
+  .priority-tier.tier-1 { background: linear-gradient(135deg, var(--danger), #9B2C2C); }
+  .priority-tier.tier-2 { background: linear-gradient(135deg, var(--primary), var(--primary-light)); }
+  .priority-tier.tier-3 { background: linear-gradient(135deg, var(--ink-soft), #2D3748); }
+  .priority-tier .tier-num {
+    background: rgba(255,255,255,0.25);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .priority-tier .tier-content strong { color: #fff; font-size: 1.1rem; display: block; margin-bottom: 0.2rem; }
+  .priority-tier .tier-content .tier-desc { font-size: 0.88rem; opacity: 0.92; }
+
+  /* ============ SEVERITY CLASSIFIER (Module 8) ============ */
+  .sev-tile {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin: 1rem 0;
+    border-top: 4px solid var(--primary-light);
+  }
+  .sev-score {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0.5rem 0;
+    color: var(--primary);
+  }
+  .sev-band {
+    text-align: center;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.85rem;
+    display: inline-block;
+  }
+  .sev-band.low { background: #C6F6D5; color: #22543D; }
+  .sev-band.medium { background: #FEEBC8; color: #7B341E; }
+  .sev-band.high { background: #FED7A7; color: #9C2D0F; }
+  .sev-band.critical { background: #FED7D7; color: #742A2A; }
+  .sev-center { text-align: center; }
+
+  /* ============ BIA TABLE EDITABLE (Module 6) ============ */
+  .bia-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.2fr 1.5fr;
+    gap: 0.5rem;
+    margin: 0.4rem 0;
+    padding: 0.6rem;
+    background: var(--surface);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    align-items: center;
+    font-size: 0.88rem;
+  }
+  .bia-grid.header {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+  }
+  .bia-grid input {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    width: 100%;
+    font-family: inherit;
+  }
+  .bia-verdict {
+    font-weight: 700;
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.82rem;
+  }
+  .bia-verdict.valid { background: #C6F6D5; color: #22543D; }
+  .bia-verdict.invalid { background: #FED7D7; color: #742A2A; }
+
+  /* ============ RECOVERY SITE COMPARE (Module 7) ============ */
+  .site-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .site-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+  }
+  .site-card h4 {
+    margin: 0 0 0.5rem;
+    font-style: normal;
+    color: var(--primary);
+  }
+  .site-card .meter {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0.5rem;
+    margin: 0.4rem 0;
+    align-items: center;
+    font-size: 0.8rem;
+  }
+  .site-card .bar {
+    background: var(--shade);
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .site-card .bar .fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-light), var(--primary));
+    border-radius: 4px;
+  }
+
+  /* ============ COMMUNICATION SPLIT (Module 5) ============ */
+  .comm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .comm-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-light);
+  }
+  .comm-card.exec { border-left-color: var(--success); }
+  .comm-card .tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+  }
+  .comm-card ul { padding-left: 1.2rem; margin: 0.5rem 0; }
+  .comm-card li { font-size: 0.88rem; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.85rem;
+  }
+  footer a {
+    color: #FFE082;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  footer a:hover { text-decoration: underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 768px) {
+    section.module { padding: 1.5rem; }
+    h2 { font-size: 1.5rem; }
+    header.site h1 { font-size: 1.7rem; }
+    .match-row, .bia-grid, .comm-grid { grid-template-columns: 1fr; }
+    .lifecycle { grid-template-columns: repeat(3, 1fr); }
+    nav.modules .brand { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="eyebrow">NCyTE CISM Course</div>
+  <h1>Domain 4, Part 1: Information Security Incident Management</h1>
+  <div class="subtitle">Interactive Lesson — Prepare, Detect, Respond, Recover, Learn</div>
+  <div class="meta">
+    <span>📚 Intermediate–Advanced</span>
+    <span>⏱ 6–8 instructional hours</span>
+    <span>🎓 9 Modules + Capstone</span>
+  </div>
+</header>
+
+<nav class="modules" id="topNav">
+  <div class="inner">
+    <span class="brand">CISM 4.1</span>
+    <a href="#overview">Overview</a>
+    <a href="#m1">1 · Intro</a>
+    <a href="#m2">2 · IM vs IR</a>
+    <a href="#m3">3 · Roles</a>
+    <a href="#m4">4 · Lifecycle</a>
+    <a href="#m5">5 · Comms</a>
+    <a href="#m6">6 · BIA</a>
+    <a href="#m7">7 · BCP/DRP</a>
+    <a href="#m8">8 · Classify</a>
+    <a href="#m9">9 · Testing</a>
+    <a href="#capstone">Capstone</a>
+    <a href="#assessment">Quiz</a>
+  </div>
+</nav>
+<div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+
+<main>
+
+<!-- ===================== OVERVIEW ===================== -->
+<section class="module" id="overview">
+  <span class="module-tag">Lesson Overview</span>
+  <h2>The Last Line of Defense</h2>
+  <p>Prevention fails. Eventually, even mature programs are breached, suffer outages, or face crises they didn't see coming. <strong>Incident management is what stands between a bad day and a catastrophic one.</strong></p>
+  <p>This lesson develops strategic and operational understanding of enterprise incident management. You will learn how organizations prepare for, detect, classify, respond to, recover from, and continuously improve their response to information security incidents — while keeping the business running, the people safe, and the regulators satisfied.</p>
+
+  <div class="callout analogy">
+    <div class="label">Anchoring Analogy: Incident Management Is Like a Fire Department</div>
+    <p>A fire department doesn't exist <em>because</em> there is currently a fire — it exists so that when a fire happens, the response is immediate, coordinated, and effective. The training happens before the alarm. The chain of command is settled before the smoke. The water flows because the hydrants were tested last month, not because someone is scrambling now. Incident management works exactly the same way.</p>
+  </div>
+
+  <h3>Learning Objectives</h3>
+  <div class="objectives">
+    <ol>
+      <li>Differentiate incident management (IM) from incident response (IR).</li>
+      <li>Explain the six-stage incident handling lifecycle.</li>
+      <li>Identify governance responsibilities during incidents.</li>
+      <li>Analyze communication and escalation challenges under pressure.</li>
+      <li>Define and apply BIA concepts including RTO, RPO, and MTD.</li>
+      <li>Compare Business Continuity Plans (BCP) and Disaster Recovery Plans (DRP).</li>
+      <li>Develop incident categorization and escalation procedures.</li>
+      <li>Evaluate testing methodologies for resilience validation.</li>
+      <li>Apply KPIs and KGIs to incident management programs.</li>
+      <li>Conduct tabletop and operational incident simulations.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== MODULE 1 ===================== -->
+<section class="module" id="m1">
+  <span class="module-tag">Module 1</span>
+  <span class="duration">45 min</span>
+  <h2>Introduction to Incident Management</h2>
+  <p>The purpose of incident management is not to prevent incidents — prevention is the job of every other security domain. The purpose of incident management is to ensure that <strong>when an incident does occur, it becomes a manageable disruption rather than an existential threat</strong>.</p>
+
+  <h3>Strategic vs. Tactical — Two Distinct Disciplines</h3>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🏛️</div>
+          <h4>Incident Management (IM)</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Strategic governance</strong>
+          Exists <em>before</em> incidents occur. Sets policies, defines authority, allocates resources, ensures readiness. Owned by executives and the CISO. Answers: <em>"Are we prepared?"</em>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">⚡</div>
+          <h4>Incident Response (IR)</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Tactical execution</strong>
+          Activated <em>when</em> incidents occur. Detects, contains, eradicates, recovers. Owned by the SOC, IR team, and operational leaders. Answers: <em>"What do we do right now?"</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Hospital and the Emergency Room</div>
+    <p><strong>Incident management</strong> is the hospital — its accreditation, staffing model, equipment standards, training curriculum, and policies. <strong>Incident response</strong> is what happens when an ambulance pulls up to the ER bay. The ER cannot perform without the hospital behind it; the hospital exists to make the ER possible.</p>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Instructor Emphasis</div>
+    <p>Incident management <strong>exists before incidents occur</strong>. Incident response <strong>begins once an incident is declared</strong>. Organizations that confuse these end up trying to write playbooks at 2 AM during a ransomware attack — which is exactly the wrong moment to be making strategic decisions.</p>
+  </div>
+
+  <h3>The Goal: Transform Catastrophes into Manageable Disruptions</h3>
+  <p>A mature incident management program doesn't eliminate incidents — it changes their <em>shape</em>. What would have been a multi-week shutdown becomes a 12-hour disruption. What would have been a Wall Street Journal headline becomes a regulator notification. What would have been a company-ending event becomes a difficult quarter.</p>
+</section>
+
+<!-- ===================== MODULE 2 ===================== -->
+<section class="module" id="m2">
+  <span class="module-tag">Module 2</span>
+  <span class="duration">60 min</span>
+  <h2>Incident Management vs. Incident Response — The Priority Hierarchy</h2>
+  <p>When everything is on fire, you cannot save everything at once. Under pressure, untrained teams optimize for whatever they see first. Trained teams follow a hierarchy.</p>
+
+  <h3>The Universal Priority Hierarchy</h3>
+  <div class="priority-stack">
+    <div class="priority-tier tier-1">
+      <div class="tier-num">1</div>
+      <div class="tier-content">
+        <strong>Human Safety</strong>
+        <div class="tier-desc">Life and limb override every other consideration. Period. No data, no system, no revenue stream justifies endangering people.</div>
+      </div>
+    </div>
+    <div class="priority-tier tier-2">
+      <div class="tier-num">2</div>
+      <div class="tier-content">
+        <strong>CIA — Confidentiality, Integrity, Availability</strong>
+        <div class="tier-desc">Once safety is secured, protect the core information security properties of the affected systems and data.</div>
+      </div>
+    </div>
+    <div class="priority-tier tier-3">
+      <div class="tier-num">3</div>
+      <div class="tier-content">
+        <strong>Reputation, Revenue, Compliance</strong>
+        <div class="tier-desc">Business outcomes matter — but they sit beneath safety and the CIA triad. Saving face is never a reason to keep an unsafe system running.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Key Teaching Point</div>
+    <p><strong>Human safety overrides confidentiality, integrity, and availability concerns.</strong> If a hospital's medical device network is compromised and continued operation could harm patients, you take it down — even if that creates HIPAA exposure, revenue loss, and a public incident. The order is non-negotiable.</p>
+  </div>
+
+  <h3>Executive Decision Scenario — The Hospital Ransomware</h3>
+  <p>A regional hospital's IT environment is hit with ransomware at 2:14 AM. The EHR is encrypted. Lab results are inaccessible. Some networked medical devices are unresponsive but core monitoring still works. Three patients are currently in surgery; another 80 are admitted. The CEO is on the phone asking what to do.</p>
+
+  <div class="quiz" data-quiz>
+    <div class="quiz-question">Which response reflects the correct priority hierarchy?</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Negotiating with the attacker is a downstream decision — it does not address the immediate priority. Patient safety, ambulance diversion, and clinical workflow continuity come first.">Begin ransom negotiation to restore the EHR as quickly as possible</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Notifying the regulator matters — but not before stabilizing patient care. Compliance is tier 3; safety is tier 1.">Immediately notify OCR to start the breach notification clock</div>
+    <div class="quiz-option" data-answer="correct" data-explain="Correct. Safety first: complete or safely halt in-progress surgeries, activate downtime procedures, divert ambulances, ensure clinical care can continue manually. Then containment, then regulatory notification.">Activate clinical downtime procedures, divert ambulances, ensure surgical patients are safe, then contain</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Public statements come much later. Sending press releases while patients are mid-surgery would be malpractice in priority.">Issue a public statement to control the narrative before media find out</div>
+  </div>
+
+  <h3>Why the Hierarchy Must Be Decided in Advance</h3>
+  <p>Under pressure, the human mind defaults to whatever feels urgent — usually the loudest stakeholder. A pre-decided priority hierarchy gives the incident commander permission to override executive pressure, vendor pressure, and media pressure to keep first things first.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Aviation Mantra</div>
+    <p>Pilots train on a simple rule: <strong>Aviate, Navigate, Communicate.</strong> Fly the plane first. Figure out where you're going second. Talk to ATC third. Pilots in distress who forget the order have flown perfectly good aircraft into the ground while talking to controllers. Security incidents follow the same logic — keep first things first, in order.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 3 ===================== -->
+<section class="module" id="m3">
+  <span class="module-tag">Module 3</span>
+  <span class="duration">45 min</span>
+  <h2>Risk Management Integration — Who Makes the Call?</h2>
+  <p>Incidents are not technical problems — they are cross-functional crises that involve legal, HR, communications, operations, executive leadership, and often law enforcement. <strong>Undefined authority structures create dangerous hesitation</strong> in the minutes that matter most.</p>
+
+  <h3>Cross-Functional Roles in Incident Response</h3>
+  <table>
+    <tr><th>Function</th><th>Role During an Incident</th></tr>
+    <tr><td><strong>Executive Leadership</strong></td><td>Strategic decisions, declare major incident, approve high-impact actions (shutdowns, ransom payment, public statements)</td></tr>
+    <tr><td><strong>Legal Counsel</strong></td><td>Privilege management, regulatory obligations, law enforcement liaison, contractual exposure, litigation hold</td></tr>
+    <tr><td><strong>Human Resources</strong></td><td>Employee-involved investigations, communication to staff, disciplinary action, contractor coordination</td></tr>
+    <tr><td><strong>Public Relations / Communications</strong></td><td>Media handling, customer notifications, employee messaging, executive briefings</td></tr>
+    <tr><td><strong>Physical Security</strong></td><td>Building access control, evidence preservation, threat to personnel, physical/cyber convergence</td></tr>
+    <tr><td><strong>IT and Security Operations</strong></td><td>Technical containment, forensics, eradication, recovery execution</td></tr>
+    <tr><td><strong>Compliance / Privacy</strong></td><td>Regulatory notification timelines, breach assessment, audit trail</td></tr>
+  </table>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: A Surgical Team</div>
+    <p>In an operating room, every role is named, the order is rehearsed, and no one negotiates authority during surgery. The surgeon leads, the anesthesiologist owns vitals, the scrub nurse manages instruments, the circulating nurse handles everything off-field. If they had to negotiate roles mid-procedure, patients would die. Incident response is the same — authority is settled <em>before</em> the crisis.</p>
+  </div>
+
+  <h3>Activity: Who Makes the Call?</h3>
+  <p>For each decision below, identify which function owns it. Authority confusion is one of the most common causes of incident escalation.</p>
+  <div class="matcher" id="authMatcher">
+    <div class="match-row" data-correct="exec">
+      <div class="match-scenario">Authorize emergency shutdown of customer-facing systems</div>
+      <select class="match-select">
+        <option value="">Select function…</option>
+        <option value="exec">Executive Leadership</option>
+        <option value="legal">Legal Counsel</option>
+        <option value="pr">Public Relations</option>
+        <option value="it">IT / Security Ops</option>
+        <option value="compliance">Compliance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="pr">
+      <div class="match-scenario">Issue the external statement to media and customers</div>
+      <select class="match-select">
+        <option value="">Select function…</option>
+        <option value="exec">Executive Leadership</option>
+        <option value="legal">Legal Counsel</option>
+        <option value="pr">Public Relations</option>
+        <option value="it">IT / Security Ops</option>
+        <option value="compliance">Compliance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="compliance">
+      <div class="match-scenario">File regulatory breach notification within the required window</div>
+      <select class="match-select">
+        <option value="">Select function…</option>
+        <option value="exec">Executive Leadership</option>
+        <option value="legal">Legal Counsel</option>
+        <option value="pr">Public Relations</option>
+        <option value="it">IT / Security Ops</option>
+        <option value="compliance">Compliance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="it">
+      <div class="match-scenario">Preserve forensic evidence (memory dumps, log snapshots, disk images)</div>
+      <select class="match-select">
+        <option value="">Select function…</option>
+        <option value="exec">Executive Leadership</option>
+        <option value="legal">Legal Counsel</option>
+        <option value="pr">Public Relations</option>
+        <option value="it">IT / Security Ops</option>
+        <option value="compliance">Compliance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="legal">
+      <div class="match-scenario">Decide whether to engage the FBI and assert attorney-client privilege on forensic findings</div>
+      <select class="match-select">
+        <option value="">Select function…</option>
+        <option value="exec">Executive Leadership</option>
+        <option value="legal">Legal Counsel</option>
+        <option value="pr">Public Relations</option>
+        <option value="it">IT / Security Ops</option>
+        <option value="compliance">Compliance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <button class="btn" onclick="checkMatcher('authMatcher')">Check Answers</button>
+    <button class="btn secondary" onclick="resetMatcher('authMatcher')">Reset</button>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Pre-Defined Authority</div>
+    <p>Every one of these decisions must have a <em>named decision-maker</em> defined in policy before any incident occurs — with a documented chain of succession if that person is unreachable. The middle of a ransomware attack is not when you discover that nobody knows who can authorize a shutdown.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 4 ===================== -->
+<section class="module" id="m4">
+  <span class="module-tag">Module 4</span>
+  <span class="duration">75 min</span>
+  <h2>The Incident Handling Lifecycle</h2>
+  <p>The NIST SP 800-61 incident handling lifecycle is the canonical model. It is not a one-way street — incident handlers cycle back through phases as new information emerges. Click each stage below to see what happens, who owns it, and where things commonly go wrong.</p>
+
+  <div class="lifecycle">
+    <div class="lifecycle-stage active" data-stage="1" onclick="showStage(1)">
+      <div class="stage-num">1</div>
+      <div class="stage-icon">🛠️</div>
+      <div class="stage-name">Prepare</div>
+    </div>
+    <div class="lifecycle-stage" data-stage="2" onclick="showStage(2)">
+      <div class="stage-num">2</div>
+      <div class="stage-icon">🔍</div>
+      <div class="stage-name">Detect &amp; Triage</div>
+    </div>
+    <div class="lifecycle-stage" data-stage="3" onclick="showStage(3)">
+      <div class="stage-num">3</div>
+      <div class="stage-icon">🚧</div>
+      <div class="stage-name">Contain</div>
+    </div>
+    <div class="lifecycle-stage" data-stage="4" onclick="showStage(4)">
+      <div class="stage-num">4</div>
+      <div class="stage-icon">🧹</div>
+      <div class="stage-name">Eradicate</div>
+    </div>
+    <div class="lifecycle-stage" data-stage="5" onclick="showStage(5)">
+      <div class="stage-num">5</div>
+      <div class="stage-icon">♻️</div>
+      <div class="stage-name">Recover</div>
+    </div>
+    <div class="lifecycle-stage" data-stage="6" onclick="showStage(6)">
+      <div class="stage-num">6</div>
+      <div class="stage-icon">📖</div>
+      <div class="stage-name">Lessons Learned</div>
+    </div>
+  </div>
+
+  <div class="lifecycle-detail" id="lifecycleDetail">
+    <!-- Populated by JS -->
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: A House Fire</div>
+    <p><strong>Prepare</strong> — install smoke detectors and rehearse exits. <strong>Detect &amp; Triage</strong> — the alarm sounds, you identify the source. <strong>Contain</strong> — close the door to the burning room to limit spread. <strong>Eradicate</strong> — the fire department puts the fire out. <strong>Recover</strong> — rebuild and move back in. <strong>Lessons Learned</strong> — why did the fire start, and how do we prevent the next one?</p>
+  </div>
+
+  <h3>Recovery Metrics That Matter</h3>
+  <table>
+    <tr><th>Metric</th><th>What It Measures</th><th>Typical Goal</th></tr>
+    <tr><td><strong>MTTD</strong> — Mean Time to Detect</td><td>How quickly an incident is noticed after it begins</td><td>Minutes to hours; "dwell time" measured in days indicates a coverage gap</td></tr>
+    <tr><td><strong>MTTR</strong> — Mean Time to Respond</td><td>How quickly response begins after detection</td><td>Under 1 hour for critical incidents</td></tr>
+    <tr><td><strong>MTTC</strong> — Mean Time to Contain</td><td>How quickly spread is stopped</td><td>Under 24 hours for ransomware; sooner for active exfiltration</td></tr>
+    <tr><td><strong>MTTRc</strong> — Mean Time to Recover</td><td>How quickly normal operations resume</td><td>Aligned to RTO for affected systems</td></tr>
+  </table>
+</section>
+
+<!-- ===================== MODULE 5 ===================== -->
+<section class="module" id="m5">
+  <span class="module-tag">Module 5</span>
+  <span class="duration">45 min</span>
+  <h2>Organizational Pitfalls &amp; Crisis Communication</h2>
+  <p>The post-incident reports of major breaches are not usually filled with technical surprises. They are filled with <em>communication failures</em>: the executives who weren't told, the customers who heard from the news first, the staff who didn't know what to say to clients, the messaging that contradicted itself across three channels.</p>
+
+  <div class="callout emphasis">
+    <div class="label">Common Pitfalls</div>
+    <ul>
+      <li><strong>Executive buy-in failures</strong> — leadership not engaged until reputation is on fire</li>
+      <li><strong>Communication overload</strong> — too many messages from too many channels causes responders to tune out</li>
+      <li><strong>Staff turnover</strong> — institutional knowledge walks out the door; playbooks were never written down</li>
+      <li><strong>Mixed messaging</strong> — Marketing, Legal, and IT all sending different signals to the same audience</li>
+      <li><strong>Delayed disclosure</strong> — trying to "control the narrative" until customers and regulators discover the breach independently</li>
+    </ul>
+  </div>
+
+  <h3>Three Principles of Crisis Communication</h3>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">✂️</div>
+          <h4>Simplicity Wins</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Under stress, complex messaging fails</strong>
+          Short sentences. Plain language. One key message per audience. No acronyms unless every listener knows them cold.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🎯</div>
+          <h4>Audience-Matched</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Different audiences, different framing</strong>
+          Executives want business impact. Technical teams want indicators and procedures. Customers want assurance. Regulators want timelines. Same incident, four messages.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">📵</div>
+          <h4>Avoid Fatigue</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Excessive communication backfires</strong>
+          Status updates every five minutes train people to stop reading. Establish cadence and stick to it. Reserve interrupts for material change.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Executive vs. Technical Briefing — Two Worlds</h3>
+  <p>The same ransomware incident demands two very different briefings within an hour of each other.</p>
+  <div class="comm-grid">
+    <div class="comm-card exec">
+      <div class="tag">🏛️ Executive Briefing (1 minute)</div>
+      <p style="font-size:0.92rem;line-height:1.55">"At 2:14 AM we detected ransomware on roughly 40 corporate endpoints. Customer-facing systems are unaffected. We expect to be at degraded internal operations for 24 hours. Legal has been engaged. We will not need to make a public statement today. Estimated financial impact: $400K. Next update at noon."</p>
+      <p style="font-size:0.82rem;color:var(--ink-soft);margin-top:0.75rem"><strong>What executives need:</strong></p>
+      <ul>
+        <li>Business impact in dollars and time</li>
+        <li>Customer and regulatory exposure</li>
+        <li>What decisions you need from them</li>
+        <li>When the next update is coming</li>
+      </ul>
+    </div>
+    <div class="comm-card">
+      <div class="tag">⚙️ Technical Briefing (10 minutes)</div>
+      <p style="font-size:0.92rem;line-height:1.55">"Initial vector: phishing email to Finance, opened at 1:47 AM. Payload: known variant of LockBit dropper, sha256 abc123…. C2 callbacks blocked at firewall at 2:09 AM. Affected hosts isolated via EDR. Lateral movement attempts to file servers blocked. Recovery from immutable backups starts at 6 AM. Need: confirmation that DR snapshot from 1:30 AM is clean before restore."</p>
+      <p style="font-size:0.82rem;color:var(--ink-soft);margin-top:0.75rem"><strong>What technical teams need:</strong></p>
+      <ul>
+        <li>Indicators of compromise (IOCs)</li>
+        <li>Specific procedures and actions</li>
+        <li>Decision points awaiting input</li>
+        <li>Dependencies between tasks</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Pilot's Announcement vs. the Cockpit Voice</div>
+    <p>When something goes wrong on a flight, the captain's announcement to passengers is calm, brief, and reassuring: <em>"Folks, we've got a small mechanical issue and we'll be returning to the airport. Should be on the ground in about twenty minutes."</em> The cockpit voice recorder, meanwhile, captures rapid checklists, specific call-outs, and exact parameters. <strong>Same incident, two worlds of language — both essential.</strong></p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 6 ===================== -->
+<section class="module" id="m6">
+  <span class="module-tag">Module 6</span>
+  <span class="duration">60 min</span>
+  <h2>Business Impact Analysis — RTO, RPO, MTD</h2>
+  <p>Recovery decisions made under pressure are usually wrong. Recovery decisions made in advance, written down, and rehearsed are usually right. The Business Impact Analysis (BIA) is where those decisions are made.</p>
+
+  <h3>The Three Time Boundaries</h3>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">⏱️</div>
+          <h4>RTO</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Recovery Time Objective</strong>
+          The maximum acceptable downtime before recovery must be complete. Looks <em>forward</em>: how long can we be down? Drives DR architecture choices.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">💾</div>
+          <h4>RPO</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Recovery Point Objective</strong>
+          The maximum acceptable data loss, measured in time. Looks <em>backward</em>: how far back can we afford to roll the clock? Drives backup frequency.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">💀</div>
+          <h4>MTD</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Maximum Tolerable Downtime</strong>
+          The absolute outer limit before the business cannot survive. RTO must always be <em>less than</em> MTD. Crossing MTD means the organization fails.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">The Rule You Cannot Break</div>
+    <p><strong>RTO must always be less than MTD.</strong> If your stated RTO equals or exceeds MTD, you have committed in writing that the business will fail at the same moment recovery completes — which means recovery has already failed. This is the single most common BIA error.</p>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Holding Your Breath</div>
+    <p><strong>MTD</strong> is how long you can hold your breath before brain damage starts — a hard biological limit. <strong>RTO</strong> is the target time you commit to surface by — comfortably less than MTD. <strong>RPO</strong> is how far back you remember things clearly after surfacing. Plan to surface well before the limit, with a clear memory of where you were going.</p>
+  </div>
+
+  <h3>Interactive BIA Workshop</h3>
+  <p>Fill in proposed RTO and MTD for each system. The tool flags any row where RTO ≥ MTD as invalid.</p>
+
+  <div class="bia-grid header">
+    <div>System</div><div>RTO (hours)</div><div>MTD (hours)</div><div>Validity</div>
+  </div>
+  <div class="bia-grid">
+    <div>Payroll system</div>
+    <div><input type="number" id="rto1" value="48" min="0" oninput="checkBIA()"></div>
+    <div><input type="number" id="mtd1" value="120" min="0" oninput="checkBIA()"></div>
+    <div class="bia-verdict valid" id="v1">✓ Valid</div>
+  </div>
+  <div class="bia-grid">
+    <div>Manufacturing control system</div>
+    <div><input type="number" id="rto2" value="4" min="0" oninput="checkBIA()"></div>
+    <div><input type="number" id="mtd2" value="24" min="0" oninput="checkBIA()"></div>
+    <div class="bia-verdict valid" id="v2">✓ Valid</div>
+  </div>
+  <div class="bia-grid">
+    <div>Customer-facing cloud app</div>
+    <div><input type="number" id="rto3" value="2" min="0" oninput="checkBIA()"></div>
+    <div><input type="number" id="mtd3" value="8" min="0" oninput="checkBIA()"></div>
+    <div class="bia-verdict valid" id="v3">✓ Valid</div>
+  </div>
+  <div class="bia-grid">
+    <div>Internal collaboration wiki</div>
+    <div><input type="number" id="rto4" value="72" min="0" oninput="checkBIA()"></div>
+    <div><input type="number" id="mtd4" value="168" min="0" oninput="checkBIA()"></div>
+    <div class="bia-verdict valid" id="v4">✓ Valid</div>
+  </div>
+
+  <h3>Manual Workarounds — The Hidden Recovery Plan</h3>
+  <p>For each critical system, ask: <em>what do we do if it is down longer than RTO?</em> The answer is rarely "wait." It is usually some form of manual workaround — paper-based ordering, phone-based check-in, runner-delivered timesheets. Mature BIAs document these as named, rehearsed procedures.</p>
+
+  <div class="callout">
+    <div class="label">Instructor Emphasis</div>
+    <p>Overly optimistic recovery assumptions are a <strong>major organizational failure point</strong>. The team that says "we can be back in two hours" without ever having actually restored from backup is writing fiction. Every RTO commitment must be backed by a successfully rehearsed recovery.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 7 ===================== -->
+<section class="module" id="m7">
+  <span class="module-tag">Module 7</span>
+  <span class="duration">60 min</span>
+  <h2>BCP vs. DRP — Two Plans, One Goal</h2>
+  <p>Business Continuity Planning and Disaster Recovery Planning are related but distinct. Conflating them is a common error — the two plans serve different audiences, address different questions, and require different evidence to be defensible.</p>
+
+  <table>
+    <tr><th>Dimension</th><th>BCP — Business Continuity</th><th>DRP — Disaster Recovery</th></tr>
+    <tr><td>Focus</td><td>Business operations</td><td>Technical systems and infrastructure</td></tr>
+    <tr><td>Audience</td><td>Executives, business unit leaders, operations</td><td>IT, security, infrastructure teams</td></tr>
+    <tr><td>Question Answered</td><td>"How do we keep serving customers?"</td><td>"How do we restore the systems we serve them with?"</td></tr>
+    <tr><td>Scope</td><td>People, processes, facilities, vendors, communications</td><td>Servers, networks, applications, data, cloud services</td></tr>
+    <tr><td>Relationship</td><td>The umbrella</td><td>A critical subset of BCP</td></tr>
+  </table>
+
+  <div class="callout">
+    <div class="label">DRP Is a Subset of BCP</div>
+    <p>You cannot have business continuity without technical recovery — but technical recovery alone is not continuity. A perfectly restored data center serves no one if the call center can't reach customers, the warehouse can't ship orders, and the front-line staff are locked out of the building. BCP encompasses DRP; DRP is one (essential) ingredient.</p>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: A Restaurant After a Fire</div>
+    <p><strong>DRP</strong> is the contractor restoring the kitchen — appliances, gas lines, walk-in freezer. <strong>BCP</strong> is everything else needed to keep serving customers: a pop-up location, a temporary food-truck arrangement, redirecting reservations, paying staff during downtime, communicating with regulars. The restored kitchen is necessary; the restored business is the goal.</p>
+  </div>
+
+  <h3>Recovery Site Options</h3>
+  <p>Each site type represents a different tradeoff between cost and recovery speed. Bars below show relative readiness (filled) and cost (also filled — both grow together).</p>
+
+  <div class="site-grid">
+    <div class="site-card">
+      <h4>❄️ Cold Site</h4>
+      <p style="font-size:0.88rem">Empty facility — power, network connection, and floor space. No hardware or data.</p>
+      <div class="meter"><span>Readiness</span><div class="bar"><div class="fill" style="width:20%"></div></div></div>
+      <div class="meter"><span>Cost</span><div class="bar"><div class="fill" style="width:20%"></div></div></div>
+      <div class="meter"><span>RTO</span><div class="bar"><div class="fill" style="width:20%;background:linear-gradient(90deg,var(--danger),var(--warning))"></div></div></div>
+      <p style="font-size:0.78rem;color:var(--ink-soft);margin-top:0.5rem"><em>Days to weeks to bring online. Best for non-critical systems.</em></p>
+    </div>
+    <div class="site-card">
+      <h4>🌤️ Warm Site</h4>
+      <p style="font-size:0.88rem">Hardware in place, partial configuration. Periodic data syncs but not real-time.</p>
+      <div class="meter"><span>Readiness</span><div class="bar"><div class="fill" style="width:55%"></div></div></div>
+      <div class="meter"><span>Cost</span><div class="bar"><div class="fill" style="width:55%"></div></div></div>
+      <div class="meter"><span>RTO</span><div class="bar"><div class="fill" style="width:55%;background:linear-gradient(90deg,var(--warning),var(--accent))"></div></div></div>
+      <p style="font-size:0.78rem;color:var(--ink-soft);margin-top:0.5rem"><em>Hours to a day to bring online. Common compromise for mid-tier systems.</em></p>
+    </div>
+    <div class="site-card">
+      <h4>🔥 Hot Site</h4>
+      <p style="font-size:0.88rem">Fully equipped and continuously updated. Near-real-time data replication.</p>
+      <div class="meter"><span>Readiness</span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+      <div class="meter"><span>Cost</span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+      <div class="meter"><span>RTO</span><div class="bar"><div class="fill" style="width:85%;background:linear-gradient(90deg,var(--accent),var(--success))"></div></div></div>
+      <p style="font-size:0.78rem;color:var(--ink-soft);margin-top:0.5rem"><em>Minutes to hours. Standard for business-critical systems.</em></p>
+    </div>
+    <div class="site-card">
+      <h4>🪞 Mirrored / Active-Active</h4>
+      <p style="font-size:0.88rem">Continuously synchronized duplicate, often serving traffic in parallel.</p>
+      <div class="meter"><span>Readiness</span><div class="bar"><div class="fill" style="width:100%"></div></div></div>
+      <div class="meter"><span>Cost</span><div class="bar"><div class="fill" style="width:100%"></div></div></div>
+      <div class="meter"><span>RTO</span><div class="bar"><div class="fill" style="width:100%;background:var(--success)"></div></div></div>
+      <p style="font-size:0.78rem;color:var(--ink-soft);margin-top:0.5rem"><em>Near-zero. Reserved for mission-critical / safety systems.</em></p>
+    </div>
+  </div>
+
+  <h3>Modern Options: DRaaS and Cyber Insurance</h3>
+  <ul>
+    <li><strong>DRaaS (Disaster Recovery as a Service)</strong> — cloud-based DR with predictable subscription pricing, often more economical than maintaining a physical hot site. Test cycles are easier; failover can be initiated remotely.</li>
+    <li><strong>Cyber insurance</strong> — financial risk transfer. Does <em>not</em> restore operations; it offsets the cost of doing so. Common exclusions: ICS / OT, war and nation-state acts, late notification. Read the policy carefully before assuming coverage.</li>
+  </ul>
+
+  <h3>Decision Exercise — Match the Recovery Approach</h3>
+  <div class="matcher" id="siteMatcher">
+    <div class="match-row" data-correct="hot">
+      <div class="match-scenario">Online retail platform — peak traffic, 6-figure-per-hour revenue impact when down</div>
+      <select class="match-select">
+        <option value="">Select recovery site…</option>
+        <option value="cold">Cold Site</option>
+        <option value="warm">Warm Site</option>
+        <option value="hot">Hot Site</option>
+        <option value="mirrored">Mirrored / Active-Active</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="cold">
+      <div class="match-scenario">Internal training video library — used occasionally, 1-week downtime is acceptable</div>
+      <select class="match-select">
+        <option value="">Select recovery site…</option>
+        <option value="cold">Cold Site</option>
+        <option value="warm">Warm Site</option>
+        <option value="hot">Hot Site</option>
+        <option value="mirrored">Mirrored / Active-Active</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="mirrored">
+      <div class="match-scenario">Air traffic control system — failure endangers human life</div>
+      <select class="match-select">
+        <option value="">Select recovery site…</option>
+        <option value="cold">Cold Site</option>
+        <option value="warm">Warm Site</option>
+        <option value="hot">Hot Site</option>
+        <option value="mirrored">Mirrored / Active-Active</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="warm">
+      <div class="match-scenario">Mid-tier ERP — half-day downtime tolerable, budget moderately constrained</div>
+      <select class="match-select">
+        <option value="">Select recovery site…</option>
+        <option value="cold">Cold Site</option>
+        <option value="warm">Warm Site</option>
+        <option value="hot">Hot Site</option>
+        <option value="mirrored">Mirrored / Active-Active</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <button class="btn" onclick="checkMatcher('siteMatcher')">Check Answers</button>
+    <button class="btn secondary" onclick="resetMatcher('siteMatcher')">Reset</button>
+  </div>
+</section>
+
+<!-- ===================== MODULE 8 ===================== -->
+<section class="module" id="m8">
+  <span class="module-tag">Module 8</span>
+  <span class="duration">45 min</span>
+  <h2>Classification, Categorization &amp; Escalation</h2>
+  <p>The first 15 minutes of an incident often determine how the next 72 hours go. The service desk analyst who receives the initial alert needs decision support — not improvisation. Categorization, classification, and escalation procedures provide that support.</p>
+
+  <h3>Categorization vs. Classification — Two Different Questions</h3>
+  <div class="comm-grid">
+    <div class="comm-card">
+      <div class="tag">🏷️ Categorization</div>
+      <p><strong>"What kind of incident is this?"</strong></p>
+      <ul>
+        <li>Malware</li>
+        <li>Unauthorized access</li>
+        <li>Denial of service</li>
+        <li>Data exfiltration</li>
+        <li>Insider misuse</li>
+        <li>Network outage</li>
+        <li>Phishing</li>
+      </ul>
+      <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:0.5rem"><em>Drives the playbook selection.</em></p>
+    </div>
+    <div class="comm-card exec">
+      <div class="tag">🎯 Classification</div>
+      <p><strong>"How severe is it?"</strong></p>
+      <ul>
+        <li>Critical — significant business impact or regulatory exposure</li>
+        <li>High — material disruption, urgent response required</li>
+        <li>Medium — contained impact, standard response</li>
+        <li>Low — minor, can be handled in normal cycles</li>
+      </ul>
+      <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:0.5rem"><em>Drives the escalation path and resource allocation.</em></p>
+    </div>
+  </div>
+
+  <h3>Interactive Severity Calculator</h3>
+  <p>Adjust the dimensions of a hypothetical incident to see how severity classification changes.</p>
+  <div class="calc-grid">
+    <div class="calc-field">
+      <label>Scope of impact</label>
+      <select id="sevScope" onchange="updateSev()">
+        <option value="1">Single user / single system</option>
+        <option value="2">One department or business unit</option>
+        <option value="3">Multiple departments</option>
+        <option value="4">Enterprise-wide</option>
+      </select>
+    </div>
+    <div class="calc-field">
+      <label>Data sensitivity</label>
+      <select id="sevData" onchange="updateSev()">
+        <option value="1">Public / non-sensitive</option>
+        <option value="2">Internal use</option>
+        <option value="3">Confidential / PII</option>
+        <option value="4">Regulated (PHI, payment, classified)</option>
+      </select>
+    </div>
+    <div class="calc-field">
+      <label>Operational impact</label>
+      <select id="sevOps" onchange="updateSev()">
+        <option value="1">No operational impact</option>
+        <option value="2">Degraded for some users</option>
+        <option value="3">Service unavailable</option>
+        <option value="4">Safety-critical system affected</option>
+      </select>
+    </div>
+    <div class="calc-field">
+      <label>Public exposure</label>
+      <select id="sevPub" onchange="updateSev()">
+        <option value="1">Internal only</option>
+        <option value="2">Limited external awareness</option>
+        <option value="3">Customers affected / aware</option>
+        <option value="4">Public / media attention</option>
+      </select>
+    </div>
+  </div>
+  <div class="sev-tile">
+    <div class="sev-center">
+      <div class="sev-score" id="sevScore">8</div>
+      <span class="sev-band medium" id="sevBand">Medium</span>
+      <p style="margin-top:1rem;font-size:0.9rem;color:var(--ink-soft)" id="sevGuidance">
+        Notify on-call manager. Standard response procedures. Update stakeholders every 4 hours.
+      </p>
+    </div>
+  </div>
+
+  <h3>Service Desk Escalation Triggers</h3>
+  <p>Escalation is not optional — it is a mandatory action when triggers fire. Train the help desk to escalate when:</p>
+  <ul>
+    <li><strong>Multiple users report the same symptom</strong> — coincidence is rare</li>
+    <li><strong>Anything customer-facing is involved</strong> — even brief outages have reputational weight</li>
+    <li><strong>Regulated data may be involved</strong> — clock starts immediately</li>
+    <li><strong>An executive's account or device is involved</strong> — different threat model, different exposure</li>
+    <li><strong>The analyst is uncertain</strong> — under-escalation is harder to recover from than over-escalation</li>
+  </ul>
+
+  <div class="callout emphasis">
+    <div class="label">Key Teaching Point</div>
+    <p><strong>Early escalation accuracy significantly impacts incident outcomes.</strong> The cost of escalating a non-incident is a few minutes of a manager's time. The cost of <em>not</em> escalating a real incident is measured in hours of dwell time, larger blast radius, and harder containment. Bias toward escalation; reward analysts who escalate appropriately even when the call turns out to be benign.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 9 ===================== -->
+<section class="module" id="m9">
+  <span class="module-tag">Module 9</span>
+  <span class="duration">60 min</span>
+  <h2>Continuous Validation &amp; Testing</h2>
+  <p>An untested incident response plan is not a plan — it is a wish. The only way to know whether the runbook works, the team can execute it, and the dependencies hold up is to <strong>exercise it before the real event</strong>.</p>
+
+  <h3>KPIs vs. KGIs — Performance vs. Goals</h3>
+  <table>
+    <tr><th>Indicator</th><th>What It Measures</th><th>Examples</th></tr>
+    <tr><td><strong>KPI</strong> — Key Performance Indicator</td><td>How the program is performing right now</td><td>MTTD, MTTR, % of incidents contained within SLA, escalation accuracy rate</td></tr>
+    <tr><td><strong>KGI</strong> — Key Goal Indicator</td><td>Whether the program is achieving its strategic goals</td><td>Reduce critical incidents 25% YoY, improve recovery success to 99%, achieve audit certification</td></tr>
+  </table>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Marathon Runner</div>
+    <p><strong>KPIs are the heart-rate monitor and mile splits</strong> — operational telemetry showing whether you're running well today. <strong>KGIs are the finish line and target time</strong> — strategic outcomes showing whether the training is achieving the goal. You need both. Splits without a finish line is exercise; a finish line without splits is hope.</p>
+  </div>
+
+  <h3>The Five Testing Methodologies</h3>
+  <p>Each methodology offers a different tradeoff between realism, cost, and operational risk. Mature programs use all five over a multi-year cycle. Click each to expand.</p>
+
+  <div class="accordion">
+    <div class="accordion-item">
+      <div class="accordion-header">1 · Read-Through / Paper Test <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong>What it is:</strong> Team members independently read the incident response and continuity plans. Identify gaps, outdated contact information, broken procedures.</p>
+        <p><strong>Cost:</strong> Very low. <strong>Realism:</strong> Very low. <strong>Operational risk:</strong> None.</p>
+        <p><strong>Best for:</strong> Annual refreshes, after major reorgs, after technology changes. The minimum acceptable level of testing.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">2 · Walk-Through / Tabletop Exercise <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong>What it is:</strong> Facilitated discussion-based exercise. Participants walk through a scenario together, talking about what they would do, surfacing assumptions and authority gaps.</p>
+        <p><strong>Cost:</strong> Low. <strong>Realism:</strong> Moderate. <strong>Operational risk:</strong> None.</p>
+        <p><strong>Best for:</strong> Cross-functional coordination, executive engagement, decision-rights testing. The workhorse of mature programs.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">3 · Simulation Test <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong>What it is:</strong> Realistic exercise with injected events, role-play, and time pressure. Teams use actual tools and procedures, sometimes against a controlled scenario environment.</p>
+        <p><strong>Cost:</strong> Moderate to high. <strong>Realism:</strong> High. <strong>Operational risk:</strong> Low to moderate.</p>
+        <p><strong>Best for:</strong> Testing technical playbooks, validating tooling, building team muscle memory.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">4 · Parallel Test <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong>What it is:</strong> Failover systems are activated and operated alongside production. Workloads are processed on the recovery site without taking production down.</p>
+        <p><strong>Cost:</strong> High. <strong>Realism:</strong> Very high. <strong>Operational risk:</strong> Low (production unaffected).</p>
+        <p><strong>Best for:</strong> Validating DR site readiness, checking data consistency, exercising failover procedures without business risk.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">5 · Full Interruption Test <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong>What it is:</strong> Production is actually shut down. The DR site or recovery procedures are required to deliver the service. The most realistic test there is.</p>
+        <p><strong>Cost:</strong> Very high. <strong>Realism:</strong> Maximum. <strong>Operational risk:</strong> High.</p>
+        <p><strong>Best for:</strong> Highly regulated industries (some finance, aviation, defense), or organizations with deeply mature programs. Requires executive approval. Rarely done by mid-market organizations because of risk.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">The Testing Maturity Ladder</div>
+    <p>Organizations should progress up the ladder, not jump to the top. A team that has never done a tabletop should not attempt a full interruption test — they will discover too many problems at once to learn from any of them. Build maturity in order: read-through → tabletop → simulation → parallel → (rarely) full interruption.</p>
+  </div>
+
+  <h3>Tabletop Scenario — Regional ISP Outage</h3>
+  <p><strong>Scenario:</strong> Your primary internet service provider has a major regional outage affecting your headquarters and all cloud-hosted business systems. Estimated duration: 4–8 hours. Your secondary ISP is functioning but at reduced capacity. Customer-facing systems are degraded but partially available.</p>
+
+  <div class="quiz" data-quiz>
+    <div class="quiz-question">What should the incident commander's FIRST action be?</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Customer notification matters, but only after you understand what you're notifying them about. Premature messaging can be wrong and have to be retracted.">Issue customer-facing notification immediately to manage expectations</div>
+    <div class="quiz-option" data-answer="correct" data-explain="Correct. Activate the IM team, establish a common operating picture, confirm what is actually working and what is not. Decisions follow situational awareness, not the other way around.">Activate the incident management team and establish a common operating picture</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Failover to a backup carrier may be the right call — but only after the team is activated and the decision is informed. Unilateral technical action is exactly the kind of move that creates secondary incidents.">Trigger automatic failover to the backup carrier without further analysis</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Calling executives before you have a coherent situation report wastes the most valuable resource you have during an incident: their attention.">Call the CEO immediately to brief on the outage</div>
+  </div>
+</section>
+
+<!-- ===================== CAPSTONE ===================== -->
+<section class="module" id="capstone">
+  <span class="module-tag">Capstone Exercise</span>
+  <span class="duration">90 min</span>
+  <h2>Enterprise Incident Response Simulation</h2>
+
+  <h3>Scenario: MidStream Manufacturing — Day 1</h3>
+  <p>You are the incident commander at MidStream Manufacturing ($850M revenue, 2,400 employees, three U.S. plants). At 5:47 AM on a Monday, the following events unfold simultaneously:</p>
+  <ul>
+    <li><strong>Ransomware</strong> has encrypted the corporate IT environment — ERP, file shares, email. OT networks are isolated and unaffected, but production needs the ERP to receive customer orders.</li>
+    <li><strong>Supply chain disruption</strong> — your largest software vendor has notified you that they were compromised three weeks ago, and your environment may have been accessed.</li>
+    <li><strong>Public data leak</strong> — a journalist has called your PR line asking about a customer data file allegedly posted on a leak site overnight.</li>
+    <li><strong>Operational downtime</strong> — without ERP, three plants can run on yesterday's production schedule for ~36 hours before stopping.</li>
+  </ul>
+
+  <h3>Team Roles</h3>
+  <table>
+    <tr><th>Role</th><th>Responsibility</th></tr>
+    <tr><td>Incident Commander</td><td>Overall coordination, decision authority, communications cadence</td></tr>
+    <tr><td>CISO / Technical Lead</td><td>Containment, eradication, forensics, recovery sequencing</td></tr>
+    <tr><td>Legal Counsel</td><td>Privilege, regulatory notification, vendor liability, law enforcement</td></tr>
+    <tr><td>Communications Lead</td><td>Internal, customer, media, and regulator messaging</td></tr>
+    <tr><td>Operations Lead</td><td>Plant continuity, manual workarounds, customer commitments</td></tr>
+  </table>
+
+  <h3>Required Deliverables</h3>
+  <ol>
+    <li><strong>Incident classification</strong> — severity, category, regulatory scope</li>
+    <li><strong>Escalation workflow</strong> — who is informed, when, in what order</li>
+    <li><strong>Communication plan</strong> — separate messages for executives, employees, customers, regulators, media</li>
+    <li><strong>Containment strategy</strong> — what is isolated, what stays running, what compensating controls activate</li>
+    <li><strong>Recovery recommendations</strong> — sequence of system restoration aligned to RTO and BIA</li>
+    <li><strong>Executive briefing</strong> — one-page summary for the Board within 4 hours of incident declaration</li>
+    <li><strong>Lessons learned report</strong> — written 72 hours post-recovery, addressing both what worked and what failed</li>
+  </ol>
+
+  <h3>Evaluation Rubric</h3>
+  <table>
+    <tr><th>Criterion</th><th>Weight</th><th>"Excellent" Looks Like</th></tr>
+    <tr><td>Priority hierarchy applied correctly</td><td>15%</td><td>Safety first, then CIA, then reputation/revenue/compliance — visible in early decisions</td></tr>
+    <tr><td>Authority and roles clearly assigned</td><td>15%</td><td>No "who decides this?" moments; every decision has a named owner</td></tr>
+    <tr><td>Lifecycle phases properly executed</td><td>15%</td><td>Detection, containment, eradication, recovery in the right order, not skipped</td></tr>
+    <tr><td>Communication quality and cadence</td><td>20%</td><td>Audience-appropriate, simple, on schedule; no contradictions across channels</td></tr>
+    <tr><td>BIA-informed recovery sequencing</td><td>15%</td><td>Systems restored in order of business priority, with named RTOs</td></tr>
+    <tr><td>Lessons learned depth</td><td>10%</td><td>Includes process, technology, and people-level findings</td></tr>
+    <tr><td>Teamwork and role fidelity</td><td>10%</td><td>Each role challenged the others productively; commander coordinated without micromanaging</td></tr>
+  </table>
+</section>
+
+<!-- ===================== ASSESSMENT ===================== -->
+<section class="module" id="assessment">
+  <span class="module-tag">Final Assessment</span>
+  <h2>Knowledge Check — 10 Questions</h2>
+  <p>Test your mastery of Domain 4 Part 1. Each question gives instant feedback and an explanation.</p>
+  <div id="finalQuiz"></div>
+  <div id="finalScore" style="margin-top:1.5rem;padding:1.5rem;background:var(--primary);color:#fff;border-radius:10px;display:none;text-align:center;">
+    <div style="font-size:0.9rem;text-transform:uppercase;letter-spacing:0.1em;opacity:0.85;">Your Score</div>
+    <div style="font-size:3rem;font-weight:700;margin:0.5rem 0;" id="scoreNum">0 / 10</div>
+    <div id="scoreMessage" style="opacity:0.9;"></div>
+  </div>
+  <button class="btn" onclick="gradeFinal()" style="margin-top:1rem;">Grade My Quiz</button>
+  <button class="btn secondary" onclick="resetFinal()">Reset</button>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>NCyTE CISM Course</strong> · Domain 4, Part 1: Information Security Incident Management</p>
+  <p>Interactive lesson by Dr. John Sands · National AI Training Initiative · Moraine Valley Community College</p>
+</footer>
+
+<script>
+// ============ NAV ACTIVE STATE + PROGRESS BAR ============
+const sections = document.querySelectorAll('section.module');
+const navLinks = document.querySelectorAll('nav.modules a');
+const progressBar = document.getElementById('progressBar');
+
+function onScroll() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = Math.min(100, (scrollTop / docHeight) * 100) + '%';
+
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 120;
+    if (scrollTop >= top) current = sec.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+// ============ QUIZ (inline data-quiz) ============
+document.querySelectorAll('[data-quiz]').forEach(quiz => {
+  const options = quiz.querySelectorAll('.quiz-option');
+  let explainDiv = document.createElement('div');
+  explainDiv.className = 'quiz-explanation';
+  quiz.appendChild(explainDiv);
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      options.forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      if (opt.dataset.answer === 'correct') opt.classList.add('correct');
+      else opt.classList.add('wrong');
+      explainDiv.textContent = opt.dataset.explain || '';
+      explainDiv.classList.add('show');
+    });
+  });
+});
+
+// ============ ACCORDIONS ============
+document.querySelectorAll('.accordion-header').forEach(h => {
+  h.addEventListener('click', () => {
+    h.parentElement.classList.toggle('open');
+  });
+});
+
+// ============ MATCHER ============
+const matchLabels = {
+  exec: 'Executive Leadership', legal: 'Legal Counsel', pr: 'Public Relations',
+  it: 'IT / Security Ops', compliance: 'Compliance',
+  cold: 'Cold Site', warm: 'Warm Site', hot: 'Hot Site', mirrored: 'Mirrored / Active-Active'
+};
+function checkMatcher(id) {
+  const rows = document.querySelectorAll('#' + id + ' .match-row');
+  rows.forEach(row => {
+    const select = row.querySelector('select');
+    const fb = row.querySelector('.match-feedback');
+    const ans = row.dataset.correct;
+    if (!select.value) {
+      fb.textContent = 'Pick one';
+      fb.className = 'match-feedback';
+      return;
+    }
+    if (select.value === ans) {
+      fb.textContent = '✓ Correct';
+      fb.className = 'match-feedback correct';
+    } else {
+      fb.textContent = '✗ ' + (matchLabels[ans] || ans);
+      fb.className = 'match-feedback wrong';
+    }
+  });
+}
+function resetMatcher(id) {
+  document.querySelectorAll('#' + id + ' .match-row').forEach(row => {
+    row.querySelector('select').value = '';
+    const fb = row.querySelector('.match-feedback');
+    fb.textContent = '';
+    fb.className = 'match-feedback';
+  });
+}
+
+// ============ LIFECYCLE STAGES (Module 4) ============
+const stageData = {
+  1: {
+    title: '🛠️ Stage 1 — Preparation',
+    meta: 'Before any incident',
+    body: 'The most leveraged phase. Build the team, write the playbooks, establish authority, train the staff, run drills, line up vendors and counsel, harden the infrastructure. <strong>Everything else in this lifecycle depends on what you did before the incident.</strong>',
+    owner: 'CISO, IR team lead, executive sponsor',
+    pitfall: 'Treating preparation as a one-time project rather than continuous maintenance. Plans go stale; staff turn over; threats evolve.'
+  },
+  2: {
+    title: '🔍 Stage 2 — Detection &amp; Triage',
+    meta: 'Minutes to hours',
+    body: 'Notice that something is wrong (detection), then determine its scope, type, and severity (triage). Distinguish genuine incidents from false positives. Establish a common operating picture before acting.',
+    owner: 'SOC analysts, on-call IR responders',
+    pitfall: 'Premature action before triage. The instinct to "do something" can destroy forensic evidence, alert the attacker, or escalate impact.'
+  },
+  3: {
+    title: '🚧 Stage 3 — Containment',
+    meta: 'Hours',
+    body: 'Stop the bleeding. Isolate affected systems, block attacker command-and-control, disable compromised accounts, prevent lateral movement. Short-term containment is fast and rough; long-term containment is methodical and reversible.',
+    owner: 'IR team, network/endpoint engineers',
+    pitfall: 'Containing too aggressively destroys evidence; containing too slowly lets blast radius grow. Both are common — pre-decided containment thresholds help.'
+  },
+  4: {
+    title: '🧹 Stage 4 — Eradication',
+    meta: 'Hours to days',
+    body: 'Remove the threat entirely — malware, attacker tooling, backdoors, persistence mechanisms, compromised credentials. Verify the environment is clean before recovery, or you will repeat the incident.',
+    owner: 'IR team, forensics, system administrators',
+    pitfall: 'Declaring eradication complete based on the absence of obvious indicators rather than active hunting. Modern attackers leave well-hidden persistence.'
+  },
+  5: {
+    title: '♻️ Stage 5 — Recovery',
+    meta: 'Hours to weeks',
+    body: 'Restore systems, validate integrity, return to normal operations in a controlled sequence. Restore in order of business priority (per the BIA), with enhanced monitoring for re-infection.',
+    owner: 'IT operations, business owners, IR team',
+    pitfall: 'Restoring from backups that themselves contain the threat. Always verify backup integrity and timestamp against the initial compromise.'
+  },
+  6: {
+    title: '📖 Stage 6 — Lessons Learned',
+    meta: '72 hours to 30 days post-recovery',
+    body: 'Conduct a structured after-action review while memory is fresh. Document what happened, what worked, what failed, and what changes are required. Feed findings back into preparation. <strong>This is where mature programs separate from immature ones.</strong>',
+    owner: 'IR team lead, with cross-functional participation',
+    pitfall: 'Skipping the review because the team is exhausted, or treating it as a blame exercise. Both kill the learning that prevents the next incident.'
+  }
+};
+
+function showStage(n) {
+  document.querySelectorAll('.lifecycle-stage').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.stage) === n);
+  });
+  const d = stageData[n];
+  document.getElementById('lifecycleDetail').innerHTML = `
+    <h4>${d.title} <span class="stage-meta">${d.meta}</span></h4>
+    <p>${d.body}</p>
+    <p style="font-size:0.88rem;color:var(--ink-soft)"><strong style="color:var(--primary)">Typical owner:</strong> ${d.owner}</p>
+    <p style="font-size:0.88rem;color:var(--ink-soft)"><strong style="color:var(--danger)">Common pitfall:</strong> ${d.pitfall}</p>
+  `;
+}
+showStage(1);
+
+// ============ BIA CHECK (Module 6) ============
+function checkBIA() {
+  for (let i = 1; i <= 4; i++) {
+    const rto = parseFloat(document.getElementById('rto' + i).value);
+    const mtd = parseFloat(document.getElementById('mtd' + i).value);
+    const v = document.getElementById('v' + i);
+    if (isNaN(rto) || isNaN(mtd)) {
+      v.textContent = '— enter values';
+      v.className = 'bia-verdict';
+    } else if (rto < mtd) {
+      const margin = mtd - rto;
+      v.textContent = '✓ Valid (' + margin + 'h margin)';
+      v.className = 'bia-verdict valid';
+    } else if (rto === mtd) {
+      v.textContent = '⚠ No margin — invalid';
+      v.className = 'bia-verdict invalid';
+    } else {
+      v.textContent = '✗ RTO exceeds MTD';
+      v.className = 'bia-verdict invalid';
+    }
+  }
+}
+checkBIA();
+
+// ============ SEVERITY CALC (Module 8) ============
+function updateSev() {
+  const s = parseInt(document.getElementById('sevScope').value);
+  const d = parseInt(document.getElementById('sevData').value);
+  const o = parseInt(document.getElementById('sevOps').value);
+  const p = parseInt(document.getElementById('sevPub').value);
+  const score = s + d + o + p;
+  document.getElementById('sevScore').textContent = score;
+  const band = document.getElementById('sevBand');
+  const guide = document.getElementById('sevGuidance');
+  let cls, label, advice;
+  if (score <= 6) { cls = 'low'; label = 'Low'; advice = 'Standard ticket queue. Resolve in normal cycles. Document for trend tracking.'; }
+  else if (score <= 9) { cls = 'medium'; label = 'Medium'; advice = 'Notify on-call manager. Standard response procedures. Update stakeholders every 4 hours.'; }
+  else if (score <= 12) { cls = 'high'; label = 'High'; advice = 'Activate IR team. Notify CISO and affected business owners. Hourly updates. Consider war room.'; }
+  else { cls = 'critical'; label = 'Critical'; advice = 'Declare major incident. Executive leadership engaged. Legal and PR on standby. 30-minute update cadence.'; }
+  band.className = 'sev-band ' + cls;
+  band.textContent = label;
+  guide.textContent = advice;
+}
+updateSev();
+
+// ============ FINAL QUIZ ============
+const finalQs = [
+  {
+    q: "What is the BEST way to describe the difference between Incident Management and Incident Response?",
+    options: [
+      { t: "They are two names for the same thing", c: false, e: "They are related but distinct — IM is strategic and exists before incidents; IR is tactical and activates when incidents occur." },
+      { t: "IM is technical; IR is business-focused", c: false, e: "The opposite is closer to true — IM is governance/strategic, IR is technical/tactical." },
+      { t: "IM is strategic governance; IR is tactical execution", c: true, e: "Correct. IM exists before incidents to ensure readiness. IR begins once an incident is declared." },
+      { t: "IM applies only to cybersecurity; IR applies to all incidents", c: false, e: "Both apply to security incidents. The distinction is strategic vs. tactical, not scope." }
+    ]
+  },
+  {
+    q: "During a ransomware incident at a hospital, which priority comes FIRST?",
+    options: [
+      { t: "Notifying the regulator", c: false, e: "Regulatory notification is tier 3 (compliance). Safety comes first." },
+      { t: "Restoring the EHR system to support patient care", c: false, e: "EHR restoration is part of availability (CIA, tier 2). Human safety is tier 1 and may require manual procedures before restoration." },
+      { t: "Ensuring human safety — surgical patients, ambulance diversion, manual clinical procedures", c: true, e: "Correct. Human safety is the absolute top priority — above CIA, above reputation, above revenue, above compliance." },
+      { t: "Preserving forensic evidence for law enforcement", c: false, e: "Forensics matter, but never at the cost of patient safety." }
+    ]
+  },
+  {
+    q: "Which scenario is the BEST example of undefined authority causing dangerous hesitation?",
+    options: [
+      { t: "The SOC detects a malware infection and runs the standard isolation playbook", c: false, e: "This is exactly what should happen — a defined playbook for a defined situation." },
+      { t: "During a ransomware incident, no one knows who can authorize shutting down customer-facing systems, costing 90 minutes while leadership debates", c: true, e: "Correct. Authority structures must be defined in advance. Negotiating decision rights during a live incident is one of the most damaging governance failures." },
+      { t: "The CISO briefs the Board on an incident the next morning", c: false, e: "That's a normal communication cadence, not an authority failure." },
+      { t: "Legal counsel is consulted before issuing a public statement", c: false, e: "That's normal coordination, not hesitation." }
+    ]
+  },
+  {
+    q: "In the incident handling lifecycle, what is the PRIMARY purpose of the Containment stage?",
+    options: [
+      { t: "Remove the threat from the environment", c: false, e: "That's Eradication, which comes after Containment." },
+      { t: "Stop the spread and limit blast radius while preserving the ability to investigate", c: true, e: "Correct. Containment buys time and limits damage. Eradication and recovery follow." },
+      { t: "Restore systems to operational status", c: false, e: "That's Recovery — much later in the lifecycle." },
+      { t: "Conduct after-action review", c: false, e: "That's Lessons Learned — the final stage." }
+    ]
+  },
+  {
+    q: "Which statement BEST captures effective crisis communication?",
+    options: [
+      { t: "Send detailed technical updates to all stakeholders every 15 minutes to ensure transparency", c: false, e: "This produces communication fatigue. Different audiences need different cadences and different content." },
+      { t: "Wait until the incident is fully resolved before communicating to avoid retractions", c: false, e: "Delayed disclosure is one of the worst communication strategies. Customers and regulators will discover the incident independently and lose trust." },
+      { t: "Tailor messaging by audience, keep it simple, and maintain a predictable cadence", c: true, e: "Correct. Executives, technical teams, customers, and regulators each need different framing — but all benefit from simplicity and predictable update timing." },
+      { t: "Have Legal review every message before any communication goes out, regardless of urgency", c: false, e: "Legal review matters for external messaging, but internal operational comms must flow at incident pace. Pre-approved templates solve this." }
+    ]
+  },
+  {
+    q: "An organization sets RTO = 24 hours and MTD = 24 hours for a critical system. What is wrong with this configuration?",
+    options: [
+      { t: "Nothing — RTO and MTD can be equal", c: false, e: "RTO must be less than MTD. If they are equal, recovery completes exactly when the business fails — meaning recovery has already failed." },
+      { t: "RTO should equal RPO, not MTD", c: false, e: "RTO and RPO measure different things (downtime vs. data loss) and are not required to be equal." },
+      { t: "RTO must be less than MTD to leave any safety margin", c: true, e: "Correct. RTO < MTD is the rule. If RTO ≥ MTD, the plan is committing on paper to a business failure." },
+      { t: "MTD must be measured in days, not hours", c: false, e: "MTD can be in any time unit appropriate to the system. The issue is the relationship to RTO." }
+    ]
+  },
+  {
+    q: "Which statement BEST describes the relationship between BCP and DRP?",
+    options: [
+      { t: "BCP and DRP are independent plans for different functions", c: false, e: "They are deeply related — DRP is a subset of BCP." },
+      { t: "DRP is a subset of BCP — DRP restores systems; BCP keeps the business operating", c: true, e: "Correct. BCP is the umbrella covering business operations; DRP covers the technical infrastructure subset." },
+      { t: "BCP applies to disasters; DRP applies to cyber incidents", c: false, e: "Both apply to a range of disruptions, not by source. The distinction is business vs. technical scope." },
+      { t: "BCP is for large enterprises; DRP is for small businesses", c: false, e: "Both apply to organizations of any size. The distinction is scope, not org size." }
+    ]
+  },
+  {
+    q: "A regional hospital needs near-zero downtime for its core EHR system. Which recovery site option is MOST appropriate?",
+    options: [
+      { t: "Cold site", c: false, e: "Cold sites take days to weeks to bring online — incompatible with near-zero downtime requirements." },
+      { t: "Warm site", c: false, e: "Warm sites take hours to a day — still too long for a system this critical." },
+      { t: "Hot site or mirrored / active-active configuration", c: true, e: "Correct. Mission-critical and safety-related systems require hot sites or mirrored configurations to meet near-zero RTOs." },
+      { t: "DRaaS with quarterly testing", c: false, e: "DRaaS may be part of the solution, but quarterly testing won't validate near-zero RTO. The architecture and the testing cadence must match the criticality." }
+    ]
+  },
+  {
+    q: "What is the difference between incident categorization and incident classification?",
+    options: [
+      { t: "They are two names for the same activity", c: false, e: "They answer two different questions." },
+      { t: "Categorization defines incident type (what); classification defines severity (how bad)", c: true, e: "Correct. Categorization picks the playbook. Classification drives the escalation path." },
+      { t: "Categorization is technical; classification is business-focused", c: false, e: "Both have business implications. The distinction is type vs. severity, not technical vs. business." },
+      { t: "Categorization is done by the SOC; classification is done by management", c: false, e: "Both are typically done by the SOC at first triage, with management refining as more information emerges." }
+    ]
+  },
+  {
+    q: "Which testing methodology offers the highest realism with the lowest production risk?",
+    options: [
+      { t: "Read-through / paper test", c: false, e: "Lowest risk, but also lowest realism — just reading the plan." },
+      { t: "Tabletop exercise", c: false, e: "Higher realism than paper tests, but still discussion-only — no actual system involvement." },
+      { t: "Parallel test", c: true, e: "Correct. Parallel testing runs the recovery environment alongside production, validating it with real data and procedures without taking production down. Maximum realism, minimum operational risk." },
+      { t: "Full interruption test", c: false, e: "Highest realism, but also highest operational risk because production is actually shut down. Rare outside heavily regulated industries." }
+    ]
+  }
+];
+
+function buildFinal() {
+  const c = document.getElementById('finalQuiz');
+  c.innerHTML = finalQs.map((q, qi) => `
+    <div class="quiz" data-qi="${qi}">
+      <div class="quiz-question">Q${qi+1}. ${q.q}</div>
+      ${q.options.map((opt, oi) => `
+        <div class="quiz-option" data-qi="${qi}" data-oi="${oi}" data-correct="${opt.c}" data-explain="${opt.e.replace(/"/g,'&quot;')}">${opt.t}</div>
+      `).join('')}
+      <div class="quiz-explanation"></div>
+    </div>
+  `).join('');
+  c.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const qi = opt.dataset.qi;
+      const quiz = c.querySelector(`.quiz[data-qi="${qi}"]`);
+      quiz.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      opt.classList.add(opt.dataset.correct === 'true' ? 'correct' : 'wrong');
+      const ex = quiz.querySelector('.quiz-explanation');
+      ex.textContent = opt.dataset.explain;
+      ex.classList.add('show');
+    });
+  });
+}
+buildFinal();
+
+function gradeFinal() {
+  let score = 0;
+  finalQs.forEach((q, qi) => {
+    const selected = document.querySelector(`.quiz[data-qi="${qi}"] .quiz-option.selected`);
+    if (selected && selected.dataset.correct === 'true') score++;
+  });
+  document.getElementById('scoreNum').textContent = score + ' / ' + finalQs.length;
+  let msg;
+  if (score === 10) msg = "🏆 Perfect score — exam-ready on Domain 4.1.";
+  else if (score >= 8) msg = "🎯 Strong mastery — review the missed items and you're set.";
+  else if (score >= 6) msg = "📚 Solid foundation — revisit the modules covering missed questions.";
+  else msg = "📖 Re-read the modules and try again — focus on the concepts you missed.";
+  document.getElementById('scoreMessage').textContent = msg;
+  document.getElementById('finalScore').style.display = 'block';
+  document.getElementById('finalScore').scrollIntoView({behavior:'smooth', block:'center'});
+}
+function resetFinal() {
+  document.querySelectorAll('#finalQuiz .quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+  document.querySelectorAll('#finalQuiz .quiz-explanation').forEach(e => { e.classList.remove('show'); e.textContent = ''; });
+  document.getElementById('finalScore').style.display = 'none';
+}
+</script>
+</body>
+</html>-
