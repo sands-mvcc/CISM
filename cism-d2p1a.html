@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CISM Domain 2, Part 2: Risk Response — Interactive Lesson</title>
+<style>
+  :root {
+    --primary: #1F4E79;
+    --primary-light: #2E75B6;
+    --primary-lighter: #5B9BD5;
+    --accent: #E8A33D;
+    --bg: #F5F7FA;
+    --surface: #FFFFFF;
+    --ink: #1A2332;
+    --ink-soft: #4A5568;
+    --line: #D8E1EA;
+    --success: #2F855A;
+    --warning: #C05621;
+    --danger: #C53030;
+    --shade: #EAF3FB;
+    --shade-2: #F0F6FC;
+    --shadow: 0 2px 8px rgba(31, 78, 121, 0.08);
+    --shadow-lg: 0 6px 24px rgba(31, 78, 121, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Calibri", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    font-size: 16px;
+  }
+
+  /* ============ HEADER ============ */
+  header.site {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+  }
+  header.site .eyebrow {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+  }
+  header.site h1 {
+    margin: 0.25rem 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  header.site .subtitle {
+    font-size: 1.05rem;
+    opacity: 0.92;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  header.site .meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+  }
+  header.site .meta span {
+    background: rgba(255,255,255,0.15);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+
+  /* ============ NAV BAR ============ */
+  nav.modules {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 2px solid var(--primary);
+    box-shadow: var(--shadow);
+    padding: 0.5rem 1rem;
+  }
+  nav.modules .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  nav.modules .brand {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.95rem;
+    padding-right: 0.75rem;
+    border-right: 1px solid var(--line);
+    margin-right: 0.5rem;
+  }
+  nav.modules a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  nav.modules a:hover {
+    background: var(--shade);
+    color: var(--primary);
+  }
+  nav.modules a.active {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  /* ============ PROGRESS BAR ============ */
+  .progress-track {
+    position: sticky;
+    top: 56px;
+    height: 4px;
+    background: var(--line);
+    z-index: 99;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--primary-light));
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+
+  /* ============ MAIN LAYOUT ============ */
+  main {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  section.module {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+    scroll-margin-top: 80px;
+  }
+
+  section.module .module-tag {
+    display: inline-block;
+    background: var(--shade);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+  section.module .duration {
+    display: inline-block;
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+  }
+
+  h2 {
+    color: var(--primary);
+    font-size: 1.85rem;
+    margin: 0 0 1rem;
+    line-height: 1.3;
+  }
+  h3 {
+    color: var(--primary-light);
+    font-size: 1.3rem;
+    margin: 2rem 0 0.75rem;
+  }
+  h4 {
+    color: var(--primary);
+    font-size: 1.05rem;
+    margin: 1.5rem 0 0.5rem;
+    font-style: italic;
+  }
+  p { margin: 0.75rem 0; }
+  ul, ol { padding-left: 1.5rem; margin: 0.75rem 0; }
+  li { margin: 0.35rem 0; }
+  strong { color: var(--primary); font-weight: 600; }
+
+  /* ============ CALLOUTS ============ */
+  .callout {
+    background: var(--shade);
+    border-left: 5px solid var(--primary-light);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .callout .label {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .callout .label::before {
+    content: "💡";
+    font-size: 1.1rem;
+  }
+  .callout.analogy { background: #FFF8E1; border-left-color: var(--accent); }
+  .callout.analogy .label { color: #B7791F; }
+  .callout.analogy .label::before { content: "🧭"; }
+  .callout.emphasis { background: #FEE; border-left-color: var(--danger); }
+  .callout.emphasis .label { color: var(--danger); }
+  .callout.emphasis .label::before { content: "⚠️"; }
+
+  /* ============ TABLES ============ */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    background: var(--surface);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    font-size: 0.92rem;
+  }
+  th {
+    background: var(--primary);
+    color: #fff;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--line);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: var(--shade-2); }
+  tr:hover td { background: var(--shade); }
+
+  /* ============ LEARNING OBJECTIVES ============ */
+  .objectives {
+    background: linear-gradient(135deg, var(--shade) 0%, var(--shade-2) 100%);
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .objectives ol { list-style: none; counter-reset: obj; padding-left: 0; }
+  .objectives li {
+    counter-increment: obj;
+    padding-left: 2.5rem;
+    position: relative;
+    margin: 0.75rem 0;
+  }
+  .objectives li::before {
+    content: counter(obj);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--primary);
+    color: #fff;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  /* ============ INTERACTIVE: FLIP CARDS (4 RESPONSES) ============ */
+  .flip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .flip-card {
+    perspective: 1000px;
+    height: 200px;
+    cursor: pointer;
+  }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .flip-front {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+  }
+  .flip-front .icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .flip-front h4 { color: #fff; margin: 0; font-style: normal; font-size: 1.2rem; }
+  .flip-front .hint { font-size: 0.75rem; opacity: 0.8; margin-top: 0.5rem; }
+  .flip-back {
+    background: var(--surface);
+    color: var(--ink);
+    transform: rotateY(180deg);
+    border: 2px solid var(--primary-light);
+    font-size: 0.85rem;
+  }
+  .flip-back strong { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; }
+
+  /* ============ INTERACTIVE: MATCHING / DRAG ============ */
+  .matcher {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .match-row {
+    display: grid;
+    grid-template-columns: 1.5fr auto 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    padding: 0.6rem;
+    background: var(--surface);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+  }
+  .match-scenario { font-size: 0.92rem; }
+  .match-select {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .match-select:focus { outline: none; border-color: var(--primary-light); }
+  .match-feedback {
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 90px;
+  }
+  .match-feedback.correct { color: var(--success); }
+  .match-feedback.wrong { color: var(--danger); }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    margin: 0.25rem;
+  }
+  .btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+  .btn.secondary { background: var(--surface); color: var(--primary); border: 2px solid var(--primary); }
+  .btn.secondary:hover { background: var(--shade); }
+
+  /* ============ QUIZ ============ */
+  .quiz {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .quiz-question {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--primary);
+  }
+  .quiz-option {
+    display: block;
+    padding: 0.75rem 1rem;
+    margin: 0.4rem 0;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 0.92rem;
+  }
+  .quiz-option:hover { border-color: var(--primary-light); background: var(--shade); }
+  .quiz-option.selected { border-color: var(--primary); background: var(--shade); }
+  .quiz-option.correct { border-color: var(--success); background: #E8F5E9; }
+  .quiz-option.wrong { border-color: var(--danger); background: #FFEBEE; }
+  .quiz-explanation {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border-left: 4px solid var(--primary-light);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+    display: none;
+  }
+  .quiz-explanation.show { display: block; }
+
+  /* ============ ACCORDION ============ */
+  .accordion-item {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 0.6rem 0;
+    overflow: hidden;
+  }
+  .accordion-header {
+    padding: 1rem 1.25rem;
+    background: var(--shade-2);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .accordion-header:hover { background: var(--shade); }
+  .accordion-header .arrow { transition: transform 0.2s; }
+  .accordion-item.open .accordion-header .arrow { transform: rotate(90deg); }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 1.25rem;
+  }
+  .accordion-item.open .accordion-body {
+    max-height: 2000px;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  /* ============ BIA CALCULATOR ============ */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .calc-field label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+  .calc-field input {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+  .calc-field input:focus { outline: none; border-color: var(--primary-light); }
+  .calc-result {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 1.25rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+  }
+  .calc-result .result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  .calc-result .result-row:last-child { border-bottom: none; font-weight: 700; font-size: 1.1rem; }
+
+  /* ============ KRI DASHBOARD ============ */
+  .kri-dash {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .kri-tile {
+    background: var(--surface);
+    padding: 1.25rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+  }
+  .kri-tile h5 {
+    margin: 0 0 0.4rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .kri-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0.25rem 0;
+  }
+  .kri-status {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .kri-status.green { background: #C6F6D5; color: #22543D; }
+  .kri-status.yellow { background: #FEEBC8; color: #7B341E; }
+  .kri-status.red { background: #FED7D7; color: #742A2A; }
+  .kri-tile input[type="range"] { width: 100%; margin-top: 0.5rem; accent-color: var(--primary-light); }
+  .kri-thresholds { font-size: 0.7rem; color: var(--ink-soft); display: flex; justify-content: space-between; margin-top: 0.3rem; }
+
+  /* ============ TRANSLATION TOOL ============ */
+  .translator {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .trans-side {
+    background: var(--surface);
+    padding: 1.25rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    border-left: 4px solid var(--primary-lighter);
+  }
+  .trans-side.exec { border-left-color: var(--success); }
+  .trans-side .tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ============ RISK REGISTER BUILDER ============ */
+  .register-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+  .register-form .full { grid-column: 1 / -1; }
+  .register-form label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+  .register-form input, .register-form select, .register-form textarea {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-family: inherit;
+  }
+  .register-form input:focus, .register-form select:focus, .register-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-light);
+  }
+  #registerOutput {
+    background: var(--primary);
+    color: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    display: none;
+  }
+  #registerOutput .row { display: flex; padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.15); }
+  #registerOutput .row strong { color: #FFE082; min-width: 180px; font-weight: 600; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 768px) {
+    section.module { padding: 1.5rem; }
+    h2 { font-size: 1.5rem; }
+    header.site h1 { font-size: 1.7rem; }
+    .match-row { grid-template-columns: 1fr; }
+    .register-form { grid-template-columns: 1fr; }
+    nav.modules .brand { display: none; }
+  }
+
+  /* ============ ANIMATIONS ============ */
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
+  .pulse { animation: pulse 0.5s ease; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="eyebrow">NCyTE CISM Course</div>
+  <h1>Domain 2, Part 2: Risk Response</h1>
+  <div class="subtitle">Interactive Lesson — Cybersecurity Risk Management &amp; Governance</div>
+  <div class="meta">
+    <span>📚 Intermediate–Advanced</span>
+    <span>⏱ 3–4 instructional hours</span>
+    <span>🎓 12 Modules + Capstone</span>
+  </div>
+</header>
+
+<nav class="modules" id="topNav">
+  <div class="inner">
+    <span class="brand">CISM 2.2</span>
+    <a href="#overview">Overview</a>
+    <a href="#m1">1 · Context</a>
+    <a href="#m2">2 · Treatment</a>
+    <a href="#m3">3 · Acceptance</a>
+    <a href="#m4">4 · BIA</a>
+    <a href="#m5">5 · Economics</a>
+    <a href="#m6">6 · Controls</a>
+    <a href="#m7">7 · Ownership</a>
+    <a href="#m8">8 · KRIs</a>
+    <a href="#m9">9 · Culture</a>
+    <a href="#m10">10 · Docs</a>
+    <a href="#m11">11 · Executive</a>
+    <a href="#m12">12 · Capstone</a>
+    <a href="#assessment">Quiz</a>
+  </div>
+</nav>
+<div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+
+<main>
+
+<!-- ===================== OVERVIEW ===================== -->
+<section class="module" id="overview">
+  <span class="module-tag">Lesson Overview</span>
+  <h2>From Identifying Risk to Responding to It</h2>
+  <p>This lesson moves students from <em>identifying and assessing</em> cybersecurity risk into the heart of risk management: <strong>deciding what to do about it</strong>. You will examine how organizations select treatment strategies, govern residual risk, conduct business impact analysis, apply economic reasoning to security investments, classify controls, assign ownership, monitor continuously through Key Risk Indicators, document decisions, and translate technical exposure into business language for executives and boards.</p>
+
+  <div class="callout analogy">
+    <div class="label">Anchoring Analogy: Cybersecurity Risk Is Like Driving</div>
+    <p>You cannot drive a car with zero risk. You can wear a seatbelt <em>(mitigation)</em>, avoid icy mountain passes <em>(avoidance)</em>, buy auto insurance <em>(transference)</em>, or accept that some scratches in a parking lot are inevitable <em>(acceptance)</em>. A skilled driver does not eliminate risk; they manage it deliberately, with awareness of conditions, cost, and consequences. Cybersecurity risk response works the same way.</p>
+  </div>
+
+  <h3>Learning Objectives</h3>
+  <div class="objectives">
+    <ol>
+      <li>Explain how organizational context — internal and external — shapes cybersecurity risk decisions.</li>
+      <li>Differentiate between systemic, contagious, and cascading risks, and recognize each in real incidents.</li>
+      <li>Evaluate and apply the four primary risk treatment responses (avoid, mitigate, transfer, accept).</li>
+      <li>Distinguish between inherent risk and residual risk, and explain why residual risk is never zero.</li>
+      <li>Identify legal, regulatory, and ethical limitations on what risks an organization may accept.</li>
+      <li>Conduct a basic Business Impact Analysis (BIA), including RTO and RPO determination.</li>
+      <li>Apply economic principles — ALE, marginal analysis, ROI — to cybersecurity investment decisions.</li>
+      <li>Categorize cybersecurity controls by function and category.</li>
+      <li>Distinguish risk owner, control owner, and custodian roles, and resolve conflicts among them.</li>
+      <li>Develop a continuous monitoring strategy supported by Key Risk Indicators (KRIs).</li>
+      <li>Create governance documentation, including a usable risk register.</li>
+      <li>Communicate cybersecurity risk in business language appropriate to executives, boards, and regulators.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== MODULE 1 ===================== -->
+<section class="module" id="m1">
+  <span class="module-tag">Module 1</span>
+  <span class="duration">20 min</span>
+  <h2>Risk Context and Scenario Building</h2>
+  <p>A control that is essential in one organization is wasteful in another. A risk unacceptable to a hospital may be routine for a marketing agency. Before any team can decide how to respond to risk, it must understand the organization's internal reality and external pressures.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Same Storm, Different Houses</div>
+    <p>A beachfront condo, an inland warehouse, and a mountain cabin all face the same hurricane forecast — but their exposure, vulnerability, and acceptable preparation cost differ dramatically. Cyber threats work the same way: the malware is the same; what matters is the house you are defending.</p>
+  </div>
+
+  <h3>Three Risk Behaviors Every Manager Must Recognize</h3>
+  <p><strong>Click each card</strong> to see how the concept appears in a real incident.</p>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🌐</div>
+          <h4>Systemic Risk</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>SolarWinds (2020)</strong>
+          A single trusted software update introduced backdoors into ~18,000 customer environments, including federal agencies and Fortune 500 firms. The flaw lived in a <em>shared dependency</em> — none of the victims had control failures of their own.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🦠</div>
+          <h4>Contagious Risk</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Target (2013)</strong>
+          The breach began with stolen credentials from an HVAC vendor that had network access. The vendor's weakness became Target's loss. Contagion follows the <em>trust graph</em>.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🎢</div>
+          <h4>Cascading Risk</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Colonial Pipeline (2021)</strong>
+          Ransomware encrypted billing systems — not OT. But the company shut down fuel delivery as a precaution, cascading into shortages, panic buying, and presidential declarations across the U.S. East Coast.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Quick Check: Identify the Risk Type</h3>
+  <div class="quiz" data-quiz>
+    <div class="quiz-question">A vulnerability in a widely-used open-source logging library (Log4j) is discovered, simultaneously exposing thousands of organizations worldwide. What kind of risk is this?</div>
+    <div class="quiz-option" data-answer="correct" data-explain="Correct. A weakness in a shared component or platform that puts many organizations at risk simultaneously is the defining feature of systemic risk.">Systemic risk</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Not quite. Contagious risk spreads between specific connected entities through trust relationships. Log4j affected everyone using the library at once, regardless of relationship to each other.">Contagious risk</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Not quite. Cascading risk describes a failure in one system triggering failures in dependent systems. Log4j was a foundational dependency, making it systemic.">Cascading risk</div>
+  </div>
+</section>
+
+<!-- ===================== MODULE 2 ===================== -->
+<section class="module" id="m2">
+  <span class="module-tag">Module 2</span>
+  <span class="duration">20 min</span>
+  <h2>Risk Treatment Decisions</h2>
+  <p>Once a risk is identified, assessed, and contextualized, leadership selects a response. Every cybersecurity decision reduces to one — or a combination — of four responses.</p>
+
+  <h3>The Four Risk Responses</h3>
+  <p><strong>Tap any card</strong> to reveal its definition and an example.</p>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🚫</div>
+          <h4>Avoidance</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Eliminate the exposure</strong>
+          Don't engage in the risky activity at all. Example: decline to launch a product line in a sanctioned country.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🛡️</div>
+          <h4>Mitigation</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Reduce likelihood or impact</strong>
+          Apply controls. Example: deploy MFA, endpoint detection, and patching to reduce ransomware exposure.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">📤</div>
+          <h4>Transference</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Shift the financial impact</strong>
+          Move loss to a third party. Example: cyber insurance, or outsourcing hosting to a SOC 2–audited provider.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">✅</div>
+          <h4>Acceptance</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Tolerate the risk — formally</strong>
+          Acknowledge and document. Example: accept the low risk to a public marketing brochure site. Must be signed, dated, and time-limited.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: A Cliff, a Fence, Insurance, and a Shrug</div>
+    <p><strong>Avoidance:</strong> don't walk near the cliff. <strong>Mitigation:</strong> build a fence at the edge. <strong>Transference:</strong> buy travel insurance before the hike. <strong>Acceptance:</strong> judge that this gentle slope poses no real danger and proceed.</p>
+  </div>
+
+  <h3>Inherent vs. Residual Risk</h3>
+  <p><strong>Inherent risk</strong> is the raw exposure before any controls. <strong>Residual risk</strong> is what remains after controls. It is <em>never zero</em>; the goal is to push it below the organization's tolerance.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Bicycle Helmet</div>
+    <p>Riding a bicycle has inherent risk including fatal head injury. A helmet does not eliminate that risk — a high-speed collision is still serious. But residual risk drops enough that society considers cycling acceptable. Controls <em>shrink</em> risk; they don't delete it.</p>
+  </div>
+
+  <h3>Interactive Exercise: Match the Best Response</h3>
+  <p>For each scenario, select the most appropriate risk response.</p>
+  <div class="matcher" id="responseMatcher">
+    <div class="match-row" data-correct="mitigation">
+      <div class="match-scenario">Legacy unsupported medical device essential to surgery</div>
+      <select class="match-select">
+        <option value="">Select response…</option>
+        <option value="avoidance">Avoidance</option>
+        <option value="mitigation">Mitigation</option>
+        <option value="transference">Transference</option>
+        <option value="acceptance">Acceptance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="avoidance">
+      <div class="match-scenario">Expanding sales into a country with extreme IP theft risk</div>
+      <select class="match-select">
+        <option value="">Select response…</option>
+        <option value="avoidance">Avoidance</option>
+        <option value="mitigation">Mitigation</option>
+        <option value="transference">Transference</option>
+        <option value="acceptance">Acceptance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="transference">
+      <div class="match-scenario">Potential financial losses from a regional cloud outage</div>
+      <select class="match-select">
+        <option value="">Select response…</option>
+        <option value="avoidance">Avoidance</option>
+        <option value="mitigation">Mitigation</option>
+        <option value="transference">Transference</option>
+        <option value="acceptance">Acceptance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="acceptance">
+      <div class="match-scenario">Low-value public marketing microsite, no customer data</div>
+      <select class="match-select">
+        <option value="">Select response…</option>
+        <option value="avoidance">Avoidance</option>
+        <option value="mitigation">Mitigation</option>
+        <option value="transference">Transference</option>
+        <option value="acceptance">Acceptance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="mitigation">
+      <div class="match-scenario">Unpatched internet-facing VPN with known active exploit</div>
+      <select class="match-select">
+        <option value="">Select response…</option>
+        <option value="avoidance">Avoidance</option>
+        <option value="mitigation">Mitigation</option>
+        <option value="transference">Transference</option>
+        <option value="acceptance">Acceptance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <button class="btn" onclick="checkMatcher('responseMatcher')">Check Answers</button>
+    <button class="btn secondary" onclick="resetMatcher('responseMatcher')">Reset</button>
+  </div>
+</section>
+
+<!-- ===================== MODULE 3 ===================== -->
+<section class="module" id="m3">
+  <span class="module-tag">Module 3</span>
+  <span class="duration">15 min</span>
+  <h2>Risk Acceptance and Accountability</h2>
+  <p>Of the four responses, acceptance carries the greatest hidden cost. Avoidance, mitigation, and transference each leave a paper trail of action. Acceptance is the <em>absence</em> of action — and without rigorous documentation, it is indistinguishable from negligence after an incident.</p>
+
+  <h3>What a Formal Risk Acceptance Must Contain</h3>
+  <ul>
+    <li><strong>Named risk owner</strong> — an accountable executive with budget authority</li>
+    <li><strong>Approval authority</strong> appropriate to the risk magnitude</li>
+    <li><strong>Expiration or review date</strong> — acceptance is never permanent</li>
+    <li><strong>Supporting analysis</strong> — likelihood, impact, treatment cost, residual exposure</li>
+    <li><strong>Compensating controls</strong> or monitoring measures, if any</li>
+    <li><strong>Trigger conditions</strong> for reconsideration (regulatory change, threat escalation)</li>
+  </ul>
+
+  <div class="callout emphasis">
+    <div class="label">What Cannot Be Accepted</div>
+    <p>Even with executive approval, organizations <strong>cannot legally or ethically accept</strong> risks that violate privacy law (HIPAA, GLBA, GDPR, CCPA), threaten public safety, ignore explicit regulatory requirements (PCI DSS, SOX, NERC CIP), constitute fiduciary negligence, or knowingly enable foreseeable harm to third parties.</p>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: You Cannot Accept the Risk of No Fire Exits</div>
+    <p>A restaurant owner cannot decide, even with a signed memo, that fire exits are too expensive and the risk is acceptable. Some risks aren't the owner's to accept — they belong to the public, the regulator, and the law. Cybersecurity has a growing list of equivalent non-negotiables.</p>
+  </div>
+
+  <h3>Activity: Accept or Reject?</h3>
+  <p>For each scenario, decide whether formal risk acceptance is <em>legally permissible</em>.</p>
+  <div class="accordion">
+    <div class="accordion-item">
+      <div class="accordion-header">Skipping encryption on a database of patient medical records <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong style="color:var(--danger)">No — not permissible.</strong> The HIPAA Security Rule mandates protection of ePHI. Acceptance would be unlawful regardless of executive sign-off.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">Delaying patch on an internal cafeteria menu kiosk <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong style="color:var(--success)">Yes — likely permissible.</strong> Low impact, no regulated data, segmented from sensitive networks. Document the decision and review periodically.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">Online banking portal without MFA for customers <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong style="color:var(--danger)">No — not permissible.</strong> FFIEC guidance and state laws require strong authentication for financial access. Acceptance is not a defensible position.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">Known SSRF in a public API for six weeks pending refactor <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong style="color:var(--warning)">Conditional.</strong> Permissible only with compensating controls (WAF rule, monitoring), a hard remediation deadline, and signed acceptance with explicit expiration.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">Unencrypted backups stored on-premises in a locked vault <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong style="color:var(--warning)">Conditional.</strong> Depends on data classification, regulatory scope, and the strength of physical controls. Document the compensating controls explicitly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MODULE 4 ===================== -->
+<section class="module" id="m4">
+  <span class="module-tag">Module 4</span>
+  <span class="duration">20 min</span>
+  <h2>Business Impact Analysis (BIA)</h2>
+  <p>A BIA answers a deceptively simple question: <em>if this system stops working, what happens to the business, and how fast does the pain become unbearable?</em> Without it, recovery becomes guesswork.</p>
+
+  <h3>RTO vs. RPO — A Permanent Source of Confusion</h3>
+  <div class="callout analogy">
+    <div class="label">Analogy: The Time Machine Test</div>
+    <p><strong>RPO</strong> looks <em>backward</em> — how far back can we afford to go? If we back up every 4 hours, RPO is 4 hours. <strong>RTO</strong> looks <em>forward</em> — how long can we be down? RPO is about the past (data); RTO is about the future (downtime).</p>
+  </div>
+
+  <table>
+    <tr><th>System</th><th>Criticality</th><th>RTO</th><th>RPO</th><th>Primary Impact</th></tr>
+    <tr><td>ERP (orders, inventory, finance)</td><td>Critical</td><td>4 hrs</td><td>15 min</td><td>Production halts, revenue loss</td></tr>
+    <tr><td>Corporate email</td><td>High</td><td>8 hrs</td><td>1 hr</td><td>Communication breakdown</td></tr>
+    <tr><td>Manufacturing control (OT)</td><td>Critical (Safety)</td><td>1 hr</td><td>~0</td><td>Physical safety, equipment damage</td></tr>
+    <tr><td>CRM</td><td>High</td><td>12 hrs</td><td>4 hrs</td><td>Sales pipeline disruption</td></tr>
+    <tr><td>Internal wiki</td><td>Moderate</td><td>48 hrs</td><td>24 hrs</td><td>Productivity drag</td></tr>
+  </table>
+
+  <h3>Interactive: BIA Quick Decision Tool</h3>
+  <p>Adjust the sliders to see how different RTO and RPO requirements translate into backup and recovery strategy.</p>
+  <div class="calc-grid">
+    <div class="calc-field">
+      <label>RTO (hours)</label>
+      <input type="range" id="rtoSlider" min="0" max="48" value="4" step="1" oninput="updateBIA()">
+      <div id="rtoValue" style="text-align:center;font-weight:600;color:var(--primary);">4 hours</div>
+    </div>
+    <div class="calc-field">
+      <label>RPO (hours)</label>
+      <input type="range" id="rpoSlider" min="0" max="24" value="1" step="0.25" oninput="updateBIA()">
+      <div id="rpoValue" style="text-align:center;font-weight:600;color:var(--primary);">1 hour</div>
+    </div>
+  </div>
+  <div class="calc-result" id="biaResult">
+    <div class="result-row"><span>Recommended backup frequency</span><span id="backupFreq">Hourly</span></div>
+    <div class="result-row"><span>Recovery architecture</span><span id="recoveryArch">Hot standby</span></div>
+    <div class="result-row"><span>Estimated relative cost</span><span id="relCost">High</span></div>
+    <div class="result-row"><span>Typical system class</span><span id="sysClass">Mission-critical</span></div>
+  </div>
+</section>
+
+<!-- ===================== MODULE 5 ===================== -->
+<section class="module" id="m5">
+  <span class="module-tag">Module 5</span>
+  <span class="duration">20 min</span>
+  <h2>Economics of Security and Optimization</h2>
+  <p>Every dollar spent on security is a dollar not spent on growth, hiring, or innovation. The goal is not <em>maximum</em> security; it is <em>optimal</em> security — the point at which the next dollar of investment produces less than a dollar of risk reduction.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Bank Vault and the Lemonade Stand</div>
+    <p>A bank invests in armed guards and biometric vaults because the protected value justifies it. A child's lemonade stand uses a cigar box. Both are economically rational. A lemonade stand with biometric vaults isn't safer — it is bankrupt.</p>
+  </div>
+
+  <h3>Core Formulas</h3>
+  <table>
+    <tr><th>Term</th><th>Formula</th><th>Meaning</th></tr>
+    <tr><td>Single Loss Expectancy (SLE)</td><td>Asset Value × Exposure Factor</td><td>Expected loss from one incident</td></tr>
+    <tr><td>Annualized Rate of Occurrence (ARO)</td><td>Estimated incidents per year</td><td>Frequency assumption</td></tr>
+    <tr><td>Annualized Loss Expectancy (ALE)</td><td>SLE × ARO</td><td>Expected yearly loss</td></tr>
+    <tr><td>Risk Reduction</td><td>ALE(before) − ALE(after)</td><td>Annual benefit of the control</td></tr>
+    <tr><td>Net Annual Benefit</td><td>Risk Reduction − Control Cost</td><td>Does it pay for itself?</td></tr>
+  </table>
+
+  <h3>Interactive: Security Investment Calculator</h3>
+  <p>Enter the numbers for any proposed control investment and see whether it pays for itself.</p>
+  <div class="calc-grid">
+    <div class="calc-field">
+      <label>Current Annual Loss (ALE)</label>
+      <input type="number" id="aleInput" value="2000000" min="0" step="10000" oninput="updateROI()">
+    </div>
+    <div class="calc-field">
+      <label>Annual Control Cost ($)</label>
+      <input type="number" id="costInput" value="400000" min="0" step="10000" oninput="updateROI()">
+    </div>
+    <div class="calc-field">
+      <label>Expected Risk Reduction (%)</label>
+      <input type="number" id="reductionInput" value="60" min="0" max="100" step="5" oninput="updateROI()">
+    </div>
+  </div>
+  <div class="calc-result">
+    <div class="result-row"><span>Risk reduction (annual $)</span><span id="reductionResult">$1,200,000</span></div>
+    <div class="result-row"><span>Net annual benefit</span><span id="benefitResult">$800,000</span></div>
+    <div class="result-row"><span>ROI</span><span id="roiResult">200%</span></div>
+    <div class="result-row"><span>Verdict</span><span id="verdictResult">✅ Strong investment</span></div>
+  </div>
+
+  <div class="callout">
+    <div class="label">Executive Translation</div>
+    <p><strong>Don't say:</strong> "We need a SIEM because it correlates logs."</p>
+    <p><strong>Say:</strong> "This $400K investment is projected to reduce ransomware exposure by $1.2M annually — a 200% return — while strengthening our position with regulators and cyber insurers."</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 6 ===================== -->
+<section class="module" id="m6">
+  <span class="module-tag">Module 6</span>
+  <span class="duration">30 min</span>
+  <h2>Control Taxonomy and Governance Integration</h2>
+  <p>Every cybersecurity control can be classified along <strong>two independent dimensions</strong>. A control is not one or the other — it is one of each.</p>
+
+  <h3>Dimension 1: Function (What It Does in Time)</h3>
+  <table>
+    <tr><th>Function</th><th>When It Acts</th><th>Example</th></tr>
+    <tr><td><strong>Preventive</strong></td><td>Before the event</td><td>MFA, firewall rules, encryption</td></tr>
+    <tr><td><strong>Detective</strong></td><td>During or after the event</td><td>SIEM, IDS, file integrity monitoring</td></tr>
+    <tr><td><strong>Corrective</strong></td><td>After, to restore</td><td>Backup restoration, patching, IR playbooks</td></tr>
+    <tr><td><strong>Deterrent</strong></td><td>Before, by discouragement</td><td>Warning banners, cameras, published penalties</td></tr>
+    <tr><td><strong>Compensating</strong></td><td>Substitute when primary fails</td><td>Network segmentation for unpatchable systems</td></tr>
+  </table>
+
+  <h3>Dimension 2: Category (How It's Implemented)</h3>
+  <table>
+    <tr><th>Category</th><th>Nature</th><th>Example</th></tr>
+    <tr><td><strong>Administrative</strong></td><td>Policy, procedure, training</td><td>AUP, separation of duties, awareness program</td></tr>
+    <tr><td><strong>Technical (Logical)</strong></td><td>Hardware/software mechanisms</td><td>Firewalls, encryption, EDR, IAM</td></tr>
+    <tr><td><strong>Physical</strong></td><td>Real-world barriers</td><td>Badge access, locked rooms, cameras, guards</td></tr>
+  </table>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: A Hotel Room Lock</div>
+    <p>The key card itself is a <strong>technical</strong> control. The lock on the door is a <strong>physical</strong> control. The hotel's policy that staff cannot share master keys is an <strong>administrative</strong> control. All three together make the room secure. Removing any one weakens the others.</p>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Swiss Cheese Model</div>
+    <p>Every control has holes. Stack enough slices together and the holes rarely line up — but they sometimes do. Defense in depth is not the belief that controls are perfect; it's the recognition that they aren't, and overlap is what saves you when one fails.</p>
+  </div>
+
+  <h3>Interactive: Classify the Control</h3>
+  <p>For each control, select the correct function and category.</p>
+  <div id="controlClassifier"></div>
+  <button class="btn" onclick="checkControls()">Check My Answers</button>
+  <button class="btn secondary" onclick="resetControls()">Reset</button>
+  <div id="controlScore" style="margin-top:1rem;font-weight:600;font-size:1.1rem;color:var(--primary);"></div>
+</section>
+
+<!-- ===================== MODULE 7 ===================== -->
+<section class="module" id="m7">
+  <span class="module-tag">Module 7</span>
+  <span class="duration">15 min</span>
+  <h2>Risk Ownership and Conflict Resolution</h2>
+  <p>Three distinct roles — frequently confused, with serious consequences when they are.</p>
+
+  <table>
+    <tr><th>Role</th><th>Accountable For</th><th>Typical Title</th></tr>
+    <tr><td><strong>Risk Owner</strong></td><td>The business outcome — accepting, funding mitigation, or transferring</td><td>VP, Business Unit Leader, Executive Sponsor</td></tr>
+    <tr><td><strong>Control Owner</strong></td><td>Designing and maintaining a specific control's effectiveness</td><td>CISO, Security Architect, Compliance Lead</td></tr>
+    <tr><td><strong>Custodian (Operator)</strong></td><td>Day-to-day operation and configuration of systems and data</td><td>System Administrator, DBA, Network Engineer</td></tr>
+  </table>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Restaurant</div>
+    <p>The <strong>owner of the restaurant</strong> is accountable for whether the business succeeds (<em>risk owner</em>). The <strong>head chef</strong> is accountable for whether the food is safe and good (<em>control owner</em>). The <strong>line cook</strong> prepares the meals each night (<em>custodian</em>). If the food poisoning lawsuit lands, all three roles matter — but only one signs the settlement check.</p>
+  </div>
+
+  <h3>Scenario: The MFA Dispute</h3>
+  <p>A regulator requires MFA on a customer-facing financial application within 90 days. The Security team has issued the directive. The Business Unit is pushing back on cost and customer experience friction. The CISO does not control the Business Unit's budget. The Business Unit owns the revenue.</p>
+
+  <div class="quiz" data-quiz>
+    <div class="quiz-question">Who is the <strong>risk owner</strong> in this scenario?</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="The CISO is the control owner — accountable for whether MFA is well-designed and effective — but does not own the business outcome or budget.">The CISO</div>
+    <div class="quiz-option" data-answer="correct" data-explain="Correct. The Business Unit leader owns the revenue, customer relationship, and the regulatory consequence. They have the budget authority and the accountability for the business outcome.">The Business Unit leader</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="The system administrator is a custodian — they operate the system but don't own the risk decision.">The system administrator</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="The regulator imposes the requirement but is external; they don't own the risk inside the company.">The regulator</div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Why Ownership Without Authority Fails</div>
+    <p>Assigning risk ownership to someone without budget authority, decision rights, or organizational standing is one of the most common — and most damaging — governance failures. The risk register becomes <em>theater</em>: names appear next to risks, but no one can act.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 8 ===================== -->
+<section class="module" id="m8">
+  <span class="module-tag">Module 8</span>
+  <span class="duration">20 min</span>
+  <h2>Continuous Monitoring and Key Risk Indicators</h2>
+  <p>A risk assessment is a snapshot. The world is a movie. Continuous monitoring is how organizations keep their risk picture honest between formal assessments.</p>
+
+  <h3>KPIs vs. KRIs — Performance vs. Prediction</h3>
+  <div class="callout analogy">
+    <div class="label">Analogy: The Speedometer and the Fuel Gauge</div>
+    <p><strong>KPIs are the speedometer</strong> — they tell you how fast you're going right now. <strong>KRIs are the fuel gauge and the temperature warning light</strong> — they tell you something bad is approaching <em>before</em> it happens. A driver who watches only the speedometer ends up stranded on the shoulder.</p>
+  </div>
+
+  <h3>Live KRI Dashboard</h3>
+  <p>Move the sliders below to simulate changing risk conditions. Each tile changes color when it crosses warning or action thresholds.</p>
+  <div class="kri-dash" id="kriDash">
+    <div class="kri-tile" data-kri="vuln">
+      <h5>Critical Vulns Open &gt;30 Days</h5>
+      <div class="kri-value">0</div>
+      <span class="kri-status green">Green</span>
+      <input type="range" min="0" max="15" value="0" oninput="updateKRI(this, 'vuln', [0,1,5])">
+      <div class="kri-thresholds"><span>0</span><span>1–5</span><span>&gt;5</span></div>
+    </div>
+    <div class="kri-tile" data-kri="phish">
+      <h5>Phishing Click Rate</h5>
+      <div class="kri-value">2%</div>
+      <span class="kri-status green">Green</span>
+      <input type="range" min="0" max="15" value="2" oninput="updateKRI(this, 'phish', [0,3,7], '%')">
+      <div class="kri-thresholds"><span>&lt;3%</span><span>3–7%</span><span>&gt;7%</span></div>
+    </div>
+    <div class="kri-tile" data-kri="edr">
+      <h5>EDR Coverage (%)</h5>
+      <div class="kri-value">99%</div>
+      <span class="kri-status green">Green</span>
+      <input type="range" min="80" max="100" value="99" oninput="updateKRIInverse(this, 'edr', [98,95], '%')">
+      <div class="kri-thresholds"><span>&gt;98%</span><span>95–98%</span><span>&lt;95%</span></div>
+    </div>
+    <div class="kri-tile" data-kri="patch">
+      <h5>Avg Patch Latency (days)</h5>
+      <div class="kri-value">10</div>
+      <span class="kri-status green">Green</span>
+      <input type="range" min="0" max="60" value="10" oninput="updateKRI(this, 'patch', [0,14,30], ' days')">
+      <div class="kri-thresholds"><span>&lt;14</span><span>14–30</span><span>&gt;30</span></div>
+    </div>
+  </div>
+
+  <h3>Anatomy of a Good KRI — The SMART-R Model</h3>
+  <ul>
+    <li><strong>Specific</strong> — measures one thing clearly</li>
+    <li><strong>Measurable</strong> — derived from objective data</li>
+    <li><strong>Actionable</strong> — when it moves, someone knows what to do</li>
+    <li><strong>Relevant</strong> — tied to a meaningful business risk</li>
+    <li><strong>Timely</strong> — reported on a cadence fast enough to enable response</li>
+    <li><strong>Threshold-bound</strong> — defined warning and action levels</li>
+  </ul>
+</section>
+
+<!-- ===================== MODULE 9 ===================== -->
+<section class="module" id="m9">
+  <span class="module-tag">Module 9</span>
+  <span class="duration">15 min</span>
+  <h2>Security Culture and Awareness</h2>
+  <p>Verizon's DBIR consistently finds that the human element is involved in the majority of breaches — through phishing, misdelivery, misconfiguration, or credential misuse. Technology controls can be hardened. People require culture.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Public Health, Not Hospital Equipment</div>
+    <p>You can't make a community healthy by buying better hospital equipment alone. Public health depends on hygiene, vaccination, and behavior — every individual doing small things consistently. Cybersecurity culture is the public health of an organization.</p>
+  </div>
+
+  <h3>Principles of Effective Awareness Programs</h3>
+  <ul>
+    <li><strong>Role-based content</strong> — a developer needs different training than a receptionist</li>
+    <li><strong>Current-event grounding</strong> — anchor lessons to incidents in the news</li>
+    <li><strong>Positive reinforcement</strong> — reward reporting, don't punish honest mistakes</li>
+    <li><strong>Short, frequent, varied</strong> — twelve 10-minute touches beat one 2-hour annual module</li>
+    <li><strong>Measure behavior, not attendance</strong> — completion certificates don't stop phishing</li>
+  </ul>
+
+  <h3>Tailored Awareness by Audience</h3>
+  <div class="accordion">
+    <div class="accordion-item">
+      <div class="accordion-header">Executives <span class="arrow">▶</span></div>
+      <div class="accordion-body"><p><strong>Top risks:</strong> whaling, deepfake voice fraud, travel risk. <strong>Approach:</strong> personalized briefings, mandatory MFA on personal devices, executive protection training.</p></div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">Developers <span class="arrow">▶</span></div>
+      <div class="accordion-body"><p><strong>Top risks:</strong> secrets in code, insecure dependencies, supply chain. <strong>Approach:</strong> secure coding workshops, hands-on labs, code review culture.</p></div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">General Employees <span class="arrow">▶</span></div>
+      <div class="accordion-body"><p><strong>Top risks:</strong> phishing, password reuse, USB hygiene. <strong>Approach:</strong> phishing simulations, microlearning, easy reporting button.</p></div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">Help Desk Staff <span class="arrow">▶</span></div>
+      <div class="accordion-body"><p><strong>Top risks:</strong> social engineering for password resets. <strong>Approach:</strong> scripted verification, callback procedures, escalation playbooks.</p></div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">Remote Workers <span class="arrow">▶</span></div>
+      <div class="accordion-body"><p><strong>Top risks:</strong> home network security, shoulder surfing, lost devices. <strong>Approach:</strong> home security guidance, VPN policy, encrypted devices.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MODULE 10 ===================== -->
+<section class="module" id="m10">
+  <span class="module-tag">Module 10</span>
+  <span class="duration">20 min</span>
+  <h2>Documentation, Registers, and Assurance</h2>
+  <p>After a breach, regulators and plaintiffs ask the same question every time: <em>what did you know, when did you know it, and what did you decide to do about it?</em> An organization that cannot answer — backed by dated documents, signed acceptances, and revision history — is presumed to have been negligent.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Pilot's Logbook</div>
+    <p>An airline pilot does not log every flight because the FAA loves paperwork. They log because the logbook is what proves competence, sequence of events, and decisions made under pressure. When something goes wrong, the logbook is the difference between a routine review and a career-ending inquiry.</p>
+  </div>
+
+  <h3>Interactive: Build a Risk Register Entry</h3>
+  <p>Fill in the fields below to generate a properly-structured risk register entry.</p>
+  <div class="register-form">
+    <div>
+      <label>Risk ID</label>
+      <input type="text" id="regId" value="R-2026-014">
+    </div>
+    <div>
+      <label>Category</label>
+      <select id="regCategory">
+        <option>Application Security</option>
+        <option>Identity &amp; Access</option>
+        <option>Network Security</option>
+        <option>Third Party / Supply Chain</option>
+        <option>Data Protection</option>
+        <option>Operational Resilience</option>
+      </select>
+    </div>
+    <div class="full">
+      <label>Description</label>
+      <input type="text" id="regDesc" value="Customer-facing portal lacks MFA for high-value transactions">
+    </div>
+    <div>
+      <label>Inherent Likelihood</label>
+      <select id="regLikelihood"><option>Low</option><option>Medium</option><option selected>High</option><option>Very High</option></select>
+    </div>
+    <div>
+      <label>Inherent Impact</label>
+      <select id="regImpact"><option>Low</option><option>Medium</option><option>High</option><option selected>Critical</option></select>
+    </div>
+    <div>
+      <label>Risk Owner</label>
+      <input type="text" id="regOwner" value="VP, Digital Banking">
+    </div>
+    <div>
+      <label>Control Owner</label>
+      <input type="text" id="regControlOwner" value="CISO">
+    </div>
+    <div>
+      <label>Treatment Strategy</label>
+      <select id="regTreatment"><option>Avoidance</option><option selected>Mitigation</option><option>Transference</option><option>Acceptance</option></select>
+    </div>
+    <div>
+      <label>Target Closure Date</label>
+      <input type="date" id="regDate" value="2026-09-30">
+    </div>
+  </div>
+  <button class="btn" onclick="generateRegister()">Generate Register Entry</button>
+  <div id="registerOutput"></div>
+</section>
+
+<!-- ===================== MODULE 11 ===================== -->
+<section class="module" id="m11">
+  <span class="module-tag">Module 11</span>
+  <span class="duration">20 min</span>
+  <h2>Executive Communication and the Governance Loop</h2>
+  <p>Risk response is not a project with an end date. It is a continuous loop: identify → assess → treat → monitor → report → refine. Each loop produces lessons that feed the next.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Mechanic and the Driver</div>
+    <p>A mechanic who says, "Your timing belt tensioner is out of spec by 3 millimeters," loses the conversation. A mechanic who says, "If we don't replace this $200 part, you risk a $4,000 engine failure on the highway," gets the work approved. The facts are the same. <em>The translation is the job.</em></p>
+  </div>
+
+  <h3>Translation Examples</h3>
+  <div class="translator">
+    <div class="trans-side">
+      <div class="tag">❌ Technical Phrasing</div>
+      <p>"Firewall upgrade needed."</p>
+    </div>
+    <div class="trans-side exec">
+      <div class="tag">✅ Executive Phrasing</div>
+      <p>"Firewall modernization reduces projected annual ransomware exposure by $1.2M and supports our PCI DSS obligations."</p>
+    </div>
+  </div>
+  <div class="translator">
+    <div class="trans-side">
+      <div class="tag">❌ Technical Phrasing</div>
+      <p>"We need EDR on all endpoints."</p>
+    </div>
+    <div class="trans-side exec">
+      <div class="tag">✅ Executive Phrasing</div>
+      <p>"Endpoint detection coverage gaps account for our longest dwell-time incidents. Closing them shortens our average breach detection from 45 days to under 7."</p>
+    </div>
+  </div>
+  <div class="translator">
+    <div class="trans-side">
+      <div class="tag">❌ Technical Phrasing</div>
+      <p>"Patching SLAs are slipping."</p>
+    </div>
+    <div class="trans-side exec">
+      <div class="tag">✅ Executive Phrasing</div>
+      <p>"Average critical-vulnerability remediation has grown from 14 to 31 days. Our cyber insurer flagged this in renewal — a renewal at risk of a 22% premium increase."</p>
+    </div>
+  </div>
+
+  <h3>What the Board Actually Wants to Know</h3>
+  <ul>
+    <li>Are we taking risks consistent with our stated appetite?</li>
+    <li>How do we compare to peers in our industry?</li>
+    <li>What's the trend — getting better or worse?</li>
+    <li>What single event could materially harm us, and what are we doing about it?</li>
+    <li>Are we compliant with the regulators who can fine, sanction, or remove our license?</li>
+    <li>If a major incident occurred tomorrow, <strong>would we be defensible?</strong></li>
+  </ul>
+</section>
+
+<!-- ===================== MODULE 12 ===================== -->
+<section class="module" id="m12">
+  <span class="module-tag">Module 12 — Capstone</span>
+  <span class="duration">30 min</span>
+  <h2>Enterprise Risk Governance Simulation</h2>
+  <h3>Scenario: MidStream Manufacturing, Inc.</h3>
+  <p>MidStream is a mid-cap industrial firm with $850M revenue, 2,400 employees, three U.S. plants, and customers across automotive and aerospace. In the past 90 days the company has experienced:</p>
+  <ul>
+    <li>A partial ransomware encryption event in corporate IT (OT was unaffected; production paused 36 hours as a precaution)</li>
+    <li>A supply chain compromise notification from a software vendor in their PLM toolchain</li>
+    <li>An open NIST SP 800-171 / CMMC audit driven by DoD prime-contractor flow-down requirements</li>
+    <li>A 12% IT budget cut imposed by the new CFO</li>
+  </ul>
+
+  <h3>Team Roles</h3>
+  <table>
+    <tr><th>Role</th><th>Responsibility</th></tr>
+    <tr><td>CISO</td><td>Leads risk treatment recommendations</td></tr>
+    <tr><td>CFO</td><td>Challenges every dollar; asks for ROI</td></tr>
+    <tr><td>VP of Operations</td><td>Owns production continuity</td></tr>
+    <tr><td>Compliance Officer</td><td>Owns regulatory exposure</td></tr>
+    <tr><td>Risk Committee Chair</td><td>Adjudicates; produces final recommendation</td></tr>
+  </table>
+
+  <h3>Team Tasks</h3>
+  <ol>
+    <li>Identify the top five risks and place on a likelihood × impact matrix</li>
+    <li>Conduct an abbreviated BIA on three critical systems</li>
+    <li>Select a treatment strategy for each top-five risk</li>
+    <li>Assign risk owners, control owners, and custodians</li>
+    <li>Define three executive KRIs with thresholds</li>
+    <li>Draft a one-page executive summary for the Board</li>
+    <li>Present a 5-minute briefing — the rest of the class plays the Board</li>
+  </ol>
+
+  <h3>Evaluation Rubric</h3>
+  <table>
+    <tr><th>Criterion</th><th>Weight</th><th>"Excellent" Looks Like</th></tr>
+    <tr><td>Accuracy of risk identification</td><td>20%</td><td>Names systemic, contagious, and cascading risks where appropriate</td></tr>
+    <tr><td>Quality of treatment rationale</td><td>20%</td><td>Justifies each response with cost, risk reduction, and regulatory context</td></tr>
+    <tr><td>Clarity of ownership assignments</td><td>15%</td><td>Distinguishes risk owner, control owner, custodian</td></tr>
+    <tr><td>Quality of KRIs and thresholds</td><td>15%</td><td>Measurable, actionable, defined warning and action levels</td></tr>
+    <tr><td>Executive communication</td><td>20%</td><td>Business language, financial framing, board-appropriate brevity</td></tr>
+    <tr><td>Teamwork and role fidelity</td><td>10%</td><td>Each role challenged the others productively</td></tr>
+  </table>
+</section>
+
+<!-- ===================== ASSESSMENT ===================== -->
+<section class="module" id="assessment">
+  <span class="module-tag">Final Assessment</span>
+  <h2>Knowledge Check — 10 Questions</h2>
+  <p>Test your mastery of Domain 2 Part 2. Each question gives instant feedback and an explanation.</p>
+  <div id="finalQuiz"></div>
+  <div id="finalScore" style="margin-top:1.5rem;padding:1.5rem;background:var(--primary);color:#fff;border-radius:10px;display:none;text-align:center;">
+    <div style="font-size:0.9rem;text-transform:uppercase;letter-spacing:0.1em;opacity:0.85;">Your Score</div>
+    <div style="font-size:3rem;font-weight:700;margin:0.5rem 0;" id="scoreNum">0 / 10</div>
+    <div id="scoreMessage" style="opacity:0.9;"></div>
+  </div>
+  <button class="btn" onclick="gradeFinal()" style="margin-top:1rem;">Grade My Quiz</button>
+  <button class="btn secondary" onclick="resetFinal()">Reset</button>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>NCyTE CISM Course</strong> · Domain 2, Part 2: Risk Response</p>
+  <p>Interactive lesson by Dr. John Sands · The NCyTE Center is funded by the National Science Foundation grant 2054724.</p>
+  <p>Mind map - https://mapify.so/share-link/7ci8Uj7F9E </p>
+</footer>
+
+<script>
+// ============ NAV ACTIVE STATE + PROGRESS BAR ============
+const sections = document.querySelectorAll('section.module');
+const navLinks = document.querySelectorAll('nav.modules a');
+const progressBar = document.getElementById('progressBar');
+
+function onScroll() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = Math.min(100, (scrollTop / docHeight) * 100) + '%';
+
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 120;
+    if (scrollTop >= top) current = sec.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+// ============ QUIZ (inline data-quiz) ============
+document.querySelectorAll('[data-quiz]').forEach(quiz => {
+  const options = quiz.querySelectorAll('.quiz-option');
+  let explainDiv = document.createElement('div');
+  explainDiv.className = 'quiz-explanation';
+  quiz.appendChild(explainDiv);
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      options.forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      if (opt.dataset.answer === 'correct') opt.classList.add('correct');
+      else opt.classList.add('wrong');
+      explainDiv.textContent = opt.dataset.explain || '';
+      explainDiv.classList.add('show');
+    });
+  });
+});
+
+// ============ ACCORDIONS ============
+document.querySelectorAll('.accordion-header').forEach(h => {
+  h.addEventListener('click', () => {
+    h.parentElement.classList.toggle('open');
+  });
+});
+
+// ============ MATCHER (Module 2) ============
+function checkMatcher(id) {
+  const rows = document.querySelectorAll('#' + id + ' .match-row');
+  let correct = 0, total = 0;
+  rows.forEach(row => {
+    const select = row.querySelector('select');
+    const fb = row.querySelector('.match-feedback');
+    const ans = row.dataset.correct;
+    if (!select.value) {
+      fb.textContent = 'Pick one';
+      fb.className = 'match-feedback';
+      return;
+    }
+    total++;
+    if (select.value === ans) {
+      fb.textContent = '✓ Correct';
+      fb.className = 'match-feedback correct';
+      correct++;
+    } else {
+      fb.textContent = '✗ ' + ans.charAt(0).toUpperCase() + ans.slice(1);
+      fb.className = 'match-feedback wrong';
+    }
+  });
+}
+function resetMatcher(id) {
+  document.querySelectorAll('#' + id + ' .match-row').forEach(row => {
+    row.querySelector('select').value = '';
+    const fb = row.querySelector('.match-feedback');
+    fb.textContent = '';
+    fb.className = 'match-feedback';
+  });
+}
+
+// ============ BIA TOOL (Module 4) ============
+function updateBIA() {
+  const rto = parseFloat(document.getElementById('rtoSlider').value);
+  const rpo = parseFloat(document.getElementById('rpoSlider').value);
+  document.getElementById('rtoValue').textContent = rto + ' hour' + (rto === 1 ? '' : 's');
+  document.getElementById('rpoValue').textContent = (rpo < 1 ? (rpo*60).toFixed(0) + ' minutes' : rpo + ' hour' + (rpo === 1 ? '' : 's'));
+
+  // Backup frequency from RPO
+  let backup;
+  if (rpo <= 0.25) backup = 'Synchronous replication';
+  else if (rpo <= 1) backup = 'Continuous (every ~15 min)';
+  else if (rpo <= 4) backup = 'Hourly';
+  else if (rpo <= 12) backup = 'Every 4 hours';
+  else backup = 'Daily';
+  document.getElementById('backupFreq').textContent = backup;
+
+  // Recovery architecture from RTO
+  let arch;
+  if (rto <= 1) arch = 'Active-active / hot standby';
+  else if (rto <= 4) arch = 'Hot standby';
+  else if (rto <= 12) arch = 'Warm standby';
+  else if (rto <= 24) arch = 'Cold standby';
+  else arch = 'Manual rebuild';
+  document.getElementById('recoveryArch').textContent = arch;
+
+  // Cost & class
+  const score = (rpo <= 0.5 ? 3 : rpo <= 4 ? 2 : 1) + (rto <= 1 ? 3 : rto <= 8 ? 2 : 1);
+  let cost, cls;
+  if (score >= 5) { cost = 'Very High'; cls = 'Mission-critical / Safety'; }
+  else if (score >= 4) { cost = 'High'; cls = 'Mission-critical'; }
+  else if (score >= 3) { cost = 'Moderate'; cls = 'Business-critical'; }
+  else { cost = 'Low'; cls = 'Standard / Support'; }
+  document.getElementById('relCost').textContent = cost;
+  document.getElementById('sysClass').textContent = cls;
+}
+updateBIA();
+
+// ============ ROI CALC (Module 5) ============
+function updateROI() {
+  const ale = parseFloat(document.getElementById('aleInput').value) || 0;
+  const cost = parseFloat(document.getElementById('costInput').value) || 0;
+  const red = parseFloat(document.getElementById('reductionInput').value) || 0;
+  const reduction = ale * (red/100);
+  const benefit = reduction - cost;
+  const roi = cost > 0 ? (benefit / cost) * 100 : 0;
+  const fmt = n => '$' + Math.round(n).toLocaleString();
+  document.getElementById('reductionResult').textContent = fmt(reduction);
+  document.getElementById('benefitResult').textContent = fmt(benefit);
+  document.getElementById('roiResult').textContent = roi.toFixed(0) + '%';
+  let verdict;
+  if (roi >= 100) verdict = '✅ Strong investment';
+  else if (roi >= 20) verdict = '🟢 Justifiable';
+  else if (roi >= 0) verdict = '🟡 Marginal — seek alternatives';
+  else verdict = '❌ Does not pay for itself';
+  document.getElementById('verdictResult').textContent = verdict;
+}
+updateROI();
+
+// ============ CONTROL CLASSIFIER (Module 6) ============
+const controls = [
+  { name: "Multi-Factor Authentication (MFA)", fn: "Preventive", cat: "Technical" },
+  { name: "SIEM platform", fn: "Detective", cat: "Technical" },
+  { name: "Security awareness training", fn: "Preventive", cat: "Administrative" },
+  { name: "Backup restoration procedure", fn: "Corrective", cat: "Administrative" },
+  { name: "Visible surveillance cameras", fn: "Deterrent", cat: "Physical" },
+  { name: "Network segmentation for legacy device", fn: "Compensating", cat: "Technical" },
+  { name: "Locked server room door", fn: "Preventive", cat: "Physical" },
+  { name: "Acceptable Use Policy", fn: "Administrative", cat: "Administrative" }
+];
+const fnOptions = ['Preventive','Detective','Corrective','Deterrent','Compensating','Administrative'];
+const catOptions = ['Administrative','Technical','Physical'];
+
+function buildClassifier() {
+  const c = document.getElementById('controlClassifier');
+  let html = '<table style="margin-top:1rem;"><tr><th>Control</th><th>Function</th><th>Category</th><th></th></tr>';
+  controls.forEach((ctrl, i) => {
+    html += `<tr>
+      <td>${ctrl.name}</td>
+      <td><select class="match-select" data-i="${i}" data-type="fn">
+        <option value="">—</option>
+        ${fnOptions.map(o => `<option>${o}</option>`).join('')}
+      </select></td>
+      <td><select class="match-select" data-i="${i}" data-type="cat">
+        <option value="">—</option>
+        ${catOptions.map(o => `<option>${o}</option>`).join('')}
+      </select></td>
+      <td class="match-feedback" data-i="${i}"></td>
+    </tr>`;
+  });
+  html += '</table>';
+  c.innerHTML = html;
+}
+buildClassifier();
+
+function checkControls() {
+  let score = 0, total = controls.length * 2;
+  controls.forEach((ctrl, i) => {
+    const fnSel = document.querySelector(`select[data-i="${i}"][data-type="fn"]`);
+    const catSel = document.querySelector(`select[data-i="${i}"][data-type="cat"]`);
+    const fb = document.querySelector(`.match-feedback[data-i="${i}"]`);
+    let row = '';
+    if (fnSel.value === ctrl.fn) { score++; fnSel.style.borderColor = 'var(--success)'; row += '✓ '; }
+    else { fnSel.style.borderColor = 'var(--danger)'; row += `✗ (${ctrl.fn}) `; }
+    if (catSel.value === ctrl.cat) { score++; catSel.style.borderColor = 'var(--success)'; row += '✓'; }
+    else { catSel.style.borderColor = 'var(--danger)'; row += `✗ (${ctrl.cat})`; }
+    fb.textContent = row;
+    fb.style.fontSize = '0.8rem';
+  });
+  document.getElementById('controlScore').textContent = `Score: ${score} / ${total}`;
+}
+function resetControls() {
+  document.querySelectorAll('#controlClassifier select').forEach(s => { s.value = ''; s.style.borderColor = ''; });
+  document.querySelectorAll('#controlClassifier .match-feedback').forEach(f => f.textContent = '');
+  document.getElementById('controlScore').textContent = '';
+}
+
+// ============ KRI DASHBOARD (Module 8) ============
+function setKRIColor(tile, status) {
+  const span = tile.querySelector('.kri-status');
+  span.className = 'kri-status ' + status;
+  span.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+  tile.style.borderTopColor = status === 'green' ? 'var(--success)' : status === 'yellow' ? '#D69E2E' : 'var(--danger)';
+}
+function updateKRI(slider, key, thresholds, suffix='') {
+  const v = parseFloat(slider.value);
+  const tile = slider.closest('.kri-tile');
+  tile.querySelector('.kri-value').textContent = v + suffix;
+  let status;
+  if (v <= thresholds[1]) status = 'green';
+  else if (v <= thresholds[2]) status = 'yellow';
+  else status = 'red';
+  setKRIColor(tile, status);
+}
+function updateKRIInverse(slider, key, thresholds, suffix='') {
+  const v = parseFloat(slider.value);
+  const tile = slider.closest('.kri-tile');
+  tile.querySelector('.kri-value').textContent = v + suffix;
+  let status;
+  if (v > thresholds[0]) status = 'green';
+  else if (v >= thresholds[1]) status = 'yellow';
+  else status = 'red';
+  setKRIColor(tile, status);
+}
+
+// ============ RISK REGISTER (Module 10) ============
+function generateRegister() {
+  const fields = [
+    ['Risk ID', document.getElementById('regId').value],
+    ['Description', document.getElementById('regDesc').value],
+    ['Category', document.getElementById('regCategory').value],
+    ['Inherent Likelihood × Impact', document.getElementById('regLikelihood').value + ' × ' + document.getElementById('regImpact').value],
+    ['Risk Owner', document.getElementById('regOwner').value],
+    ['Control Owner', document.getElementById('regControlOwner').value],
+    ['Treatment Strategy', document.getElementById('regTreatment').value],
+    ['Target Closure Date', document.getElementById('regDate').value],
+    ['Current Status', 'In Progress'],
+    ['Last Reviewed', new Date().toISOString().slice(0,10)]
+  ];
+  const out = document.getElementById('registerOutput');
+  out.innerHTML = '<h4 style="color:#fff;margin-top:0;font-style:normal;">📋 Risk Register Entry</h4>' +
+    fields.map(f => `<div class="row"><strong>${f[0]}</strong><span>${f[1] || '—'}</span></div>`).join('');
+  out.style.display = 'block';
+  out.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+// ============ FINAL QUIZ ============
+const finalQs = [
+  {
+    q: "What is the key difference between inherent risk and residual risk?",
+    options: [
+      { t: "Inherent risk includes external threats; residual risk includes only internal ones.", c: false, e: "No — both refer to total risk; the difference is whether controls have been applied." },
+      { t: "Inherent risk is the risk before controls; residual risk is what remains after controls.", c: true, e: "Correct. Controls shrink inherent risk to residual risk, which is never zero." },
+      { t: "Inherent risk is quantitative; residual risk is qualitative.", c: false, e: "No — both can be measured either way. The distinction is about the application of controls." },
+      { t: "Inherent risk requires acceptance; residual risk requires mitigation.", c: false, e: "No — either type can be treated with any of the four responses." }
+    ]
+  },
+  {
+    q: "Cyber insurance is an example of which risk response?",
+    options: [
+      { t: "Mitigation", c: false, e: "Mitigation reduces the likelihood or impact through controls. Insurance does neither." },
+      { t: "Avoidance", c: false, e: "Avoidance eliminates the exposure entirely. Insurance does not change exposure." },
+      { t: "Transference", c: true, e: "Correct. Insurance transfers the financial impact to a third party — but it does not transfer accountability or reputational harm." },
+      { t: "Acceptance", c: false, e: "Acceptance means tolerating the risk with no further action. Insurance is an active response." }
+    ]
+  },
+  {
+    q: "Which of the following is the BEST example of cascading risk?",
+    options: [
+      { t: "Log4j affecting thousands of organizations simultaneously.", c: false, e: "That's systemic risk — a flaw in a shared dependency." },
+      { t: "A vendor's compromised credentials being used to breach Target.", c: false, e: "That's contagious risk — spreading through trust relationships." },
+      { t: "Colonial Pipeline's IT ransomware causing fuel shortages across the East Coast.", c: true, e: "Correct. The original event was contained, but dependencies cascaded into far larger downstream impacts." },
+      { t: "An employee clicking a phishing link and downloading malware.", c: false, e: "That's an initial compromise, not yet a cascading risk." }
+    ]
+  },
+  {
+    q: "RPO refers to:",
+    options: [
+      { t: "How long the business can be down before recovery.", c: false, e: "That's RTO — Recovery Time Objective." },
+      { t: "How much data the business can afford to lose, measured in time.", c: true, e: "Correct. RPO looks backward — how far back can we afford to go?" },
+      { t: "The cost of the recovery process.", c: false, e: "RPO is a time-based measure of data loss tolerance, not cost." },
+      { t: "The total time before the business cannot survive an outage.", c: false, e: "That's MTD — Maximum Tolerable Downtime." }
+    ]
+  },
+  {
+    q: "A control that watches for and reports unauthorized changes to a critical file is BEST classified as:",
+    options: [
+      { t: "Preventive", c: false, e: "Preventive controls stop incidents before they happen. Detection happens during or after." },
+      { t: "Detective", c: true, e: "Correct. File integrity monitoring detects events during or after they occur." },
+      { t: "Corrective", c: false, e: "Corrective controls restore systems after an event. Detection comes first." },
+      { t: "Deterrent", c: false, e: "Deterrent controls discourage attackers through visibility and consequences. FIM detects, it doesn't deter." }
+    ]
+  },
+  {
+    q: "In a CRM system, the VP of Sales is BEST described as the:",
+    options: [
+      { t: "Custodian", c: false, e: "The custodian operates the system day-to-day — typically a DBA or system admin." },
+      { t: "Control Owner", c: false, e: "The control owner is accountable for the effectiveness of specific controls — usually the CISO or security architect." },
+      { t: "Risk Owner", c: true, e: "Correct. The risk owner is accountable for the business outcome — revenue, customer relationships — and has the budget authority to act." },
+      { t: "Data Steward", c: false, e: "Data stewards manage data quality and classification, not the overall risk." }
+    ]
+  },
+  {
+    q: "Which of the following is the BEST example of a Key Risk Indicator (KRI), as opposed to a KPI?",
+    options: [
+      { t: "Percentage of help desk tickets closed within SLA.", c: false, e: "That's a KPI — measuring current performance." },
+      { t: "Number of failed login attempts last week.", c: false, e: "That's a KPI — a backward-looking performance metric." },
+      { t: "Average age of unpatched critical vulnerabilities.", c: true, e: "Correct. KRIs are forward-looking and predict future exposure. Growing patch latency signals rising breach risk." },
+      { t: "Total revenue generated by the security team.", c: false, e: "Security teams generally don't generate revenue directly; this is neither a KRI nor a useful KPI." }
+    ]
+  },
+  {
+    q: "A company decides to ignore a known SQL injection vulnerability in a customer-facing application because patching would cost $50,000. Is formal acceptance legally permissible?",
+    options: [
+      { t: "Yes, as long as the CFO signs off.", c: false, e: "Executive sign-off does not make unlawful risk acceptance lawful. Negligence is still negligence." },
+      { t: "Yes, because cost-benefit analysis justifies it.", c: false, e: "Cost-benefit cannot override legal, regulatory, or fiduciary obligations." },
+      { t: "No — knowingly leaving a known-exploitable flaw in a customer-facing system likely constitutes negligence and may violate regulatory obligations.", c: true, e: "Correct. Some risks cannot be accepted regardless of cost — this is one of them. Acceptance must be supported by compensating controls and a remediation plan." },
+      { t: "Yes, because the vulnerability hasn't been exploited yet.", c: false, e: "Lack of exploitation does not eliminate the duty of care. Once you know, you're accountable." }
+    ]
+  },
+  {
+    q: "Which statement BEST captures the principle of diminishing returns in security investment?",
+    options: [
+      { t: "Every additional control reduces risk by an equal amount.", c: false, e: "The opposite — early investments retire the biggest risks; later ones retire smaller and smaller residuals." },
+      { t: "Each additional dollar of security spending eventually produces less than a dollar of risk reduction.", c: true, e: "Correct. The first $100K typically retires the biggest, easiest risks. The tenth $100K may retire only a sliver." },
+      { t: "Security spending should always grow proportionally to revenue.", c: false, e: "Linear scaling ignores risk profile, threat environment, and diminishing returns." },
+      { t: "Insurance always reduces total cost more than controls.", c: false, e: "Sometimes true, sometimes false — depends on the risk, premium, and control cost." }
+    ]
+  },
+  {
+    q: "When briefing the board on a proposed $400K SIEM investment, which framing is MOST effective?",
+    options: [
+      { t: "\"The SIEM ingests and correlates logs from across the environment, with custom parsers for our key applications.\"", c: false, e: "Technical detail without business framing. Boards don't approve parsers." },
+      { t: "\"Industry best practice recommends SIEM for organizations of our size.\"", c: false, e: "Best-practice appeals are weak without business justification. The board can hear that from any vendor." },
+      { t: "\"This $400K investment is projected to reduce ransomware exposure by $1.2M annually — a 200% return — while strengthening our position with regulators and cyber insurers.\"", c: true, e: "Correct. Financial framing, risk reduction in dollars, and reference to regulatory and insurance posture — all things the board cares about." },
+      { t: "\"If we don't approve this, our security posture will degrade.\"", c: false, e: "Vague and fear-based. Boards expect specifics: what risk, what cost, what alternative." }
+    ]
+  }
+];
+
+function buildFinal() {
+  const c = document.getElementById('finalQuiz');
+  c.innerHTML = finalQs.map((q, qi) => `
+    <div class="quiz" data-qi="${qi}">
+      <div class="quiz-question">Q${qi+1}. ${q.q}</div>
+      ${q.options.map((opt, oi) => `
+        <div class="quiz-option" data-qi="${qi}" data-oi="${oi}" data-correct="${opt.c}" data-explain="${opt.e.replace(/"/g,'&quot;')}">${opt.t}</div>
+      `).join('')}
+      <div class="quiz-explanation"></div>
+    </div>
+  `).join('');
+  c.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const qi = opt.dataset.qi;
+      const quiz = c.querySelector(`.quiz[data-qi="${qi}"]`);
+      quiz.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      opt.classList.add(opt.dataset.correct === 'true' ? 'correct' : 'wrong');
+      const ex = quiz.querySelector('.quiz-explanation');
+      ex.textContent = opt.dataset.explain;
+      ex.classList.add('show');
+    });
+  });
+}
+buildFinal();
+
+function gradeFinal() {
+  let score = 0;
+  finalQs.forEach((q, qi) => {
+    const selected = document.querySelector(`.quiz[data-qi="${qi}"] .quiz-option.selected`);
+    if (selected && selected.dataset.correct === 'true') score++;
+  });
+  document.getElementById('scoreNum').textContent = score + ' / ' + finalQs.length;
+  let msg;
+  if (score === 10) msg = "🏆 Perfect score — exam-ready on Domain 2.2.";
+  else if (score >= 8) msg = "🎯 Strong mastery — review the missed items and you're set.";
+  else if (score >= 6) msg = "📚 Solid foundation — revisit the modules covering missed questions.";
+  else msg = "📖 Re-read the modules and try again — focus on the concepts you missed.";
+  document.getElementById('scoreMessage').textContent = msg;
+  document.getElementById('finalScore').style.display = 'block';
+  document.getElementById('finalScore').scrollIntoView({behavior:'smooth', block:'center'});
+}
+function resetFinal() {
+  document.querySelectorAll('#finalQuiz .quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+  document.querySelectorAll('#finalQuiz .quiz-explanation').forEach(e => { e.classList.remove('show'); e.textContent = ''; });
+  document.getElementById('finalScore').style.display = 'none';
+}
+</script>
+</body>
+</html>
