@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CISM Domain 1, Part 2: Cybersecurity Strategy & Management — Interactive Lesson</title>
+<style>
+  :root {
+    --primary: #1F4E79;
+    --primary-light: #2E75B6;
+    --primary-lighter: #5B9BD5;
+    --accent: #E8A33D;
+    --bg: #F5F7FA;
+    --surface: #FFFFFF;
+    --ink: #1A2332;
+    --ink-soft: #4A5568;
+    --line: #D8E1EA;
+    --success: #2F855A;
+    --warning: #C05621;
+    --danger: #C53030;
+    --shade: #EAF3FB;
+    --shade-2: #F0F6FC;
+    --shadow: 0 2px 8px rgba(31, 78, 121, 0.08);
+    --shadow-lg: 0 6px 24px rgba(31, 78, 121, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Calibri", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    font-size: 16px;
+  }
+
+  /* ============ HEADER ============ */
+  header.site {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+  }
+  header.site .eyebrow {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+  }
+  header.site h1 {
+    margin: 0.25rem 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  header.site .subtitle {
+    font-size: 1.05rem;
+    opacity: 0.92;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  header.site .meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+  }
+  header.site .meta span {
+    background: rgba(255,255,255,0.15);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+
+  /* ============ NAV BAR ============ */
+  nav.modules {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 2px solid var(--primary);
+    box-shadow: var(--shadow);
+    padding: 0.5rem 1rem;
+  }
+  nav.modules .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  nav.modules .brand {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.95rem;
+    padding-right: 0.75rem;
+    border-right: 1px solid var(--line);
+    margin-right: 0.5rem;
+  }
+  nav.modules a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  nav.modules a:hover { background: var(--shade); color: var(--primary); }
+  nav.modules a.active { background: var(--primary); color: #fff; }
+
+  /* ============ PROGRESS BAR ============ */
+  .progress-track {
+    position: sticky;
+    top: 56px;
+    height: 4px;
+    background: var(--line);
+    z-index: 99;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--primary-light));
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+
+  /* ============ MAIN LAYOUT ============ */
+  main {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem;
+  }
+  section.module {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+    scroll-margin-top: 80px;
+  }
+  section.module .module-tag {
+    display: inline-block;
+    background: var(--shade);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+  section.module .duration {
+    display: inline-block;
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+  }
+  h2 { color: var(--primary); font-size: 1.85rem; margin: 0 0 1rem; line-height: 1.3; }
+  h3 { color: var(--primary-light); font-size: 1.3rem; margin: 2rem 0 0.75rem; }
+  h4 { color: var(--primary); font-size: 1.05rem; margin: 1.5rem 0 0.5rem; font-style: italic; }
+  p { margin: 0.75rem 0; }
+  ul, ol { padding-left: 1.5rem; margin: 0.75rem 0; }
+  li { margin: 0.35rem 0; }
+  strong { color: var(--primary); font-weight: 600; }
+
+  /* ============ CALLOUTS ============ */
+  .callout {
+    background: var(--shade);
+    border-left: 5px solid var(--primary-light);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .callout .label {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .callout .label::before { content: "💡"; font-size: 1.1rem; }
+  .callout.analogy { background: #FFF8E1; border-left-color: var(--accent); }
+  .callout.analogy .label { color: #B7791F; }
+  .callout.analogy .label::before { content: "🧭"; }
+  .callout.emphasis { background: #FEE; border-left-color: var(--danger); }
+  .callout.emphasis .label { color: var(--danger); }
+  .callout.emphasis .label::before { content: "⚠️"; }
+
+  /* ============ TABLES ============ */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    background: var(--surface);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    font-size: 0.92rem;
+  }
+  th { background: var(--primary); color: #fff; padding: 0.85rem 1rem; text-align: left; font-weight: 600; }
+  td { padding: 0.75rem 1rem; border-top: 1px solid var(--line); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--shade-2); }
+  tr:hover td { background: var(--shade); }
+
+  /* ============ OBJECTIVES ============ */
+  .objectives {
+    background: linear-gradient(135deg, var(--shade) 0%, var(--shade-2) 100%);
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .objectives ol { list-style: none; counter-reset: obj; padding-left: 0; }
+  .objectives li {
+    counter-increment: obj;
+    padding-left: 2.5rem;
+    position: relative;
+    margin: 0.75rem 0;
+  }
+  .objectives li::before {
+    content: counter(obj);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--primary);
+    color: #fff;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  /* ============ FLIP CARDS ============ */
+  .flip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .flip-card { perspective: 1000px; height: 240px; cursor: pointer; }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .flip-front {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+  }
+  .flip-front .icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .flip-front h4 { color: #fff; margin: 0; font-style: normal; font-size: 1.15rem; }
+  .flip-front .hint { font-size: 0.75rem; opacity: 0.8; margin-top: 0.5rem; }
+  .flip-back {
+    background: var(--surface);
+    color: var(--ink);
+    transform: rotateY(180deg);
+    border: 2px solid var(--primary-light);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .flip-back strong { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; }
+
+  /* ============ MATCHER ============ */
+  .matcher {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .match-row {
+    display: grid;
+    grid-template-columns: 1.5fr auto 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    padding: 0.6rem;
+    background: var(--surface);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+  }
+  .match-scenario { font-size: 0.92rem; }
+  .match-select {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .match-select:focus { outline: none; border-color: var(--primary-light); }
+  .match-feedback { font-size: 0.85rem; font-weight: 600; min-width: 90px; }
+  .match-feedback.correct { color: var(--success); }
+  .match-feedback.wrong { color: var(--danger); }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    margin: 0.25rem;
+  }
+  .btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+  .btn.secondary { background: var(--surface); color: var(--primary); border: 2px solid var(--primary); }
+  .btn.secondary:hover { background: var(--shade); }
+
+  /* ============ QUIZ ============ */
+  .quiz {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .quiz-question { font-weight: 600; margin-bottom: 0.75rem; color: var(--primary); }
+  .quiz-option {
+    display: block;
+    padding: 0.75rem 1rem;
+    margin: 0.4rem 0;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 0.92rem;
+  }
+  .quiz-option:hover { border-color: var(--primary-light); background: var(--shade); }
+  .quiz-option.selected { border-color: var(--primary); background: var(--shade); }
+  .quiz-option.correct { border-color: var(--success); background: #E8F5E9; }
+  .quiz-option.wrong { border-color: var(--danger); background: #FFEBEE; }
+  .quiz-explanation {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border-left: 4px solid var(--primary-light);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+    display: none;
+  }
+  .quiz-explanation.show { display: block; }
+
+  /* ============ ACCORDION ============ */
+  .accordion-item {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 0.6rem 0;
+    overflow: hidden;
+  }
+  .accordion-header {
+    padding: 1rem 1.25rem;
+    background: var(--shade-2);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .accordion-header:hover { background: var(--shade); }
+  .accordion-header .arrow { transition: transform 0.2s; }
+  .accordion-item.open .accordion-header .arrow { transform: rotate(90deg); }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 1.25rem;
+  }
+  .accordion-item.open .accordion-body {
+    max-height: 2500px;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  /* ============ CALC FIELDS ============ */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .calc-field label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+  .calc-field input, .calc-field select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+  .calc-field input:focus, .calc-field select:focus { outline: none; border-color: var(--primary-light); }
+  .calc-result {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 1.25rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+  }
+  .calc-result .result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  .calc-result .result-row:last-child { border-bottom: none; font-weight: 700; font-size: 1.1rem; }
+
+  /* ============ BIAS DECK (Module 1) ============ */
+  .bias-deck {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .bias-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--accent);
+    position: relative;
+  }
+  .bias-card h4 {
+    margin: 0 0 0.5rem;
+    font-style: normal;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .bias-card .bias-icon { font-size: 1.5rem; }
+  .bias-card .bias-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #FFF8E1;
+    color: #B7791F;
+    margin-bottom: 0.5rem;
+  }
+  .bias-card .bias-effect {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    margin: 0.5rem 0;
+  }
+  .bias-card .bias-example {
+    background: var(--shade-2);
+    padding: 0.6rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--ink);
+    margin-top: 0.5rem;
+  }
+  .bias-card .bias-fix {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--line);
+    font-size: 0.82rem;
+  }
+  .bias-card .bias-fix strong { color: var(--success); }
+
+  /* ============ GAP ANALYSIS (Module 2) ============ */
+  .gap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+    align-items: stretch;
+  }
+  .gap-col {
+    padding: 1.25rem;
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: var(--shadow);
+  }
+  .gap-col.current { background: linear-gradient(135deg, var(--ink-soft), #2D3748); }
+  .gap-col.gap { background: linear-gradient(135deg, var(--accent), #D4882B); }
+  .gap-col.desired { background: linear-gradient(135deg, var(--primary), var(--primary-light)); }
+  .gap-col h4 {
+    color: #fff;
+    margin: 0 0 0.5rem;
+    font-style: normal;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .gap-col ul { margin: 0.4rem 0; padding-left: 1.2rem; font-size: 0.85rem; }
+  .gap-col li { margin: 0.3rem 0; }
+  .gap-col .gap-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+  }
+  .gap-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  /* ============ MATURITY LADDER (Module 3) ============ */
+  .maturity-ladder {
+    display: grid;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+  .maturity-rung {
+    background: var(--surface);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 5px solid var(--line);
+  }
+  .maturity-rung:hover { transform: translateX(4px); box-shadow: var(--shadow-lg); }
+  .maturity-rung.active { border-left-color: var(--accent); background: var(--shade); }
+  .maturity-rung .rung-level {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    border-radius: 8px;
+    padding: 0.5rem;
+    text-align: center;
+    font-weight: 700;
+  }
+  .maturity-rung .rung-level .num { font-size: 1.6rem; line-height: 1; }
+  .maturity-rung .rung-level .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .maturity-rung .rung-name { font-size: 1.05rem; font-weight: 700; color: var(--primary); }
+  .maturity-rung .rung-desc { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.2rem; }
+  .maturity-rung .rung-icon { font-size: 1.6rem; }
+  .maturity-detail {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+    min-height: 140px;
+  }
+  .maturity-detail h4 { margin-top: 0; color: var(--primary); font-style: normal; }
+
+  /* ============ CENTRAL VS DECENTRAL (Module 4) ============ */
+  .struct-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .struct-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+  }
+  .struct-card.central { border-top-color: var(--primary); }
+  .struct-card.decentral { border-top-color: var(--accent); }
+  .struct-card h4 {
+    margin: 0 0 0.75rem;
+    font-style: normal;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.15rem;
+  }
+  .struct-card .pros, .struct-card .cons {
+    background: var(--shade-2);
+    padding: 0.85rem 1rem;
+    border-radius: 6px;
+    margin: 0.5rem 0;
+    font-size: 0.88rem;
+  }
+  .struct-card .pros { border-left: 3px solid var(--success); }
+  .struct-card .cons { border-left: 3px solid var(--danger); }
+  .struct-card .pros strong, .struct-card .cons strong { display: block; margin-bottom: 0.3rem; }
+  .struct-card .pros strong { color: var(--success); }
+  .struct-card .cons strong { color: var(--danger); }
+  .struct-card ul { margin: 0.2rem 0; padding-left: 1.2rem; }
+  .struct-card li { font-size: 0.85rem; }
+
+  /* ============ INSURANCE CARDS (Module 5) ============ */
+  .insurance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .insurance-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+  }
+  .insurance-card h4 {
+    margin: 0 0 0.4rem;
+    font-style: normal;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .insurance-card .ins-icon { font-size: 1.5rem; }
+  .insurance-card p { font-size: 0.88rem; margin: 0.5rem 0 0; color: var(--ink-soft); }
+  .insurance-card .ins-cover {
+    background: var(--shade-2);
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    margin-top: 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  /* ============ SWOT (Module 6) ============ */
+  .swot-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+  .swot-cell {
+    padding: 1.25rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    min-height: 160px;
+  }
+  .swot-cell h4 {
+    margin: 0 0 0.5rem;
+    font-style: normal;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .swot-cell.S { background: linear-gradient(135deg, #E8F5E9, #C6F6D5); }
+  .swot-cell.S h4 { color: #22543D; }
+  .swot-cell.W { background: linear-gradient(135deg, #FFEBEE, #FED7D7); }
+  .swot-cell.W h4 { color: #742A2A; }
+  .swot-cell.O { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); }
+  .swot-cell.O h4 { color: var(--primary); }
+  .swot-cell.T { background: linear-gradient(135deg, #FEF3CD, #FDE68A); }
+  .swot-cell.T h4 { color: #744210; }
+  .swot-cell textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-family: inherit;
+    background: rgba(255,255,255,0.7);
+    resize: vertical;
+    min-height: 80px;
+  }
+  .swot-cell textarea:focus { outline: none; border-color: var(--primary-light); }
+
+  /* ============ METRICS DASH (Module 6) ============ */
+  .metrics-dash {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .metric-tile {
+    background: var(--surface);
+    padding: 1.25rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+  }
+  .metric-tile h5 {
+    margin: 0 0 0.4rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .metric-tile .metric-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+  .metric-tag.kgi { background: #DBEAFE; color: var(--primary); }
+  .metric-tag.kpi { background: #C6F6D5; color: #22543D; }
+  .metric-tag.csf { background: #FEEBC8; color: #7B341E; }
+  .metric-tile .metric-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0.25rem 0;
+  }
+  .metric-tile .metric-label { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.3rem; }
+  .metric-tile input[type="range"] { width: 100%; margin-top: 0.5rem; accent-color: var(--primary-light); }
+
+  /* ============ OPTIMAL MATURITY GRAPH (Module 7) ============ */
+  .optimum-tool {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+  }
+  .optimum-graph {
+    position: relative;
+    height: 280px;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.5rem 1rem 2rem;
+    box-shadow: var(--shadow);
+  }
+  .optimum-axis-y {
+    position: absolute;
+    left: 0.6rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: left center;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .optimum-axis-x {
+    position: absolute;
+    bottom: 0.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .optimum-svg { width: 100%; height: 100%; }
+  .optimum-readout {
+    text-align: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--surface);
+    border-radius: 8px;
+    font-weight: 600;
+  }
+  .optimum-readout .readout-value {
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+  }
+  .optimum-readout .readout-detail { font-size: 0.88rem; color: var(--ink-soft); font-weight: normal; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.85rem;
+  }
+  footer a { color: #FFE082; text-decoration: none; font-weight: 600; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 768px) {
+    section.module { padding: 1.5rem; }
+    h2 { font-size: 1.5rem; }
+    header.site h1 { font-size: 1.7rem; }
+    .match-row, .struct-grid, .swot-grid { grid-template-columns: 1fr; }
+    .gap-grid { grid-template-columns: 1fr; }
+    .gap-arrow { transform: rotate(90deg); }
+    .maturity-rung { grid-template-columns: 60px 1fr; }
+    .maturity-rung .rung-icon { display: none; }
+    nav.modules .brand { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="eyebrow">NCyTE CISM Course</div>
+  <h1>Domain 1, Part 2: Cybersecurity Strategy &amp; Management</h1>
+  <div class="subtitle">Interactive Lesson — Evidence-Based Leadership, Maturity, and Strategic Execution</div>
+  <div class="meta">
+    <span>📚 Intermediate–Advanced</span>
+    <span>⏱ 6–8 instructional hours</span>
+    <span>🎓 7 Modules + Capstone</span>
+  </div>
+</header>
+
+<nav class="modules" id="topNav">
+  <div class="inner">
+    <span class="brand">CISM 1.2</span>
+    <a href="#overview">Overview</a>
+    <a href="#m1">1 · Biases</a>
+    <a href="#m2">2 · Gap Analysis</a>
+    <a href="#m3">3 · Frameworks</a>
+    <a href="#m4">4 · Planning</a>
+    <a href="#m5">5 · Assurance</a>
+    <a href="#m6">6 · Metrics</a>
+    <a href="#m7">7 · Leadership</a>
+    <a href="#capstone">Capstone</a>
+    <a href="#assessment">Quiz</a>
+  </div>
+</nav>
+<div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+
+<main>
+
+<!-- ===================== OVERVIEW ===================== -->
+<section class="module" id="overview">
+  <span class="module-tag">Lesson Overview</span>
+  <h2>Strategy Is the Work That Makes Governance Real</h2>
+  <p>Domain 1 Part 1 established <em>what</em> governance is — direction, oversight, accountability, alignment. Part 2 covers <em>how</em> a security leader turns those abstract responsibilities into a concrete program: assessing where the organization is, deciding where it should be, choosing the framework to guide the journey, allocating the resources, measuring the progress, and reporting it in language the executive team understands.</p>
+  <p>This lesson focuses on the strategic management side of cybersecurity leadership. It opens with an uncomfortable truth — security decisions are made by humans, and humans are reliably biased — and ends with the executive presentation skills required to defend a strategy in the boardroom.</p>
+
+  <div class="callout analogy">
+    <div class="label">Anchoring Analogy: The Coach, Not the Player</div>
+    <p>A great athletic coach rarely sets foot on the field during a game. They study film, identify weaknesses, design plays, assess talent, build the playbook, and translate the team's situation into strategy. <strong>Security management is coaching, not playing.</strong> The CISO who tries to personally configure every firewall is a player-coach who eventually exhausts both jobs. The strategic leader builds the team, sets the plays, and watches the game from where the whole field is visible.</p>
+  </div>
+
+  <h3>Learning Objectives</h3>
+  <div class="objectives">
+    <ol>
+      <li>Identify cognitive biases that affect cybersecurity decision-making.</li>
+      <li>Conduct current-state and desired-state security assessments.</li>
+      <li>Perform gap analysis activities that translate into actionable roadmaps.</li>
+      <li>Compare major governance frameworks and maturity models.</li>
+      <li>Develop cybersecurity strategic roadmaps aligned to business objectives.</li>
+      <li>Analyze centralized versus decentralized security structures.</li>
+      <li>Explain assurance and audit functions and their independence requirements.</li>
+      <li>Evaluate outsourcing risks and the contractual controls that manage them.</li>
+      <li>Develop meaningful cybersecurity metrics — KPIs, KGIs, CSFs — and reporting structures.</li>
+      <li>Align cybersecurity strategy with enterprise business objectives in executive language.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== MODULE 1 ===================== -->
+<section class="module" id="m1">
+  <span class="module-tag">Module 1</span>
+  <span class="duration">60 min</span>
+  <h2>Cognitive Biases &amp; Decision Risks</h2>
+  <p>Security leaders make decisions about probability, scarcity, and consequence — exactly the categories where the human brain is most reliably wrong. Decades of behavioral economics research, much of it Nobel-Prize-winning, has identified specific cognitive biases that distort decisions. Recognizing them is the first defense against them.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Optical Illusions for the Mind</div>
+    <p>An optical illusion fools the eye even after you've been told it's an illusion. Cognitive biases work the same way for the mind — knowing about them does not make them disappear. The defense is not <em>willpower</em>; it is <em>process</em>. Structured dissent, decision journals, pre-mortems, and red-teaming exist because individual willpower is insufficient. <strong>Build the process; trust it more than the gut.</strong></p>
+  </div>
+
+  <h3>Five Biases That Wreck Security Decisions</h3>
+  <div class="bias-deck">
+    <div class="bias-card">
+      <h4><span class="bias-icon">🎯</span>Overconfidence &amp; Optimism</h4>
+      <span class="bias-tag">Bias #1</span>
+      <p class="bias-effect">Leads to underestimating threats, ignoring complexity, and underfunding controls.</p>
+      <div class="bias-example">"We've never been breached, so our current controls must be adequate." — said by a hundred organizations the year before they were breached.</div>
+      <div class="bias-fix"><strong>Counter:</strong> Pre-mortems. Before a project starts, imagine it has already failed and ask <em>why</em>. Run the question through people outside the project team.</div>
+    </div>
+    <div class="bias-card">
+      <h4><span class="bias-icon">⚓</span>Anchoring</h4>
+      <span class="bias-tag">Bias #2</span>
+      <p class="bias-effect">Early numbers distort all subsequent estimates. The first budget figure proposed becomes the gravity well that pulls every later estimate toward itself.</p>
+      <div class="bias-example">A vendor quotes "$200K" early in a conversation. Six months later, the team is debating $180K vs. $250K — having forgotten the project might actually cost $600K.</div>
+      <div class="bias-fix"><strong>Counter:</strong> Develop estimates independently before sharing. Ask multiple sources to estimate in isolation.</div>
+    </div>
+    <div class="bias-card">
+      <h4><span class="bias-icon">🪑</span>Status Quo</h4>
+      <span class="bias-tag">Bias #3</span>
+      <p class="bias-effect">Organizations retain legacy systems, weak controls, and outdated architectures because change is uncomfortable — even when change is clearly the better path.</p>
+      <div class="bias-example">A company keeps running a 12-year-old VPN appliance with known vulnerabilities because "we've always used it and it still works." The day before the breach, that's true.</div>
+      <div class="bias-fix"><strong>Counter:</strong> Re-justify the status quo every cycle. Ask: <em>"If we were starting fresh today, would we choose this?"</em></div>
+    </div>
+    <div class="bias-card">
+      <h4><span class="bias-icon">💼</span>Mental Accounting</h4>
+      <span class="bias-tag">Bias #4</span>
+      <p class="bias-effect">Budget silos prevent organizations from making the cross-functional investments that would produce the biggest risk reduction.</p>
+      <div class="bias-example">$100K of new firewall licenses get approved instantly; $40K of awareness training that would prevent more incidents languishes because it's "HR's budget."</div>
+      <div class="bias-fix"><strong>Counter:</strong> Enterprise risk view. Evaluate security investments against risk reduction across the whole organization, not within each department's pot.</div>
+    </div>
+    <div class="bias-card">
+      <h4><span class="bias-icon">🐑</span>Social Pressure &amp; Herding</h4>
+      <span class="bias-tag">Bias #5</span>
+      <p class="bias-effect">Organizations adopt trend-driven solutions, popular technologies, and peer-based decisions without validating strategic alignment to their own business.</p>
+      <div class="bias-example">"Gartner says everyone is moving to SASE." So we move to SASE — without first asking whether our actual risk profile justified it.</div>
+      <div class="bias-fix"><strong>Counter:</strong> Strategic alignment test. Every adoption decision must answer: <em>"What specific business problem does this solve for us?"</em> If the answer is "everyone else is doing it," the answer is no.</div>
+    </div>
+  </div>
+
+  <h3>Activity: Identify the Bias</h3>
+  <p>For each scenario, identify which bias is most clearly at work.</p>
+  <div class="matcher" id="biasMatcher">
+    <div class="match-row" data-correct="anchoring">
+      <div class="match-scenario">"The initial proposal said the SIEM would cost $400K. We're debating $380K vs $450K now — but the actual full-cost-of-ownership is closer to $1.1M annually."</div>
+      <select class="match-select">
+        <option value="">Select bias…</option>
+        <option value="overconfidence">Overconfidence</option>
+        <option value="anchoring">Anchoring</option>
+        <option value="statusquo">Status Quo</option>
+        <option value="mental">Mental Accounting</option>
+        <option value="herding">Social Pressure / Herding</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="herding">
+      <div class="match-scenario">"All our competitors are adopting Zero Trust this year. We should too — let's launch the program."</div>
+      <select class="match-select">
+        <option value="">Select bias…</option>
+        <option value="overconfidence">Overconfidence</option>
+        <option value="anchoring">Anchoring</option>
+        <option value="statusquo">Status Quo</option>
+        <option value="mental">Mental Accounting</option>
+        <option value="herding">Social Pressure / Herding</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="statusquo">
+      <div class="match-scenario">"Yes, the legacy authentication server has known vulnerabilities — but it's been running for 8 years and we know how it works. Let's keep it."</div>
+      <select class="match-select">
+        <option value="">Select bias…</option>
+        <option value="overconfidence">Overconfidence</option>
+        <option value="anchoring">Anchoring</option>
+        <option value="statusquo">Status Quo</option>
+        <option value="mental">Mental Accounting</option>
+        <option value="herding">Social Pressure / Herding</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="overconfidence">
+      <div class="match-scenario">"We haven't been breached in five years — that's evidence our program is working. We don't need to increase the budget."</div>
+      <select class="match-select">
+        <option value="">Select bias…</option>
+        <option value="overconfidence">Overconfidence</option>
+        <option value="anchoring">Anchoring</option>
+        <option value="statusquo">Status Quo</option>
+        <option value="mental">Mental Accounting</option>
+        <option value="herding">Social Pressure / Herding</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="mental">
+      <div class="match-scenario">"We can't fund security awareness training — that comes out of HR's budget, not security's. It's not our line item."</div>
+      <select class="match-select">
+        <option value="">Select bias…</option>
+        <option value="overconfidence">Overconfidence</option>
+        <option value="anchoring">Anchoring</option>
+        <option value="statusquo">Status Quo</option>
+        <option value="mental">Mental Accounting</option>
+        <option value="herding">Social Pressure / Herding</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <button class="btn" onclick="checkMatcher('biasMatcher')">Check Answers</button>
+    <button class="btn secondary" onclick="resetMatcher('biasMatcher')">Reset</button>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Why This Matters for CISM</div>
+    <p>Security leadership requires <strong>evidence-based planning, structured dissent, and continuous reassessment</strong>. The bias-prone leader fails not because they're unskilled but because their <em>process</em> doesn't account for human limitations. The exam — and the job — rewards leaders who institutionalize healthy skepticism.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 2 ===================== -->
+<section class="module" id="m2">
+  <span class="module-tag">Module 2</span>
+  <span class="duration">60 min</span>
+  <h2>Current State, Desired State &amp; Gap Analysis</h2>
+  <p>Strategy is, at its core, a sentence with three parts: <em>"We are here. We want to be there. Here is how we get from one to the other."</em> Gap analysis is the discipline of making each part of that sentence concrete enough to act on.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Trip Planner</div>
+    <p>You can't plan a road trip without knowing two things: <strong>where you are</strong> (your starting location) and <strong>where you want to go</strong> (your destination). The difference between them — the route, the miles, the fuel stops, the time — is the gap. A security strategy without a clear current state is GPS without a starting location. A security strategy without a desired state is a car with a full tank but no destination. <strong>Strategy lives in the gap.</strong></p>
+  </div>
+
+  <h3>The Three Halves of Strategic Planning</h3>
+  <div class="gap-grid">
+    <div class="gap-col current">
+      <span class="gap-tag">Where We Are</span>
+      <h4>📍 Current State</h4>
+      <ul>
+        <li>Asset inventory</li>
+        <li>Existing controls catalog</li>
+        <li>Current vulnerabilities</li>
+        <li>Observed threat exposure</li>
+        <li>Operational maturity</li>
+        <li>Team skills and gaps</li>
+      </ul>
+    </div>
+    <div class="gap-col gap">
+      <span class="gap-tag">The Distance</span>
+      <h4>⚡ Gap Analysis</h4>
+      <ul>
+        <li>Identifies specific deficiencies</li>
+        <li>Each gap = a project</li>
+        <li>Prioritized by risk reduction</li>
+        <li>Sized for budget and effort</li>
+        <li>Sequenced into roadmap</li>
+        <li>Tracked to closure</li>
+      </ul>
+    </div>
+    <div class="gap-col desired">
+      <span class="gap-tag">Where We're Going</span>
+      <h4>🎯 Desired State</h4>
+      <ul>
+        <li>Measurable</li>
+        <li>Comprehensive</li>
+        <li>Future-oriented (1–3 years)</li>
+        <li>Governance-aligned</li>
+        <li>Tied to business objectives</li>
+        <li>Resource-realistic</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>What Makes a Desired State Useful</h3>
+  <p>Desired states get described in vague language all the time: <em>"world-class security,"</em> <em>"best-in-class controls,"</em> <em>"industry-leading posture."</em> None of these are usable. A useful desired state is:</p>
+  <ul>
+    <li><strong>Measurable</strong> — "Achieve CMMI Level 3 across access management" not "improve access management"</li>
+    <li><strong>Time-bound</strong> — "Within 18 months" not "eventually"</li>
+    <li><strong>Resource-realistic</strong> — backed by a credible cost estimate, not aspirational</li>
+    <li><strong>Business-aligned</strong> — tied to a specific business objective the desired state supports</li>
+  </ul>
+
+  <h3>Interactive Gap Analysis Workshop</h3>
+  <p>A financial institution is transitioning to hybrid cloud infrastructure. Click each area below to expand a sample current state, desired state, and the resulting gap.</p>
+
+  <div class="accordion">
+    <div class="accordion-item">
+      <div class="accordion-header">🔐 Identity &amp; Access Management <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong>Current state:</strong> On-premises Active Directory with limited MFA coverage (~40% of users), shared service accounts, quarterly access reviews that are largely rubber-stamped.</p>
+        <p><strong>Desired state:</strong> Cloud-federated identity with MFA on 100% of human accounts, zero shared service accounts (replaced with managed identities), automated quarterly access certification.</p>
+        <p><strong>Gap:</strong> Federation architecture, MFA rollout to remaining 60%, service account audit and migration, access review automation. Estimated 9 months and $480K.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">📊 Logging &amp; Monitoring <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong>Current state:</strong> On-premises SIEM with 90-day retention, no cloud workload coverage, average MTTD of 18 days.</p>
+        <p><strong>Desired state:</strong> Unified SIEM with on-prem and cloud sources, 1-year retention, MTTD under 4 hours for critical detections.</p>
+        <p><strong>Gap:</strong> Cloud log ingestion architecture, detection content for cloud-specific TTPs, SOAR for automated triage, retention storage expansion. Estimated 12 months and $620K.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">🏛️ Governance &amp; Policy <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong>Current state:</strong> Policy framework written for on-premises environment, last reviewed 3 years ago. No cloud-specific procedures.</p>
+        <p><strong>Desired state:</strong> Modernized policy suite covering hybrid environment, annual review cycle, documented cloud security baselines (CIS benchmarks).</p>
+        <p><strong>Gap:</strong> Policy rewrite, cloud security standards development, governance committee charter update. Estimated 6 months and $120K internal effort.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">👥 Workforce &amp; Skills <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong>Current state:</strong> 8-person security team trained on legacy tools. Three positions vacant. No cloud-certified staff.</p>
+        <p><strong>Desired state:</strong> 12-person team with at least 4 cloud-certified specialists (AWS/Azure security). Defined career ladder. Cross-training across domains.</p>
+        <p><strong>Gap:</strong> Fill vacancies (3), hire/promote cloud specialists (4), certification budget, training program. Estimated 12 months and $900K annualized cost.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">A Strategy Without Measurable Outcomes Cannot Be Validated</div>
+    <p>If you cannot tell — at the end of the year — whether the strategy succeeded, the strategy was prose, not planning. Every gap closure must have a measurable outcome attached: a metric that moves, a certification achieved, a maturity level reached, a finding count reduced. <strong>"We improved security" is not validation. It's marketing.</strong></p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 3 ===================== -->
+<section class="module" id="m3">
+  <span class="module-tag">Module 3</span>
+  <span class="duration">75 min</span>
+  <h2>Frameworks &amp; Maturity Models</h2>
+  <p>Frameworks exist because no organization should have to invent governance from scratch. They are accumulated wisdom — refined over decades by thousands of practitioners — packaged into usable structures. The skill is not in memorizing them; it is in choosing the right one for the situation and adapting it intelligently.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Recipes vs. Cooking</div>
+    <p>A recipe tells you how to make a specific dish. A cookbook gives you many recipes. <em>Cooking</em> is the skill of choosing recipes wisely, adapting them to ingredients on hand, and knowing when to deviate. <strong>Frameworks are recipes. Governance is cooking.</strong> The leader who follows the recipe rigidly without understanding why each step exists produces something edible but rarely excellent. The leader who ignores recipes entirely and relies on intuition burns the kitchen down.</p>
+  </div>
+
+  <h3>The Four Frameworks Every CISM Should Know</h3>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🏛️</div>
+          <h4>COBIT</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Governance &amp; management framework</strong>
+          ISACA's enterprise governance framework. Explicitly separates <em>governance</em> (direction, oversight) from <em>management</em> (planning, building, running, monitoring). Business-driven, enterprise-aligned. The CISM exam's home territory.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">⚖️</div>
+          <h4>BMIS</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Business Model for Information Security</strong>
+          Four elements in dynamic equilibrium: <em>Organization, People, Process, Technology</em>. Change in any one element creates tension that must be rebalanced across the others. Systems-thinking applied to security.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">📊</div>
+          <h4>Balanced Scorecard</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Multi-dimensional performance view</strong>
+          Four perspectives: <em>Financial, Customer, Internal Process, Learning &amp; Growth</em>. Translates strategy into measurable objectives across all four. Prevents the trap of optimizing one dimension while neglecting the others.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">📈</div>
+          <h4>CMMI</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Capability Maturity Model Integration</strong>
+          Five-level model of process maturity from chaotic (Level 1) to continuously improving (Level 5). Originally for software, now applied across security, IT, and business processes. The standard vocabulary for "how mature is this?"
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>The Five CMMI Maturity Levels</h3>
+  <p>Click each level to see what it looks like in practice.</p>
+  <div class="maturity-ladder">
+    <div class="maturity-rung" data-level="1" onclick="showMaturity(1)">
+      <div class="rung-level">
+        <div class="num">1</div>
+        <div class="label">Initial</div>
+      </div>
+      <div>
+        <div class="rung-name">🌀 Initial — Chaotic, ad-hoc</div>
+        <div class="rung-desc">Processes are unpredictable, poorly controlled, and reactive. Success depends on heroes.</div>
+      </div>
+      <div class="rung-icon">🔥</div>
+    </div>
+    <div class="maturity-rung" data-level="2" onclick="showMaturity(2)">
+      <div class="rung-level">
+        <div class="num">2</div>
+        <div class="label">Repeatable</div>
+      </div>
+      <div>
+        <div class="rung-name">📋 Repeatable — Managed at project level</div>
+        <div class="rung-desc">Basic processes exist and are repeated within projects, but not consistent across the organization.</div>
+      </div>
+      <div class="rung-icon">📋</div>
+    </div>
+    <div class="maturity-rung" data-level="3" onclick="showMaturity(3)">
+      <div class="rung-level">
+        <div class="num">3</div>
+        <div class="label">Defined</div>
+      </div>
+      <div>
+        <div class="rung-name">📐 Defined — Standardized organization-wide</div>
+        <div class="rung-desc">Processes are documented, standardized, and integrated. The organization has a consistent way of working.</div>
+      </div>
+      <div class="rung-icon">📐</div>
+    </div>
+    <div class="maturity-rung" data-level="4" onclick="showMaturity(4)">
+      <div class="rung-level">
+        <div class="num">4</div>
+        <div class="label">Managed</div>
+      </div>
+      <div>
+        <div class="rung-name">📊 Managed — Measured quantitatively</div>
+        <div class="rung-desc">Processes are measured with statistical rigor. Performance is predictable; variation is understood.</div>
+      </div>
+      <div class="rung-icon">📊</div>
+    </div>
+    <div class="maturity-rung" data-level="5" onclick="showMaturity(5)">
+      <div class="rung-level">
+        <div class="num">5</div>
+        <div class="label">Optimizing</div>
+      </div>
+      <div>
+        <div class="rung-name">🔁 Optimizing — Continuous improvement</div>
+        <div class="rung-desc">The organization continuously improves processes using quantitative feedback. Innovation is built in.</div>
+      </div>
+      <div class="rung-icon">♾️</div>
+    </div>
+  </div>
+  <div class="maturity-detail" id="maturityDetail"></div>
+
+  <div class="callout emphasis">
+    <div class="label">Level 5 Is Not Always the Goal</div>
+    <p>A common mistake: assuming Level 5 maturity is always the target. <strong>It isn't.</strong> Maturity costs money. A community bookstore probably needs Level 2 access management — predictable enough to work, cheap enough to maintain. A defense contractor handling classified data needs Level 4 or 5. <strong>Optimal maturity equals the level where the marginal cost of additional maturity exceeds the marginal risk reduction.</strong> Beyond that point, you're spending money that produces nothing.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 4 ===================== -->
+<section class="module" id="m4">
+  <span class="module-tag">Module 4</span>
+  <span class="duration">75 min</span>
+  <h2>Strategic Planning &amp; Implementation</h2>
+  <p>A strategy is a piece of paper until someone owns the implementation. The roadmap is where strategic intent meets organizational reality: budgets, staffing, regulatory deadlines, competing priorities, and the human capacity for change.</p>
+
+  <h3>What a Strategic Roadmap Actually Contains</h3>
+  <table>
+    <tr><th>Element</th><th>What It Looks Like</th></tr>
+    <tr><td><strong>Short-term projects (0–6 months)</strong></td><td>Quick wins, regulatory deadlines, foundational fixes — visible early progress</td></tr>
+    <tr><td><strong>Long-term initiatives (12–36 months)</strong></td><td>Architecture changes, cultural shifts, capability development — sustained transformation</td></tr>
+    <tr><td><strong>Milestones</strong></td><td>Named, dated, measurable checkpoints that make progress visible to executives</td></tr>
+    <tr><td><strong>Resource constraints</strong></td><td>Budget, staff, vendor capacity, executive attention — what limits the pace</td></tr>
+    <tr><td><strong>Regulatory drivers</strong></td><td>Hard deadlines from external authorities that override internal priority preferences</td></tr>
+    <tr><td><strong>Dependencies</strong></td><td>What must happen first; which initiatives unblock others</td></tr>
+    <tr><td><strong>Owners</strong></td><td>Named accountable executives, not departments or teams</td></tr>
+  </table>
+
+  <h3>Workforce &amp; Personnel Security</h3>
+  <p>The strategic plan that ignores people is a project plan, not a strategy. People are simultaneously the largest attack surface, the largest defensive capability, and the constraint that bounds what the program can actually do.</p>
+  <ul>
+    <li><strong>Insider threat mitigation</strong> — separation of duties, least privilege, monitoring, exit procedures</li>
+    <li><strong>Skills inventory</strong> — what capabilities exist on the team today, and where are the gaps?</li>
+    <li><strong>Build vs. buy</strong> — develop talent internally, hire externally, or contract specialty work (MDR, forensics, GRC)</li>
+    <li><strong>Mandatory awareness training</strong> — annual minimum; role-based for technical staff and executives</li>
+    <li><strong>Career paths</strong> — defined ladders that retain talent; without them, top performers leave</li>
+  </ul>
+
+  <h3>Centralized vs. Decentralized Security</h3>
+  <p>There is no universally correct answer. The right structure depends on the organization's culture, complexity, geography, and risk profile.</p>
+
+  <div class="struct-grid">
+    <div class="struct-card central">
+      <h4>🏢 Centralized Model</h4>
+      <p>Single security organization sets policy, owns tooling, and runs operations enterprise-wide.</p>
+      <div class="pros">
+        <strong>✓ Advantages</strong>
+        <ul>
+          <li>Consistency — same controls everywhere</li>
+          <li>Standardization — single playbook</li>
+          <li>Efficiency — no duplicate tooling</li>
+          <li>Stronger executive voice</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>✗ Disadvantages</strong>
+        <ul>
+          <li>Slower local responsiveness</li>
+          <li>One-size-fits-all friction</li>
+          <li>Regional blind spots</li>
+          <li>Bottleneck risk during incidents</li>
+        </ul>
+      </div>
+    </div>
+    <div class="struct-card decentral">
+      <h4>🌍 Decentralized Model</h4>
+      <p>Security expertise embedded in each business unit or region; central function sets minimum standards only.</p>
+      <div class="pros">
+        <strong>✓ Advantages</strong>
+        <ul>
+          <li>Flexibility — adapts to local needs</li>
+          <li>Regional / regulatory alignment</li>
+          <li>Closer to business decisions</li>
+          <li>Faster local response</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <strong>✗ Disadvantages</strong>
+        <ul>
+          <li>Inconsistent controls</li>
+          <li>Duplicate cost</li>
+          <li>Harder enterprise visibility</li>
+          <li>Cross-unit coordination is hard</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: City Government vs. State Government</div>
+    <p>A centralized model is like a single city government setting one set of rules for the whole metropolitan area. A decentralized model is like 50 state governments, each with its own legislature. Each works for some problems and fails for others. Federal systems (the U.S., Germany, India) split the difference — central standards on critical issues, local flexibility on the rest. <strong>Most mature security programs end up federal.</strong></p>
+  </div>
+
+  <h3>Activity: Match the Structure to the Organization</h3>
+  <p>For each organization, identify which governance structure is most appropriate.</p>
+  <div class="matcher" id="structMatcher">
+    <div class="match-row" data-correct="central">
+      <div class="match-scenario">Government agency with regulated data, uniform compliance requirements across all offices, single-country operations</div>
+      <select class="match-select">
+        <option value="">Select…</option>
+        <option value="central">Centralized</option>
+        <option value="federal">Federated (hybrid)</option>
+        <option value="decentral">Decentralized</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="federal">
+      <div class="match-scenario">Global manufacturing company with 12 plants across 8 countries, distinct local regulations, shared corporate systems</div>
+      <select class="match-select">
+        <option value="">Select…</option>
+        <option value="central">Centralized</option>
+        <option value="federal">Federated (hybrid)</option>
+        <option value="decentral">Decentralized</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="federal">
+      <div class="match-scenario">Multi-state healthcare system with 14 hospitals operating under different state regulations and joint commission accreditation</div>
+      <select class="match-select">
+        <option value="">Select…</option>
+        <option value="central">Centralized</option>
+        <option value="federal">Federated (hybrid)</option>
+        <option value="decentral">Decentralized</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="central">
+      <div class="match-scenario">25-person startup with one office, one product, one shared codebase</div>
+      <select class="match-select">
+        <option value="">Select…</option>
+        <option value="central">Centralized</option>
+        <option value="federal">Federated (hybrid)</option>
+        <option value="decentral">Decentralized</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <button class="btn" onclick="checkMatcher('structMatcher')">Check Answers</button>
+    <button class="btn secondary" onclick="resetMatcher('structMatcher')">Reset</button>
+  </div>
+</section>
+
+<!-- ===================== MODULE 5 ===================== -->
+<section class="module" id="m5">
+  <span class="module-tag">Module 5</span>
+  <span class="duration">75 min</span>
+  <h2>Assurance, Risk Management &amp; Outsourcing</h2>
+  <p>Assurance is the discipline of <em>verifying that the program actually works</em>. Strategy promises; assurance proves. Without assurance, the security program operates on hope — and hope is not a strategy executives are willing to defend in a courtroom.</p>
+
+  <h3>Internal vs. External Audit</h3>
+  <table>
+    <tr><th>Dimension</th><th>Internal Audit</th><th>External Audit</th></tr>
+    <tr><td>Source</td><td>Internal department reporting to audit committee</td><td>Independent third party (Big 4, specialty firms)</td></tr>
+    <tr><td>Independence requirement</td><td>Operational independence from the function audited</td><td>Full organizational independence</td></tr>
+    <tr><td>Primary purpose</td><td>Ongoing verification, management feedback</td><td>Objective external validation for stakeholders</td></tr>
+    <tr><td>Frequency</td><td>Continuous, risk-based</td><td>Annual or event-driven (SOC 2, ISO 27001, PCI)</td></tr>
+    <tr><td>Cost</td><td>Internal payroll</td><td>Significant external expense</td></tr>
+    <tr><td>Findings used by</td><td>Management for remediation</td><td>Customers, regulators, board, insurers</td></tr>
+  </table>
+
+  <div class="callout">
+    <div class="label">The Independence Test</div>
+    <p>An auditor who reports to the function they audit cannot give credible assurance. The CISO cannot audit the CISO's program. Internal audit must report to the audit committee of the board — not the CIO, not the CEO, not anyone whose performance is being assessed. <strong>Without that reporting line, the audit is theater.</strong></p>
+  </div>
+
+  <h3>Recovery Metrics &amp; the Cost-Recovery Tradeoff</h3>
+  <p>Two metrics define recovery commitments — and both have direct cost implications.</p>
+  <ul>
+    <li><strong>RTO — Recovery Time Objective</strong> — maximum acceptable downtime before recovery is complete</li>
+    <li><strong>RPO — Recovery Point Objective</strong> — maximum acceptable data loss measured in time</li>
+  </ul>
+
+  <div class="callout emphasis">
+    <div class="label">The Recovery-Cost Rule</div>
+    <p style="font-family: 'SF Mono', Monaco, monospace; font-size: 1.05rem; text-align: center; margin: 0.5rem 0; color: var(--primary);">Lower RTO/RPO ⇒ Higher Cost</p>
+    <p>A 4-hour RTO on a critical system might require a hot site. A 4-minute RTO requires active-active replication. The cost difference can be 10x or more. <strong>The mistake is committing to aggressive RTOs without funding the architecture that delivers them.</strong> Recovery commitments without rehearsal evidence are aspirational, not real.</p>
+  </div>
+
+  <h3>Outsourcing Risk &amp; Contractual Controls</h3>
+  <p>Outsourcing transfers <em>work</em> — not <em>accountability</em>. (See Domain 4 Part 2 for the longer treatment.) The strategic question for Domain 1 is: <em>what contractual controls do you need to manage the outsourcing relationship responsibly?</em></p>
+  <ul>
+    <li><strong>Service level agreements (SLAs)</strong> — measurable performance commitments with consequences for failure</li>
+    <li><strong>Right to audit</strong> — your ability to inspect their controls, not just receive their reports</li>
+    <li><strong>Data ownership and portability</strong> — your data remains yours; you can recover it on demand</li>
+    <li><strong>Subcontractor restrictions</strong> — control over who they bring in beneath them</li>
+    <li><strong>Incident notification timelines</strong> — when they tell you something went wrong</li>
+    <li><strong>Termination provisions</strong> — what happens to data and services when the relationship ends</li>
+    <li><strong>Indemnification</strong> — financial recourse when they fail</li>
+    <li><strong>Compliance flow-down</strong> — they must meet the regulatory obligations your data is subject to</li>
+  </ul>
+
+  <h3>Three Types of Insurance</h3>
+  <div class="insurance-grid">
+    <div class="insurance-card">
+      <h4><span class="ins-icon">🏢</span>First-Party</h4>
+      <p>Covers your organization's direct losses from a cyber incident.</p>
+      <div class="ins-cover"><strong>Typical coverage:</strong> business interruption, data restoration, forensic investigation, ransom payments (where legal), regulatory fines (limited)</div>
+    </div>
+    <div class="insurance-card">
+      <h4><span class="ins-icon">⚖️</span>Third-Party</h4>
+      <p>Covers your liability to others — customers, partners, regulators — affected by an incident at your organization.</p>
+      <div class="ins-cover"><strong>Typical coverage:</strong> customer breach notification costs, class action defense, settlement costs, regulatory penalties (limited)</div>
+    </div>
+    <div class="insurance-card">
+      <h4><span class="ins-icon">🤝</span>Fidelity Bonds</h4>
+      <p>Specifically cover losses caused by employee dishonesty — theft, fraud, embezzlement.</p>
+      <div class="ins-cover"><strong>Typical coverage:</strong> employee theft of money, securities, or property; computer fraud committed by insiders</div>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Homeowner's Insurance Stack</div>
+    <p>A homeowner buys multiple policies for different risks: <strong>property insurance</strong> for damage to their own house (first-party), <strong>liability insurance</strong> for if someone slips on their sidewalk (third-party), and a <strong>fidelity bond</strong> if their housekeeper might be tempted by the silverware (employee dishonesty). One policy doesn't cover all three. Cyber risk works the same way — multiple policies for different risk types.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 6 ===================== -->
+<section class="module" id="m6">
+  <span class="module-tag">Module 6</span>
+  <span class="duration">60 min</span>
+  <h2>Metrics, Reporting &amp; Strategic Tools</h2>
+  <p>Metrics are the language by which a security program speaks to the rest of the business. Programs that cannot measure their performance cannot defend their budget; programs that measure the wrong things destroy their credibility one report at a time.</p>
+
+  <h3>The Three-Tier Metrics Hierarchy</h3>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🎯</div>
+          <h4>KGIs</h4>
+          <div class="hint">Key Goal Indicators</div>
+        </div>
+        <div class="flip-back">
+          <strong>Strategic success measurements</strong>
+          Did we achieve the goal? Lagging, outcome-focused, board-level. <em>Example: 10% reduction in security incidents year-over-year.</em>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">📊</div>
+          <h4>KPIs</h4>
+          <div class="hint">Key Performance Indicators</div>
+        </div>
+        <div class="flip-back">
+          <strong>Operational performance measurements</strong>
+          How are we performing right now? Leading, activity-focused, management-level. <em>Example: Mean time to patch critical vulnerabilities = 12 days.</em>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">✅</div>
+          <h4>CSFs</h4>
+          <div class="hint">Critical Success Factors</div>
+        </div>
+        <div class="flip-back">
+          <strong>Conditions required for success</strong>
+          What must be true for the strategy to work? <em>Example: Adequate staffing; executive sponsorship; budget consistency.</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Football Scoreboard</div>
+    <p><strong>KGI</strong> is the final score — did we win? <strong>KPI</strong> is the running play-by-play — yards gained, completions, turnovers. <strong>CSF</strong> is the things that had to be true to be in the game at all — a healthy team, a coaching staff, a stadium, a league membership. You need all three. A coach who watches only the scoreboard adjusts too late. A coach who watches only the play-by-play forgets to count points. A coach who forgets the CSFs shows up to the game without a team.</p>
+  </div>
+
+  <h3>Executive Security Dashboard</h3>
+  <p>Below is a sample dashboard. Each metric is labeled by type. Adjust the sliders to see how values change.</p>
+  <div class="metrics-dash">
+    <div class="metric-tile">
+      <h5>YoY Incident Reduction</h5>
+      <span class="metric-tag kgi">KGI</span>
+      <div class="metric-value">12%</div>
+      <input type="range" min="-20" max="40" value="12" oninput="updateGenericMetric(this, '%', false)">
+      <div class="metric-label">Target: ≥10% reduction</div>
+    </div>
+    <div class="metric-tile">
+      <h5>Mean Time to Patch (Critical)</h5>
+      <span class="metric-tag kpi">KPI</span>
+      <div class="metric-value">12 days</div>
+      <input type="range" min="1" max="45" value="12" oninput="updateGenericMetric(this, ' days', false)">
+      <div class="metric-label">Target: &lt;14 days</div>
+    </div>
+    <div class="metric-tile">
+      <h5>Security Training Completion</h5>
+      <span class="metric-tag kpi">KPI</span>
+      <div class="metric-value">94%</div>
+      <input type="range" min="50" max="100" value="94" oninput="updateGenericMetric(this, '%', false)">
+      <div class="metric-label">Target: ≥95%</div>
+    </div>
+    <div class="metric-tile">
+      <h5>Audit Findings Closed (SLA)</h5>
+      <span class="metric-tag kpi">KPI</span>
+      <div class="metric-value">88%</div>
+      <input type="range" min="50" max="100" value="88" oninput="updateGenericMetric(this, '%', false)">
+      <div class="metric-label">Target: ≥90%</div>
+    </div>
+    <div class="metric-tile">
+      <h5>Executive Sponsorship Active</h5>
+      <span class="metric-tag csf">CSF</span>
+      <div class="metric-value">Yes</div>
+      <div class="metric-label">Quarterly board updates; CISO on E-team</div>
+    </div>
+    <div class="metric-tile">
+      <h5>Security Hiring Pipeline</h5>
+      <span class="metric-tag csf">CSF</span>
+      <div class="metric-value">3 open</div>
+      <input type="range" min="0" max="15" value="3" oninput="updateGenericMetric(this, ' open', false)">
+      <div class="metric-label">Critical roles vacant &gt;90 days</div>
+    </div>
+  </div>
+
+  <h3>Strategic Planning Tool: SWOT Analysis</h3>
+  <p>SWOT — Strengths, Weaknesses, Opportunities, Threats — is the most commonly used (and most commonly abused) strategic planning tool. Done well, it surfaces non-obvious truths about an organization's position. Done badly, it produces a four-quadrant document nobody reads. Try filling out your own:</p>
+
+  <div class="swot-grid">
+    <div class="swot-cell S">
+      <h4>💪 Strengths <span style="font-size:0.7rem;background:#fff;padding:0.2rem 0.5rem;border-radius:4px;color:#22543D">Internal +</span></h4>
+      <textarea placeholder="What does the security program do well? Internal capabilities, talent, tooling, executive support…"></textarea>
+    </div>
+    <div class="swot-cell W">
+      <h4>🔻 Weaknesses <span style="font-size:0.7rem;background:#fff;padding:0.2rem 0.5rem;border-radius:4px;color:#742A2A">Internal −</span></h4>
+      <textarea placeholder="What internal limitations hold the program back? Skill gaps, technical debt, cultural issues…"></textarea>
+    </div>
+    <div class="swot-cell O">
+      <h4>🚀 Opportunities <span style="font-size:0.7rem;background:#fff;padding:0.2rem 0.5rem;border-radius:4px;color:var(--primary)">External +</span></h4>
+      <textarea placeholder="What external conditions could the program leverage? New tech, regulatory changes, market trends…"></textarea>
+    </div>
+    <div class="swot-cell T">
+      <h4>⚠️ Threats <span style="font-size:0.7rem;background:#fff;padding:0.2rem 0.5rem;border-radius:4px;color:#744210">External −</span></h4>
+      <textarea placeholder="What external conditions could harm the program? Emerging threats, regulation, talent market, vendor risk…"></textarea>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Metrics That Move vs. Metrics That Sit</div>
+    <p>If your metric hasn't changed in six months, it's not a metric — it's <em>furniture</em>. Either the underlying reality isn't changing (in which case why are you measuring it?), or the metric isn't sensitive enough to detect change. Good metrics move; that's their job. Build dashboards from metrics that produce action when they shift.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 7 ===================== -->
+<section class="module" id="m7">
+  <span class="module-tag">Module 7</span>
+  <span class="duration">45 min</span>
+  <h2>Strategic Leadership &amp; Executive Alignment</h2>
+  <p>Security must be framed as a <strong>business enabler, a value-delivery mechanism, and a governance necessity</strong> — not merely a technical expense. The leader who cannot articulate security in that language is invisible to the executives who control the budget.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Translator at the UN</div>
+    <p>At the United Nations, ideas are delivered in a dozen languages. A delegate who speaks only their own tongue can speak fluently and persuasively — and reach no one. The translator's job is to make ideas <em>cross the language boundary</em> intact. The CISO's job is the same: take technical reality, translate it into the language the CFO speaks, the language the board hears, the language regulators recognize. Different audiences, different languages, same truth.</p>
+  </div>
+
+  <h3>The Optimal Maturity Tradeoff</h3>
+  <p>One of the most important leadership insights in CISM: <strong>maximum security is not the goal</strong>. Optimal security is. The graph below shows why.</p>
+
+  <div class="optimum-tool">
+    <div class="optimum-graph">
+      <div class="optimum-axis-y">Cost</div>
+      <div class="optimum-axis-x">Maturity Level →</div>
+      <svg class="optimum-svg" viewBox="0 0 600 240" preserveAspectRatio="none">
+        <!-- Risk curve (exponential decay) -->
+        <path d="M 50,40 Q 200,80 300,140 T 550,200" stroke="#C53030" stroke-width="3" fill="none"/>
+        <text x="120" y="55" fill="#C53030" font-size="14" font-weight="700">Risk Exposure ↓</text>
+        <!-- Control cost curve (rising) -->
+        <path d="M 50,200 Q 200,180 350,140 T 550,40" stroke="#2E75B6" stroke-width="3" fill="none"/>
+        <text x="380" y="60" fill="#2E75B6" font-size="14" font-weight="700">Control Cost ↑</text>
+        <!-- Optimal point -->
+        <circle cx="320" cy="138" r="9" fill="#E8A33D" stroke="#fff" stroke-width="3"/>
+        <line x1="320" y1="148" x2="320" y2="220" stroke="#E8A33D" stroke-width="2" stroke-dasharray="4"/>
+        <text x="290" y="120" fill="#1F4E79" font-size="13" font-weight="700">OPTIMAL</text>
+        <!-- Axis lines -->
+        <line x1="40" y1="220" x2="580" y2="220" stroke="#4A5568" stroke-width="1"/>
+        <line x1="40" y1="20" x2="40" y2="220" stroke="#4A5568" stroke-width="1"/>
+        <!-- Maturity labels -->
+        <text x="65" y="235" fill="#4A5568" font-size="11">L1</text>
+        <text x="165" y="235" fill="#4A5568" font-size="11">L2</text>
+        <text x="265" y="235" fill="#4A5568" font-size="11">L3</text>
+        <text x="365" y="235" fill="#4A5568" font-size="11">L4</text>
+        <text x="465" y="235" fill="#4A5568" font-size="11">L5</text>
+      </svg>
+    </div>
+    <div class="optimum-readout">
+      <div class="readout-value">Optimal Maturity = Break-Even Point</div>
+      <div class="readout-detail">The level where the marginal cost of additional control equals the marginal reduction in risk. Spending past this point destroys value; spending below it accepts unacceptable risk.</div>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Adequate Security Is Risk-Balanced Security</div>
+    <p>"Maximum security" is a marketing phrase, not a strategic goal. It produces over-spending in some areas, under-spending in others, and a program disconnected from business value. <strong>Adequate security — security calibrated to the organization's actual risk tolerance and business objectives — is the goal of every credible CISM-level leader.</strong></p>
+  </div>
+
+  <h3>The Executive Board Presentation</h3>
+  <p>Sooner or later, every security manager presents to a board or executive committee. The presentation succeeds or fails on three principles:</p>
+  <ol>
+    <li><strong>Lead with the business outcome.</strong> Not the threat, not the technology — the impact on revenue, customers, regulatory standing, or competitive position.</li>
+    <li><strong>Quantify everything you can.</strong> Risk in dollars. Maturity in measurable levels. Initiatives by cost and time. Vague qualitative language signals lack of rigor.</li>
+    <li><strong>Make the ask clear.</strong> What decision are you requesting? Budget? Approval? Awareness? End every section with "the ask."</li>
+  </ol>
+
+  <h3>Translation Practice — Technical to Executive</h3>
+  <table>
+    <tr><th>❌ Technical Framing</th><th>✅ Executive Framing</th></tr>
+    <tr><td>"We need to implement EDR across all endpoints."</td><td>"This $480K investment cuts our average breach detection time from 45 days to 6 — directly addressing the dwell-time gap our cyber insurer flagged at renewal."</td></tr>
+    <tr><td>"Our patch management process is failing SLAs."</td><td>"Slipping patch compliance is the leading indicator that drove our largest peer's $40M breach last quarter. We can close the gap with $90K in tooling and one additional FTE."</td></tr>
+    <tr><td>"We should adopt Zero Trust architecture."</td><td>"To enable the secure global expansion the board approved, we need an identity architecture that doesn't trust networks — a $1.2M, 18-month program with measurable risk reduction milestones quarterly."</td></tr>
+  </table>
+</section>
+
+<!-- ===================== CAPSTONE ===================== -->
+<section class="module" id="capstone">
+  <span class="module-tag">Capstone Exercise</span>
+  <span class="duration">90 min</span>
+  <h2>Enterprise Cybersecurity Strategy Simulation</h2>
+
+  <h3>Scenario: AeroLink Global</h3>
+  <p>You are the newly appointed CISO at AeroLink Global, a multinational aerospace components manufacturer ($4.2B revenue, 14,000 employees, operations in 11 countries). The CEO and Board have asked you to deliver a 3-year cybersecurity strategy within 90 days. The strategic context:</p>
+  <ul>
+    <li><strong>Increasing ransomware threats</strong> — three peer companies have suffered ransomware-driven production shutdowns in the past 18 months, with losses averaging $80–120M each</li>
+    <li><strong>International expansion</strong> — acquisitions planned in Brazil, Germany, and Singapore; integration begins in 6 months</li>
+    <li><strong>Aging infrastructure</strong> — significant on-premises legacy in three plants; ICS/OT systems with end-of-life support imminent</li>
+    <li><strong>New regulatory oversight</strong> — CMMC Level 2 required for DoD contracts; NIS2 implications for European subsidiaries; SEC cybersecurity disclosure rules for the public parent</li>
+    <li><strong>Maturity baseline</strong> — most security domains assessed at CMMI Level 2; a few at Level 3; none at Level 4</li>
+  </ul>
+
+  <h3>Required Deliverables</h3>
+  <ol>
+    <li><strong>Gap analysis</strong> — current state, desired state (3-year horizon), and prioritized gaps for at least four security domains</li>
+    <li><strong>Maturity assessment</strong> — current and target CMMI levels by domain, with rationale for any targets below Level 5</li>
+    <li><strong>Framework recommendation</strong> — selected governance framework (COBIT, NIST CSF, ISO 27001, or hybrid) with justification</li>
+    <li><strong>Strategic roadmap</strong> — 3-year roadmap with named initiatives, owners, milestones, budget estimates, and dependencies</li>
+    <li><strong>Centralized vs. federated structure recommendation</strong> — analyzed against AeroLink's specific characteristics</li>
+    <li><strong>KPI / KGI / CSF dashboard</strong> — at least three of each, with targets and reporting cadence</li>
+    <li><strong>Outsourcing governance strategy</strong> — which functions to outsource, which to retain, and required contractual controls</li>
+    <li><strong>Executive Board presentation</strong> — one slide deck or one-page summary in executive language with the budget ask</li>
+  </ol>
+
+  <h3>Team Roles</h3>
+  <table>
+    <tr><th>Role</th><th>Responsibility</th></tr>
+    <tr><td>CISO (lead)</td><td>Owns the analysis, synthesizes deliverables, presents to Board</td></tr>
+    <tr><td>CFO advisor</td><td>Challenges every dollar; demands quantified business impact</td></tr>
+    <tr><td>General Counsel</td><td>Surfaces regulatory exposure; advises on disclosure and litigation risk</td></tr>
+    <tr><td>COO advisor</td><td>Defends operational priorities; resists initiatives that disrupt production</td></tr>
+    <tr><td>Audit Committee Chair</td><td>Evaluates the final presentation; votes to approve, revise, or reject</td></tr>
+  </table>
+
+  <h3>Evaluation Rubric</h3>
+  <table>
+    <tr><th>Criterion</th><th>Weight</th><th>"Excellent" Looks Like</th></tr>
+    <tr><td>Quality of gap analysis</td><td>15%</td><td>Current and desired states are measurable and specific; gaps translate directly into projects</td></tr>
+    <tr><td>Maturity assessment realism</td><td>10%</td><td>Targets are justified by business value, not aspiration; Level 5 not claimed for everything</td></tr>
+    <tr><td>Framework selection rationale</td><td>10%</td><td>Choice defended against AeroLink's specific characteristics, not framework popularity</td></tr>
+    <tr><td>Roadmap practicality</td><td>15%</td><td>Sequenced for dependencies; resource-realistic; milestones quarterly; named owners</td></tr>
+    <tr><td>Governance structure analysis</td><td>10%</td><td>Federated model defended; centralization rejected with reasoning</td></tr>
+    <tr><td>Metrics design</td><td>15%</td><td>Clear distinction of KGI/KPI/CSF; metrics move and drive action</td></tr>
+    <tr><td>Outsourcing governance</td><td>10%</td><td>Contractual controls specified; accountability retention explicit</td></tr>
+    <tr><td>Executive communication</td><td>15%</td><td>Business language; financial framing; specific decision asked of the Board</td></tr>
+  </table>
+</section>
+
+<!-- ===================== ASSESSMENT ===================== -->
+<section class="module" id="assessment">
+  <span class="module-tag">Final Assessment</span>
+  <h2>Knowledge Check — 10 Questions</h2>
+  <p>Test your mastery of Domain 1 Part 2. Each question gives instant feedback and an explanation.</p>
+  <div id="finalQuiz"></div>
+  <div id="finalScore" style="margin-top:1.5rem;padding:1.5rem;background:var(--primary);color:#fff;border-radius:10px;display:none;text-align:center;">
+    <div style="font-size:0.9rem;text-transform:uppercase;letter-spacing:0.1em;opacity:0.85;">Your Score</div>
+    <div style="font-size:3rem;font-weight:700;margin:0.5rem 0;" id="scoreNum">0 / 10</div>
+    <div id="scoreMessage" style="opacity:0.9;"></div>
+  </div>
+  <button class="btn" onclick="gradeFinal()" style="margin-top:1rem;">Grade My Quiz</button>
+  <button class="btn secondary" onclick="resetFinal()">Reset</button>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>NCyTE CISM Course</strong> · Domain 1, Part 2: Cybersecurity Strategy &amp; Management</p>
+  <p>Interactive lesson by Dr. John Sands · National AI Training Initiative · Moraine Valley Community College</p>
+</footer>
+
+<script>
+// ============ NAV ACTIVE STATE + PROGRESS BAR ============
+const sections = document.querySelectorAll('section.module');
+const navLinks = document.querySelectorAll('nav.modules a');
+const progressBar = document.getElementById('progressBar');
+
+function onScroll() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = Math.min(100, (scrollTop / docHeight) * 100) + '%';
+
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 120;
+    if (scrollTop >= top) current = sec.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+// ============ INLINE QUIZ ============
+document.querySelectorAll('[data-quiz]').forEach(quiz => {
+  const options = quiz.querySelectorAll('.quiz-option');
+  let explainDiv = document.createElement('div');
+  explainDiv.className = 'quiz-explanation';
+  quiz.appendChild(explainDiv);
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      options.forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      if (opt.dataset.answer === 'correct') opt.classList.add('correct');
+      else opt.classList.add('wrong');
+      explainDiv.textContent = opt.dataset.explain || '';
+      explainDiv.classList.add('show');
+    });
+  });
+});
+
+// ============ ACCORDIONS ============
+document.querySelectorAll('.accordion-header').forEach(h => {
+  h.addEventListener('click', () => {
+    h.parentElement.classList.toggle('open');
+  });
+});
+
+// ============ MATCHER ============
+const matchLabels = {
+  overconfidence: 'Overconfidence', anchoring: 'Anchoring', statusquo: 'Status Quo',
+  mental: 'Mental Accounting', herding: 'Social Pressure / Herding',
+  central: 'Centralized', federal: 'Federated (hybrid)', decentral: 'Decentralized'
+};
+function checkMatcher(id) {
+  const rows = document.querySelectorAll('#' + id + ' .match-row');
+  rows.forEach(row => {
+    const select = row.querySelector('select');
+    const fb = row.querySelector('.match-feedback');
+    const ans = row.dataset.correct;
+    if (!select.value) {
+      fb.textContent = 'Pick one';
+      fb.className = 'match-feedback';
+      return;
+    }
+    if (select.value === ans) {
+      fb.textContent = '✓ Correct';
+      fb.className = 'match-feedback correct';
+    } else {
+      fb.textContent = '✗ ' + (matchLabels[ans] || ans);
+      fb.className = 'match-feedback wrong';
+    }
+  });
+}
+function resetMatcher(id) {
+  document.querySelectorAll('#' + id + ' .match-row').forEach(row => {
+    row.querySelector('select').value = '';
+    const fb = row.querySelector('.match-feedback');
+    fb.textContent = '';
+    fb.className = 'match-feedback';
+  });
+}
+
+// ============ MATURITY LADDER (Module 3) ============
+const maturityData = {
+  1: {
+    title: '🌀 Level 1 — Initial',
+    body: 'Processes are unpredictable, poorly controlled, and reactive. Outcomes depend on individual heroics, not systematic practices. Success cannot be reliably reproduced.',
+    example: 'A small startup with no documented incident procedures — when something happens, the on-call engineer figures it out from scratch. The same incident next month might be handled completely differently.',
+    cost: 'Cheapest to operate, but catastrophically expensive when things go wrong because there are no playbooks.'
+  },
+  2: {
+    title: '📋 Level 2 — Repeatable',
+    body: 'Basic processes exist at the project or team level. The same team can usually do something the same way twice. But there is no organization-wide consistency.',
+    example: 'The SOC team has a written runbook for phishing investigations. The IR team has its own approach. They overlap but are not aligned across the organization.',
+    cost: 'Moderate. Predictable within a project but inefficient at scale due to duplication.'
+  },
+  3: {
+    title: '📐 Level 3 — Defined',
+    body: 'Processes are documented, standardized, and integrated across the organization. There is one way to do common things, and everyone knows what it is.',
+    example: 'Enterprise-wide incident response playbook, common SIEM detection content, standardized vulnerability management. Newly hired staff learn one approach.',
+    cost: 'Higher initial investment, but operationally efficient. Most mature mid-size organizations live here.'
+  },
+  4: {
+    title: '📊 Level 4 — Managed',
+    body: 'Processes are quantitatively measured and controlled. Performance is statistically predictable. Variation is understood, not just observed.',
+    example: 'The SOC tracks MTTD and MTTR by category; statistical process control is applied to detection performance; performance forecasts are reliable to within tight ranges.',
+    cost: 'Substantial. Requires investment in measurement infrastructure and analytical talent. Best for regulated industries and large enterprises.'
+  },
+  5: {
+    title: '🔁 Level 5 — Optimizing',
+    body: 'Continuous, quantitative process improvement is built into the organization\'s DNA. The organization adapts proactively based on data, not reactively after problems.',
+    example: 'Detection content is automatically tuned based on telemetry; A/B testing of awareness campaigns; ML-driven prediction of high-risk areas.',
+    cost: 'Very high. Justified only when the cost of incident risk is correspondingly high — defense, critical infrastructure, financial services.'
+  }
+};
+function showMaturity(n) {
+  document.querySelectorAll('.maturity-rung').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.level) === n);
+  });
+  const d = maturityData[n];
+  document.getElementById('maturityDetail').innerHTML = `
+    <h4>${d.title}</h4>
+    <p>${d.body}</p>
+    <p style="font-size:0.88rem;color:var(--ink-soft);margin-top:0.75rem"><strong style="color:var(--primary)">Example:</strong> ${d.example}</p>
+    <p style="font-size:0.88rem;color:var(--ink-soft);margin-top:0.3rem"><strong style="color:var(--accent)">Cost / Trade-off:</strong> ${d.cost}</p>
+  `;
+}
+showMaturity(3);
+
+// ============ GENERIC METRIC UPDATE (Module 6) ============
+function updateGenericMetric(slider, suffix, isInverse) {
+  const v = parseFloat(slider.value);
+  const tile = slider.closest('.metric-tile');
+  tile.querySelector('.metric-value').textContent = v + suffix;
+}
+
+// ============ FINAL QUIZ ============
+const finalQs = [
+  {
+    q: "Which cognitive bias is MOST clearly at work when a security leader says, \"We've never been breached, so our current controls must be adequate\"?",
+    options: [
+      { t: "Anchoring", c: false, e: "Anchoring is about early numbers distorting later estimates, not about absence of failure implying success." },
+      { t: "Overconfidence / Optimism bias", c: true, e: "Correct. Equating the absence of detected incidents with adequate controls is textbook overconfidence — and often turns out to mean 'we haven't detected the incidents we've already had.'" },
+      { t: "Status quo bias", c: false, e: "Status quo is preference for the existing state. This statement is overconfidence — drawing a conclusion from insufficient evidence." },
+      { t: "Herding", c: false, e: "Herding is following peers. This statement isn't about peers — it's about misreading the organization's own evidence." }
+    ]
+  },
+  {
+    q: "What is the PRIMARY purpose of gap analysis in security strategy?",
+    options: [
+      { t: "To identify which vendors to evaluate", c: false, e: "Vendor evaluation is downstream of strategy, not the purpose of gap analysis." },
+      { t: "To translate the difference between current state and desired state into actionable projects", c: true, e: "Correct. Gap analysis is the bridge between strategic intent and project execution. Each gap becomes an initiative." },
+      { t: "To assign blame for past failures", c: false, e: "Gap analysis is forward-looking and improvement-focused, not blame-focused." },
+      { t: "To produce documentation for auditors", c: false, e: "While auditors may use gap analysis output, that's not its primary purpose." }
+    ]
+  },
+  {
+    q: "Which statement BEST describes the relationship between governance and management in COBIT?",
+    options: [
+      { t: "They are interchangeable terms", c: false, e: "COBIT explicitly distinguishes them — confusing them is a CISM exam trap." },
+      { t: "Governance directs and oversees; management plans, builds, runs, and monitors", c: true, e: "Correct. COBIT's clean separation is one of its signature contributions: governance is about direction and oversight, while management is about operational execution." },
+      { t: "Governance is technical; management is business", c: false, e: "The opposite is closer to true — governance is fundamentally business leadership; management spans business and technical execution." },
+      { t: "Governance happens at the operational level; management happens at the board level", c: false, e: "The levels are reversed in this statement. Governance is board/executive; management is below it." }
+    ]
+  },
+  {
+    q: "Is achieving CMMI Level 5 always the goal for every security process?",
+    options: [
+      { t: "Yes — all organizations should target Level 5 in all domains", c: false, e: "Level 5 is expensive. For many processes the marginal cost exceeds the marginal risk reduction." },
+      { t: "No — the optimal level is where marginal cost equals marginal risk reduction", c: true, e: "Correct. Maturity costs money. Most organizations should aim for Level 3 or 4 in most domains, with Level 5 reserved for processes where the cost of immaturity is exceptionally high." },
+      { t: "Yes — but only for financial services organizations", c: false, e: "Level 5 may be justified for some financial-services processes but isn't universally required even there." },
+      { t: "No — Level 1 is acceptable for most organizations", c: false, e: "Level 1 means chaotic and unpredictable — generally not acceptable for any process at scale." }
+    ]
+  },
+  {
+    q: "A multi-state healthcare system with 14 hospitals across different states needs to design its security governance structure. Which model is MOST likely appropriate?",
+    options: [
+      { t: "Fully centralized — single team owns everything", c: false, e: "Centralized struggles with state-specific regulatory variation and local clinical operations." },
+      { t: "Fully decentralized — each hospital runs its own security", c: false, e: "Fully decentralized produces inconsistent controls, duplicate cost, and weak enterprise visibility." },
+      { t: "Federated / hybrid — central standards with local execution flexibility", c: true, e: "Correct. Federated models — central minimum standards, local adaptation — fit organizations with regional regulatory variation and operational diversity. Most mature multi-site programs end up federal." },
+      { t: "Outsourced — let an MDR vendor run all security", c: false, e: "MDR can be part of operations, but does not address the governance structure question." }
+    ]
+  },
+  {
+    q: "Why must internal audit report to the audit committee of the board, NOT to the function being audited?",
+    options: [
+      { t: "Regulatory requirement in all industries", c: false, e: "Some industries require this, but it's a governance principle that applies broadly, not just where mandated." },
+      { t: "To preserve independence — audit cannot credibly assess the function it reports to", c: true, e: "Correct. Independence is the foundation of credible assurance. An auditor reporting to the function audited cannot give objective findings without career risk." },
+      { t: "Because audit committees have more technical expertise than CISOs", c: false, e: "Audit committees typically have less technical expertise than the CISO — that's not the reason." },
+      { t: "To reduce the audit budget", c: false, e: "Reporting structure has no necessary relationship to budget." }
+    ]
+  },
+  {
+    q: "An organization with a 4-hour RTO commitment has never actually tested recovery. What is the BEST description of this situation?",
+    options: [
+      { t: "The RTO is appropriately conservative", c: false, e: "Untested RTOs are aspirational, not validated. Conservatism is about the number; testing is about whether it's real." },
+      { t: "The organization has a strong DR posture", c: false, e: "A DR posture without rehearsal evidence is paperwork, not capability." },
+      { t: "The RTO is aspirational, not real — untested commitments are fiction", c: true, e: "Correct. An RTO that has never been exercised is a piece of paper. Real RTOs are backed by successful, documented recovery rehearsals." },
+      { t: "The RTO complies with regulations as long as it's documented", c: false, e: "Most regulations require demonstrable capability, not just documented intent." }
+    ]
+  },
+  {
+    q: "Which of these is BEST classified as a KGI (Key Goal Indicator) rather than a KPI?",
+    options: [
+      { t: "Average time to patch critical vulnerabilities", c: false, e: "That's a KPI — operational performance measurement." },
+      { t: "Percent of employees completing annual security awareness training", c: false, e: "That's a KPI — measures training program performance." },
+      { t: "Year-over-year reduction in security incidents", c: true, e: "Correct. YoY incident reduction is a strategic outcome — a goal achievement measurement, not an operational performance one. That's a KGI." },
+      { t: "Number of failed login attempts per day", c: false, e: "That's a KPI — operational telemetry." }
+    ]
+  },
+  {
+    q: "What is the BEST executive framing for justifying a $480K EDR investment?",
+    options: [
+      { t: "\"EDR provides real-time endpoint visibility and process monitoring with isolation capability.\"", c: false, e: "Technical capability framing. Boards don't approve capabilities; they approve outcomes." },
+      { t: "\"Industry best practice recommends EDR for enterprises our size.\"", c: false, e: "Weak — best-practice appeals are exactly the herding behavior to avoid. The board can hear that from any vendor." },
+      { t: "\"This $480K investment cuts our breach detection time from 45 to 6 days, directly addressing the dwell-time gap our cyber insurer flagged at renewal.\"", c: true, e: "Correct. Quantified financial framing tied to a specific business outcome — insurer renewal exposure. This is how boards approve security investments." },
+      { t: "\"If we don't approve this, we'll be breached.\"", c: false, e: "Fear-based and vague — exactly the framing that erodes security's credibility over time." }
+    ]
+  },
+  {
+    q: "Which statement BEST captures the central principle of strategic cybersecurity leadership?",
+    options: [
+      { t: "Maximum security is always the goal", c: false, e: "Maximum security is a marketing phrase, not a strategy. Programs that pursue it overspend in some areas and underspend in others." },
+      { t: "Adequate security is risk-balanced security — calibrated to the organization's actual risk tolerance and business objectives", c: true, e: "Correct. The CISM-level leader understands that security is a business function, not a maximization problem. The goal is optimal calibration to risk appetite, not unbounded protection." },
+      { t: "Outsourcing solves most security challenges", c: false, e: "Outsourcing transfers work, not accountability — and over-reliance creates new risks." },
+      { t: "Compliance with regulations is sufficient", c: false, e: "Compliance is the floor, not the ceiling. (See Domain 1 Part 1 on compliance vs. due diligence.)" }
+    ]
+  }
+];
+
+function buildFinal() {
+  const c = document.getElementById('finalQuiz');
+  c.innerHTML = finalQs.map((q, qi) => `
+    <div class="quiz" data-qi="${qi}">
+      <div class="quiz-question">Q${qi+1}. ${q.q}</div>
+      ${q.options.map((opt, oi) => `
+        <div class="quiz-option" data-qi="${qi}" data-oi="${oi}" data-correct="${opt.c}" data-explain="${opt.e.replace(/"/g,'&quot;')}">${opt.t}</div>
+      `).join('')}
+      <div class="quiz-explanation"></div>
+    </div>
+  `).join('');
+  c.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const qi = opt.dataset.qi;
+      const quiz = c.querySelector(`.quiz[data-qi="${qi}"]`);
+      quiz.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      opt.classList.add(opt.dataset.correct === 'true' ? 'correct' : 'wrong');
+      const ex = quiz.querySelector('.quiz-explanation');
+      ex.textContent = opt.dataset.explain;
+      ex.classList.add('show');
+    });
+  });
+}
+buildFinal();
+
+function gradeFinal() {
+  let score = 0;
+  finalQs.forEach((q, qi) => {
+    const selected = document.querySelector(`.quiz[data-qi="${qi}"] .quiz-option.selected`);
+    if (selected && selected.dataset.correct === 'true') score++;
+  });
+  document.getElementById('scoreNum').textContent = score + ' / ' + finalQs.length;
+  let msg;
+  if (score === 10) msg = "🏆 Perfect score — Domain 1 complete. Onward to Domain 3.";
+  else if (score >= 8) msg = "🎯 Strong mastery — review the missed items and you're ready to move on.";
+  else if (score >= 6) msg = "📚 Solid foundation — revisit the modules covering missed questions.";
+  else msg = "📖 Re-read the modules and try again — focus on the concepts you missed.";
+  document.getElementById('scoreMessage').textContent = msg;
+  document.getElementById('finalScore').style.display = 'block';
+  document.getElementById('finalScore').scrollIntoView({behavior:'smooth', block:'center'});
+}
+function resetFinal() {
+  document.querySelectorAll('#finalQuiz .quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+  document.querySelectorAll('#finalQuiz .quiz-explanation').forEach(e => { e.classList.remove('show'); e.textContent = ''; });
+  document.getElementById('finalScore').style.display = 'none';
+}
+</script>
+</body>
+</html>
