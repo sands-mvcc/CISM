@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CISM Domain 1, Part 1: Information Security Governance and Strategy — Interactive Lesson</title>
+<style>
+  :root {
+    --primary: #1F4E79;
+    --primary-light: #2E75B6;
+    --primary-lighter: #5B9BD5;
+    --accent: #E8A33D;
+    --bg: #F5F7FA;
+    --surface: #FFFFFF;
+    --ink: #1A2332;
+    --ink-soft: #4A5568;
+    --line: #D8E1EA;
+    --success: #2F855A;
+    --warning: #C05621;
+    --danger: #C53030;
+    --shade: #EAF3FB;
+    --shade-2: #F0F6FC;
+    --shadow: 0 2px 8px rgba(31, 78, 121, 0.08);
+    --shadow-lg: 0 6px 24px rgba(31, 78, 121, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Calibri", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    font-size: 16px;
+  }
+
+  /* ============ HEADER ============ */
+  header.site {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+  }
+  header.site .eyebrow {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+  }
+  header.site h1 {
+    margin: 0.25rem 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  header.site .subtitle {
+    font-size: 1.05rem;
+    opacity: 0.92;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  header.site .meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+  }
+  header.site .meta span {
+    background: rgba(255,255,255,0.15);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+
+  /* ============ NAV BAR ============ */
+  nav.modules {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 2px solid var(--primary);
+    box-shadow: var(--shadow);
+    padding: 0.5rem 1rem;
+  }
+  nav.modules .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  nav.modules .brand {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.95rem;
+    padding-right: 0.75rem;
+    border-right: 1px solid var(--line);
+    margin-right: 0.5rem;
+  }
+  nav.modules a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  nav.modules a:hover { background: var(--shade); color: var(--primary); }
+  nav.modules a.active { background: var(--primary); color: #fff; }
+
+  /* ============ PROGRESS BAR ============ */
+  .progress-track {
+    position: sticky;
+    top: 56px;
+    height: 4px;
+    background: var(--line);
+    z-index: 99;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--primary-light));
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+
+  /* ============ MAIN LAYOUT ============ */
+  main {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem;
+  }
+  section.module {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+    scroll-margin-top: 80px;
+  }
+  section.module .module-tag {
+    display: inline-block;
+    background: var(--shade);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+  section.module .duration {
+    display: inline-block;
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+  }
+  h2 { color: var(--primary); font-size: 1.85rem; margin: 0 0 1rem; line-height: 1.3; }
+  h3 { color: var(--primary-light); font-size: 1.3rem; margin: 2rem 0 0.75rem; }
+  h4 { color: var(--primary); font-size: 1.05rem; margin: 1.5rem 0 0.5rem; font-style: italic; }
+  p { margin: 0.75rem 0; }
+  ul, ol { padding-left: 1.5rem; margin: 0.75rem 0; }
+  li { margin: 0.35rem 0; }
+  strong { color: var(--primary); font-weight: 600; }
+
+  /* ============ CALLOUTS ============ */
+  .callout {
+    background: var(--shade);
+    border-left: 5px solid var(--primary-light);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .callout .label {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .callout .label::before { content: "💡"; font-size: 1.1rem; }
+  .callout.analogy { background: #FFF8E1; border-left-color: var(--accent); }
+  .callout.analogy .label { color: #B7791F; }
+  .callout.analogy .label::before { content: "🧭"; }
+  .callout.emphasis { background: #FEE; border-left-color: var(--danger); }
+  .callout.emphasis .label { color: var(--danger); }
+  .callout.emphasis .label::before { content: "⚠️"; }
+
+  /* ============ TABLES ============ */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    background: var(--surface);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    font-size: 0.92rem;
+  }
+  th { background: var(--primary); color: #fff; padding: 0.85rem 1rem; text-align: left; font-weight: 600; }
+  td { padding: 0.75rem 1rem; border-top: 1px solid var(--line); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--shade-2); }
+  tr:hover td { background: var(--shade); }
+
+  /* ============ OBJECTIVES ============ */
+  .objectives {
+    background: linear-gradient(135deg, var(--shade) 0%, var(--shade-2) 100%);
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .objectives ol { list-style: none; counter-reset: obj; padding-left: 0; }
+  .objectives li {
+    counter-increment: obj;
+    padding-left: 2.5rem;
+    position: relative;
+    margin: 0.75rem 0;
+  }
+  .objectives li::before {
+    content: counter(obj);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--primary);
+    color: #fff;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  /* ============ FLIP CARDS ============ */
+  .flip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .flip-card { perspective: 1000px; height: 220px; cursor: pointer; }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .flip-front {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+  }
+  .flip-front .icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .flip-front h4 { color: #fff; margin: 0; font-style: normal; font-size: 1.2rem; }
+  .flip-front .hint { font-size: 0.75rem; opacity: 0.8; margin-top: 0.5rem; }
+  .flip-back {
+    background: var(--surface);
+    color: var(--ink);
+    transform: rotateY(180deg);
+    border: 2px solid var(--primary-light);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .flip-back strong { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; }
+
+  /* ============ MATCHER ============ */
+  .matcher {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .match-row {
+    display: grid;
+    grid-template-columns: 1.5fr auto 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    padding: 0.6rem;
+    background: var(--surface);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+  }
+  .match-scenario { font-size: 0.92rem; }
+  .match-select {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .match-select:focus { outline: none; border-color: var(--primary-light); }
+  .match-feedback { font-size: 0.85rem; font-weight: 600; min-width: 90px; }
+  .match-feedback.correct { color: var(--success); }
+  .match-feedback.wrong { color: var(--danger); }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    margin: 0.25rem;
+  }
+  .btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+  .btn.secondary { background: var(--surface); color: var(--primary); border: 2px solid var(--primary); }
+  .btn.secondary:hover { background: var(--shade); }
+
+  /* ============ QUIZ ============ */
+  .quiz {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .quiz-question { font-weight: 600; margin-bottom: 0.75rem; color: var(--primary); }
+  .quiz-option {
+    display: block;
+    padding: 0.75rem 1rem;
+    margin: 0.4rem 0;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 0.92rem;
+  }
+  .quiz-option:hover { border-color: var(--primary-light); background: var(--shade); }
+  .quiz-option.selected { border-color: var(--primary); background: var(--shade); }
+  .quiz-option.correct { border-color: var(--success); background: #E8F5E9; }
+  .quiz-option.wrong { border-color: var(--danger); background: #FFEBEE; }
+  .quiz-explanation {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border-left: 4px solid var(--primary-light);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+    display: none;
+  }
+  .quiz-explanation.show { display: block; }
+
+  /* ============ ACCORDION ============ */
+  .accordion-item {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 0.6rem 0;
+    overflow: hidden;
+  }
+  .accordion-header {
+    padding: 1rem 1.25rem;
+    background: var(--shade-2);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .accordion-header:hover { background: var(--shade); }
+  .accordion-header .arrow { transition: transform 0.2s; }
+  .accordion-item.open .accordion-header .arrow { transform: rotate(90deg); }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 1.25rem;
+  }
+  .accordion-item.open .accordion-body {
+    max-height: 2500px;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  /* ============ STAKEHOLDER WHEEL (Module 1) ============ */
+  .stakeholder-wheel {
+    background: var(--shade-2);
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+  .wheel-container {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    height: 480px;
+    margin: 0 auto;
+  }
+  .wheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    box-shadow: var(--shadow-lg);
+    z-index: 2;
+  }
+  .wheel-center .label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.9; }
+  .wheel-center .title { font-size: 1rem; margin-top: 0.3rem; }
+  .stakeholder {
+    position: absolute;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    padding: 0.75rem;
+    width: 120px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .stakeholder:hover {
+    transform: scale(1.08);
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-lg);
+    z-index: 3;
+  }
+  .stakeholder.active {
+    border-color: var(--accent);
+    background: #FFF8E1;
+  }
+  .stakeholder .s-icon { font-size: 1.5rem; }
+  .stakeholder .s-name { font-weight: 700; color: var(--primary); font-size: 0.85rem; margin-top: 0.2rem; }
+  .stakeholder.top { top: 10px; left: 50%; transform: translateX(-50%); }
+  .stakeholder.top:hover { transform: translateX(-50%) scale(1.08); }
+  .stakeholder.right { top: 50%; right: 10px; transform: translateY(-50%); }
+  .stakeholder.right:hover { transform: translateY(-50%) scale(1.08); }
+  .stakeholder.bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
+  .stakeholder.bottom:hover { transform: translateX(-50%) scale(1.08); }
+  .stakeholder.left { top: 50%; left: 10px; transform: translateY(-50%); }
+  .stakeholder.left:hover { transform: translateY(-50%) scale(1.08); }
+  .stakeholder.tl { top: 70px; left: 60px; }
+  .stakeholder.tr { top: 70px; right: 60px; }
+  .stakeholder.bl { bottom: 70px; left: 60px; }
+  .stakeholder.br { bottom: 70px; right: 60px; }
+  .stakeholder-info {
+    background: var(--surface);
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    border-left: 4px solid var(--primary-light);
+    text-align: left;
+    min-height: 80px;
+  }
+  .stakeholder-info h5 { margin: 0 0 0.4rem; color: var(--primary); font-size: 1rem; }
+  .stakeholder-info p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+
+  /* ============ TIMELINE BAR (Module 1) ============ */
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  .timeline-card {
+    background: var(--surface);
+    padding: 1.25rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+    position: relative;
+  }
+  .timeline-card.gov { border-top-color: var(--primary); }
+  .timeline-card.strat { border-top-color: var(--accent); }
+  .timeline-card.mgmt { border-top-color: var(--success); }
+  .timeline-card h4 {
+    margin: 0 0 0.4rem;
+    color: var(--primary);
+    font-style: normal;
+    font-size: 1.1rem;
+  }
+  .timeline-card .horizon {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  .timeline-card.gov .horizon { background: #DBEAFE; color: var(--primary); }
+  .timeline-card.strat .horizon { background: #FEEBC8; color: #7B341E; }
+  .timeline-card.mgmt .horizon { background: #C6F6D5; color: #22543D; }
+  .timeline-card ul { padding-left: 1.2rem; margin: 0.5rem 0 0; font-size: 0.85rem; }
+
+  /* ============ A vs R DIAGRAM (Module 2) ============ */
+  .ar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .ar-card {
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff;
+  }
+  .ar-card.acct {
+    background: linear-gradient(135deg, var(--danger), #9B2C2C);
+  }
+  .ar-card.resp {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  }
+  .ar-card .ar-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .ar-card h4 { color: #fff; margin: 0 0 0.5rem; font-style: normal; font-size: 1.3rem; }
+  .ar-card .ar-rule {
+    background: rgba(255,255,255,0.18);
+    padding: 0.5rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin: 0.6rem 0;
+  }
+  .ar-card p { margin: 0; font-size: 0.9rem; opacity: 0.95; }
+
+  /* ============ LIFECYCLE STAGES (Module 3) ============ */
+  .lifecycle {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+  .lifecycle-stage {
+    background: var(--surface);
+    padding: 1rem 0.5rem;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-top: 4px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+  .lifecycle-stage:hover { transform: translateY(-3px); border-top-color: var(--primary-light); }
+  .lifecycle-stage.active { border-top-color: var(--accent); background: var(--shade); }
+  .lifecycle-stage .stage-num {
+    background: var(--primary);
+    color: #fff;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    margin: 0 auto 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .lifecycle-stage .stage-icon { font-size: 1.4rem; }
+  .lifecycle-stage .stage-name { font-size: 0.78rem; font-weight: 700; color: var(--primary); margin-top: 0.3rem; }
+  .lifecycle-detail {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+    min-height: 140px;
+  }
+  .lifecycle-detail h4 { margin-top: 0; color: var(--primary); font-style: normal; }
+
+  /* ============ CLASSIFICATION TIERS (Module 4) ============ */
+  .classify-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+  .classify-tier {
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow);
+  }
+  .classify-tier.t1 { background: linear-gradient(135deg, var(--danger), #9B2C2C); }
+  .classify-tier.t2 { background: linear-gradient(135deg, var(--warning), #C05621); }
+  .classify-tier.t3 { background: linear-gradient(135deg, var(--primary-light), var(--primary)); }
+  .classify-tier.t4 { background: linear-gradient(135deg, var(--ink-soft), #2D3748); }
+  .classify-tier .tier-icon {
+    background: rgba(255,255,255,0.25);
+    width: 3rem;
+    height: 3rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .classify-tier .tier-body strong { color: #fff; font-size: 1.05rem; display: block; margin-bottom: 0.2rem; }
+  .classify-tier .tier-body .tier-desc { font-size: 0.85rem; opacity: 0.92; }
+  .classify-tier .tier-body .tier-examples { font-size: 0.78rem; opacity: 0.85; font-style: italic; margin-top: 0.2rem; }
+
+  /* ============ CALC FIELDS ============ */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .calc-field label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+  .calc-field input, .calc-field select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+  .calc-field input:focus, .calc-field select:focus { outline: none; border-color: var(--primary-light); }
+  .calc-result {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 1.25rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+  }
+  .calc-result .result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  .calc-result .result-row:last-child { border-bottom: none; font-weight: 700; font-size: 1.1rem; }
+
+  /* ============ STEERING COMMITTEE BUILDER (Module 2) ============ */
+  .committee-builder {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .committee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.6rem;
+    margin: 1rem 0;
+  }
+  .committee-member {
+    background: var(--surface);
+    padding: 0.85rem;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid var(--line);
+    user-select: none;
+  }
+  .committee-member:hover { transform: translateY(-2px); border-color: var(--primary-light); }
+  .committee-member.selected {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-color: var(--primary);
+    color: #fff;
+  }
+  .committee-member.selected .m-name { color: #fff; }
+  .committee-member .m-icon { font-size: 1.4rem; }
+  .committee-member .m-name { font-size: 0.82rem; font-weight: 600; color: var(--primary); margin-top: 0.2rem; }
+  .committee-verdict {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--surface);
+    border-left: 4px solid var(--primary-light);
+    font-size: 0.92rem;
+    display: none;
+  }
+  .committee-verdict.show { display: block; }
+  .committee-verdict.win { border-left-color: var(--success); background: #F0FDF4; }
+  .committee-verdict.miss { border-left-color: var(--warning); background: #FFFBEB; }
+
+  /* ============ METRICS DASH (Module 4) ============ */
+  .metrics-dash {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .metric-tile {
+    background: var(--surface);
+    padding: 1.25rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+  }
+  .metric-tile h5 {
+    margin: 0 0 0.4rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .metric-tile .metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0.25rem 0;
+  }
+  .metric-tile .metric-status {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .metric-tile .metric-status.green { background: #C6F6D5; color: #22543D; }
+  .metric-tile .metric-status.yellow { background: #FEEBC8; color: #7B341E; }
+  .metric-tile .metric-status.red { background: #FED7D7; color: #742A2A; }
+  .metric-tile .metric-label { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.3rem; }
+  .metric-tile input[type="range"] { width: 100%; margin-top: 0.5rem; accent-color: var(--primary-light); }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.85rem;
+  }
+  footer a { color: #FFE082; text-decoration: none; font-weight: 600; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 768px) {
+    section.module { padding: 1.5rem; }
+    h2 { font-size: 1.5rem; }
+    header.site h1 { font-size: 1.7rem; }
+    .match-row, .ar-grid { grid-template-columns: 1fr; }
+    .timeline-grid { grid-template-columns: 1fr; }
+    .lifecycle { grid-template-columns: repeat(3, 1fr); }
+    nav.modules .brand { display: none; }
+    .wheel-container { transform: scale(0.85); }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="eyebrow">NCyTE CISM Course</div>
+  <h1>Domain 1, Part 1: Information Security Governance and Strategy</h1>
+  <div class="subtitle">Interactive Lesson — Direction, Oversight, Accountability, and Strategic Alignment</div>
+  <div class="meta">
+    <span>📚 Intermediate</span>
+    <span>⏱ ~6 instructional hours</span>
+    <span>🎓 4 Modules + Capstone</span>
+  </div>
+</header>
+
+<nav class="modules" id="topNav">
+  <div class="inner">
+    <span class="brand">CISM 1.1</span>
+    <a href="#overview">Overview</a>
+    <a href="#m1">1 · Foundations</a>
+    <a href="#m2">2 · Roles &amp; Culture</a>
+    <a href="#m3">3 · Compliance</a>
+    <a href="#m4">4 · Strategy</a>
+    <a href="#capstone">Capstone</a>
+    <a href="#assessment">Quiz</a>
+  </div>
+</nav>
+<div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+
+<main>
+
+<!-- ===================== OVERVIEW ===================== -->
+<section class="module" id="overview">
+  <span class="module-tag">Lesson Overview</span>
+  <h2>Governance Is Business Leadership, Not Technical Management</h2>
+  <p>If the rest of the CISM domains tell you <em>how</em> to operate a security program, Domain 1 tells you <em>why it exists at all</em>. Governance is the activity by which an organization's leadership decides what risks to accept, what direction to set, and what accountability to assign — and then ensures the resulting program actually delivers value to the business.</p>
+  <p>This lesson establishes the foundational concepts that every other domain depends on: the difference between governance, strategy, and management; the accountability structures that make security decisions defensible; the relationship between compliance and due diligence; and the strategic alignment that turns security from a cost center into a business enabler.</p>
+
+  <div class="callout analogy">
+    <div class="label">Anchoring Analogy: A Ship at Sea</div>
+    <p>Imagine an oceangoing ship. <strong>Governance</strong> is the captain on the bridge, setting the course, balancing the demands of the cargo owners, the crew, the maritime regulators, and the safety of everyone aboard — accountable to the shipping company's board. <strong>Strategy</strong> is the navigator, translating the captain's course into headings, fuel plans, and waypoints. <strong>Management</strong> is the engineering crew below decks, keeping the engines running and the watch schedules filled. Without the captain, the ship has horsepower but no direction. Without the navigator, it drifts. Without engineering, it stops. <strong>All three are essential — none can substitute for another.</strong></p>
+  </div>
+
+  <h3>Learning Objectives</h3>
+  <div class="objectives">
+    <ol>
+      <li>Explain the purpose and structure of information security governance.</li>
+      <li>Differentiate governance, strategy, and management functions.</li>
+      <li>Identify key organizational security roles and responsibilities.</li>
+      <li>Explain accountability, responsibility, and span of control concepts.</li>
+      <li>Analyze the relationship between organizational culture and security.</li>
+      <li>Differentiate compliance from due diligence.</li>
+      <li>Explain legal and regulatory drivers affecting cybersecurity programs.</li>
+      <li>Evaluate asset valuation and classification strategies.</li>
+      <li>Align security strategy with business objectives.</li>
+      <li>Develop governance-oriented security planning recommendations.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== MODULE 1 ===================== -->
+<section class="module" id="m1">
+  <span class="module-tag">Module 1</span>
+  <span class="duration">30 min</span>
+  <h2>Governance Foundations — Direction &amp; Oversight</h2>
+  <p>Governance is the activity of <em>directing and overseeing</em> the organization. It is not the activity of running it. Confusing the two is the single most common error in security programs: a CISO who tries to be the captain, navigator, and engineering crew all at once produces a security program that exhausts everyone and accomplishes little.</p>
+
+  <h3>Governance Balances Stakeholders</h3>
+  <p>A board does not work for any single audience. It balances the legitimate interests of every group affected by the organization. Hover any stakeholder below to see what they bring to the governance table — and what they expect security to protect.</p>
+
+  <div class="stakeholder-wheel">
+    <div class="wheel-container">
+      <div class="wheel-center">
+        <div class="label">Governance</div>
+        <div class="title">Board &amp;<br>Executive</div>
+      </div>
+      <div class="stakeholder top" data-stake="customers" onclick="showStake(this)">
+        <div class="s-icon">🛒</div>
+        <div class="s-name">Customers</div>
+      </div>
+      <div class="stakeholder tr" data-stake="shareholders" onclick="showStake(this)">
+        <div class="s-icon">📈</div>
+        <div class="s-name">Shareholders</div>
+      </div>
+      <div class="stakeholder right" data-stake="regulators" onclick="showStake(this)">
+        <div class="s-icon">⚖️</div>
+        <div class="s-name">Regulators</div>
+      </div>
+      <div class="stakeholder br" data-stake="suppliers" onclick="showStake(this)">
+        <div class="s-icon">🚚</div>
+        <div class="s-name">Suppliers</div>
+      </div>
+      <div class="stakeholder bottom" data-stake="employees" onclick="showStake(this)">
+        <div class="s-icon">👥</div>
+        <div class="s-name">Employees</div>
+      </div>
+      <div class="stakeholder bl" data-stake="community" onclick="showStake(this)">
+        <div class="s-icon">🏛️</div>
+        <div class="s-name">Community</div>
+      </div>
+      <div class="stakeholder left" data-stake="partners" onclick="showStake(this)">
+        <div class="s-icon">🤝</div>
+        <div class="s-name">Partners</div>
+      </div>
+      <div class="stakeholder tl" data-stake="insurers" onclick="showStake(this)">
+        <div class="s-icon">📋</div>
+        <div class="s-name">Insurers</div>
+      </div>
+    </div>
+    <div class="stakeholder-info" id="stakeInfo">
+      <h5>👆 Click any stakeholder</h5>
+      <p>Governance is the balancing act among all these audiences. Click each one to see what they expect from a security program.</p>
+    </div>
+  </div>
+
+  <h3>Governance vs. Strategy vs. Management — Three Time Horizons</h3>
+  <p>The cleanest way to separate the three functions is by <strong>time horizon</strong>. They share vocabulary but operate on very different clocks.</p>
+
+  <div class="timeline-grid">
+    <div class="timeline-card gov">
+      <h4>🏛️ Governance</h4>
+      <span class="horizon">3–5 years</span>
+      <ul>
+        <li>Vision &amp; mission</li>
+        <li>Ethics &amp; values</li>
+        <li>Risk appetite</li>
+        <li>Resource allocation principles</li>
+        <li>Oversight &amp; assurance</li>
+      </ul>
+    </div>
+    <div class="timeline-card strat">
+      <h4>🗺️ Strategy</h4>
+      <span class="horizon">1 year</span>
+      <ul>
+        <li>Annual roadmaps</li>
+        <li>Budget allocation</li>
+        <li>Capability investment</li>
+        <li>Initiative prioritization</li>
+        <li>KGI definition</li>
+      </ul>
+    </div>
+    <div class="timeline-card mgmt">
+      <h4>⚙️ Management</h4>
+      <span class="horizon">1–3 months</span>
+      <ul>
+        <li>Daily operations</li>
+        <li>Control execution</li>
+        <li>Monitoring &amp; response</li>
+        <li>Tactical decisions</li>
+        <li>KPI tracking</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Highway Trip</div>
+    <p><strong>Governance</strong> decides "we're moving the family to Denver next year." <strong>Strategy</strong> plans the route — which highways, where to refuel, what hotels to book, what to pack. <strong>Management</strong> drives the car day by day — when to change lanes, when to stop for gas, when to take a break. You need all three. The family that argues about lane changes on the way out of the driveway and never decides where they're going never arrives anywhere.</p>
+  </div>
+
+  <h3>Activity: Governance, Strategy, or Management?</h3>
+  <p>A healthcare organization wants to migrate patient records to a cloud platform. For each decision below, identify which function owns it.</p>
+  <div class="matcher" id="gsmMatcher">
+    <div class="match-row" data-correct="governance">
+      <div class="match-scenario">Approve the strategic direction to move to cloud over the next three years</div>
+      <select class="match-select">
+        <option value="">Select function…</option>
+        <option value="governance">Governance</option>
+        <option value="strategy">Strategy</option>
+        <option value="management">Management</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="strategy">
+      <div class="match-scenario">Select the cloud vendor and build the multi-year migration roadmap with budget projections</div>
+      <select class="match-select">
+        <option value="">Select function…</option>
+        <option value="governance">Governance</option>
+        <option value="strategy">Strategy</option>
+        <option value="management">Management</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="management">
+      <div class="match-scenario">Run today's patch cycle for the new cloud workloads</div>
+      <select class="match-select">
+        <option value="">Select function…</option>
+        <option value="governance">Governance</option>
+        <option value="strategy">Strategy</option>
+        <option value="management">Management</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="governance">
+      <div class="match-scenario">Set the organization's risk appetite for storing PHI in third-party systems</div>
+      <select class="match-select">
+        <option value="">Select function…</option>
+        <option value="governance">Governance</option>
+        <option value="strategy">Strategy</option>
+        <option value="management">Management</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="strategy">
+      <div class="match-scenario">Allocate next year's $2.4M security budget across people, tools, and training</div>
+      <select class="match-select">
+        <option value="">Select function…</option>
+        <option value="governance">Governance</option>
+        <option value="strategy">Strategy</option>
+        <option value="management">Management</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <button class="btn" onclick="checkMatcher('gsmMatcher')">Check Answers</button>
+    <button class="btn secondary" onclick="resetMatcher('gsmMatcher')">Reset</button>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Without Executive Sponsorship, Security Loses</div>
+    <p>Governance establishes <strong>authority, funding, and organizational alignment</strong>. A CISO who reports three levels below the CEO, with a budget owned by IT operations, and no standing seat on any executive committee will fail — not because of lack of skill, but because security has no governance voice. The best technical controls in the world cannot survive a governance vacuum.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 2 ===================== -->
+<section class="module" id="m2">
+  <span class="module-tag">Module 2</span>
+  <span class="duration">30 min</span>
+  <h2>Roles, Structure &amp; Organizational Culture</h2>
+  <p>Governance lives in <em>people</em>, not documents. A risk acceptance form with no named accountable executive is paperwork; a risk acceptance with a named VP who has budget authority is a decision. Module 2 is about who plays which role — and the single most important distinction in governance: accountability versus responsibility.</p>
+
+  <h3>Accountability vs. Responsibility — The Distinction That Matters Most</h3>
+  <div class="ar-grid">
+    <div class="ar-card acct">
+      <div class="ar-icon">⚖️</div>
+      <h4>Accountability</h4>
+      <div class="ar-rule">CANNOT be delegated</div>
+      <p>The buck stops here. One named person owns the outcome — success or failure — regardless of how the work is divided. There is only one accountable party per decision.</p>
+    </div>
+    <div class="ar-card resp">
+      <div class="ar-icon">🛠️</div>
+      <h4>Responsibility</h4>
+      <div class="ar-rule">CAN be delegated</div>
+      <p>The doing of the work. Often distributed across teams and individuals. Many people can be responsible for parts of the same outcome. Responsibility can be assigned, transferred, and shared.</p>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Restaurant Health Inspection</div>
+    <p>The line cook is <strong>responsible</strong> for cooking the chicken to 165°F. The sous chef is <strong>responsible</strong> for verifying the line. The head chef is <strong>responsible</strong> for kitchen procedures. But the <strong>owner</strong> of the restaurant is <strong>accountable</strong> when the health inspector cites the kitchen — no matter who actually undercooked the chicken. The owner can fire the cook, retrain the sous chef, or change the head chef. They cannot give the citation to someone else. <em>That</em> is accountability.</p>
+  </div>
+
+  <h3>Key Governance Roles</h3>
+  <table>
+    <tr><th>Role</th><th>Accountable / Responsible For</th><th>Reports To</th></tr>
+    <tr><td><strong>Board of Directors</strong></td><td>Ultimate accountability for organizational success and risk posture; approves strategy and risk appetite</td><td>Shareholders / membership</td></tr>
+    <tr><td><strong>CEO</strong></td><td>Accountable for executing board direction across the enterprise</td><td>Board</td></tr>
+    <tr><td><strong>CISO</strong></td><td>Security program leadership, policy enforcement, governance implementation</td><td>CEO, CFO, or COO (placement matters — see below)</td></tr>
+    <tr><td><strong>Risk Owner</strong></td><td>Business outcome of a specific risk; budget authority to mitigate or accept</td><td>Executive sponsor of the business unit</td></tr>
+    <tr><td><strong>Control Owner</strong></td><td>Effectiveness of a specific control</td><td>CISO or designated security leader</td></tr>
+    <tr><td><strong>Data Owner</strong></td><td>Classification and use of a specific data set</td><td>Business unit leader</td></tr>
+    <tr><td><strong>Custodian</strong></td><td>Day-to-day operation of systems holding data</td><td>IT leadership</td></tr>
+  </table>
+
+  <div class="callout">
+    <div class="label">Where the CISO Reports — A Governance Question, Not a Plumbing Question</div>
+    <p>A CISO who reports to the CIO has an inherent conflict of interest: the CIO is incentivized to ship features and avoid security delays. A CISO who reports to the CEO, COO, or CFO — or, in highly mature organizations, has a direct line to the Board's audit committee — has the structural independence to escalate when necessary. Reporting line is one of the strongest predictors of how seriously the rest of the organization will take security.</p>
+  </div>
+
+  <h3>The Security Steering Committee</h3>
+  <p>The steering committee is the cross-functional, senior-level forum where security trade-offs are surfaced, debated, and decided. It is the engine that makes governance <em>operational</em> rather than purely symbolic.</p>
+
+  <h3>Activity: Build a Security Steering Committee</h3>
+  <p>For a mid-sized regional bank, select the roles you would include on the security steering committee. Aim for cross-functional senior representation — not all of IT, not all of compliance. Click each role to add or remove.</p>
+
+  <div class="committee-builder">
+    <div class="committee-grid" id="committeeGrid">
+      <div class="committee-member" data-role="ciso" data-good="1" onclick="toggleMember(this)">
+        <div class="m-icon">🔒</div>
+        <div class="m-name">CISO</div>
+      </div>
+      <div class="committee-member" data-role="cio" data-good="1" onclick="toggleMember(this)">
+        <div class="m-icon">💻</div>
+        <div class="m-name">CIO</div>
+      </div>
+      <div class="committee-member" data-role="cfo" data-good="1" onclick="toggleMember(this)">
+        <div class="m-icon">💰</div>
+        <div class="m-name">CFO</div>
+      </div>
+      <div class="committee-member" data-role="legal" data-good="1" onclick="toggleMember(this)">
+        <div class="m-icon">⚖️</div>
+        <div class="m-name">General Counsel</div>
+      </div>
+      <div class="committee-member" data-role="hr" data-good="1" onclick="toggleMember(this)">
+        <div class="m-icon">👥</div>
+        <div class="m-name">Head of HR</div>
+      </div>
+      <div class="committee-member" data-role="business" data-good="1" onclick="toggleMember(this)">
+        <div class="m-icon">🏢</div>
+        <div class="m-name">Business Unit VPs</div>
+      </div>
+      <div class="committee-member" data-role="compliance" data-good="1" onclick="toggleMember(this)">
+        <div class="m-icon">📋</div>
+        <div class="m-name">Compliance Officer</div>
+      </div>
+      <div class="committee-member" data-role="audit" data-good="1" onclick="toggleMember(this)">
+        <div class="m-icon">🔍</div>
+        <div class="m-name">Internal Audit (advisory)</div>
+      </div>
+      <div class="committee-member" data-role="analyst" data-good="0" onclick="toggleMember(this)">
+        <div class="m-icon">🖥️</div>
+        <div class="m-name">SOC Analyst</div>
+      </div>
+      <div class="committee-member" data-role="helpdesk" data-good="0" onclick="toggleMember(this)">
+        <div class="m-icon">☎️</div>
+        <div class="m-name">Help Desk Tech</div>
+      </div>
+      <div class="committee-member" data-role="intern" data-good="0" onclick="toggleMember(this)">
+        <div class="m-icon">📚</div>
+        <div class="m-name">Security Intern</div>
+      </div>
+      <div class="committee-member" data-role="vendor" data-good="0" onclick="toggleMember(this)">
+        <div class="m-icon">🤝</div>
+        <div class="m-name">External Vendor Rep</div>
+      </div>
+    </div>
+    <button class="btn" onclick="checkCommittee()">Evaluate My Committee</button>
+    <button class="btn secondary" onclick="resetCommittee()">Reset</button>
+    <div class="committee-verdict" id="committeeVerdict"></div>
+  </div>
+
+  <h3>Organizational Culture &amp; Acceptable Use</h3>
+  <p>The strongest security control in any organization is its <em>culture</em>. Technology can be bypassed; policies can be ignored; but a workforce that genuinely cares about security creates an environment where bad actors — internal or external — find few willing accomplices and many alert eyes.</p>
+
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🤝</div>
+          <h4>Shared Responsibility</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Everyone owns security</strong>
+          From the CEO to the receptionist. Security is not "the security team's job" — it's everyone's job, with the security team providing tools, training, and direction.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">👁️</div>
+          <h4>Transparency</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Hidden problems compound</strong>
+          Cultures that punish bad news produce hidden incidents. Cultures that reward reporting catch problems early. Psychological safety is a security control.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">📜</div>
+          <h4>Acceptable Use</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Documented behavioral norms</strong>
+          The AUP defines permitted actions, prohibited activities, and user responsibilities. Annual acknowledgment by every employee demonstrates due diligence and creates accountability.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MODULE 3 ===================== -->
+<section class="module" id="m3">
+  <span class="module-tag">Module 3</span>
+  <span class="duration">40 min</span>
+  <h2>Compliance Imperatives &amp; Legal Drivers</h2>
+  <p>Compliance and due diligence are often used interchangeably. They are not the same thing. Confusing them is one of the most common — and most dangerous — failures of security governance.</p>
+
+  <h3>Compliance vs. Due Diligence</h3>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">✅</div>
+          <h4>Compliance</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Reactive adherence</strong>
+          Following laws, standards, regulations, and contracts. Necessary but minimum. Compliance answers: <em>"Did we meet the rule?"</em>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🛡️</div>
+          <h4>Due Diligence</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Proactive risk reduction</strong>
+          Vendor vetting, vulnerability management, testing, policies, training. Goes beyond what's strictly required. Due diligence answers: <em>"Did we do everything a reasonable organization would do?"</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Driving the Speed Limit</div>
+    <p><strong>Compliance</strong> is staying under the posted speed limit. <strong>Due diligence</strong> is also slowing down in the rain, checking your tires before a long trip, keeping a safe following distance, and replacing your brakes before they squeal. A driver going exactly 65 in a downpour on bald tires is <em>compliant</em> with the speed limit and <em>negligent</em> in every other way. After the accident, "but I wasn't speeding" is not a defense.</p>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Compliance Alone Does Not Equal Security</div>
+    <p>Target was PCI compliant when it was breached. Equifax was compliant with most applicable standards when it lost 147 million records. Compliance is the <em>floor</em>, not the <em>ceiling</em>. An organization that defines its security program purely by what regulators require will be breached eventually — and the regulator will be the first to point out that compliance did not require a reasonable security program, only adherence to specific controls.</p>
+  </div>
+
+  <h3>Why Legal &amp; Regulatory Requirements Take Priority</h3>
+  <p>When budgets are tight and trade-offs must be made, legal and regulatory requirements rise to the top of the priority list for a clear reason: <strong>violations create consequences other risk responses cannot offset.</strong></p>
+  <ul>
+    <li><strong>Criminal penalties</strong> — some regulations (HIPAA, SOX, GDPR criminal provisions) carry personal liability for executives</li>
+    <li><strong>Fines and audit costs</strong> — GDPR fines can reach 4% of global revenue; PCI breaches trigger multi-million-dollar forensic and reissuance costs</li>
+    <li><strong>License or accreditation loss</strong> — financial institutions can lose charters; healthcare providers can lose Medicare/Medicaid eligibility</li>
+    <li><strong>Class action exposure</strong> — most modern breach lawsuits center on whether the organization met its legal duty of care</li>
+    <li><strong>Consent decrees</strong> — multi-year regulatory oversight that survives leadership changes</li>
+  </ul>
+
+  <h3>Major Regulatory Frameworks</h3>
+  <table>
+    <tr><th>Framework</th><th>Scope</th><th>Key Requirements</th></tr>
+    <tr><td><strong>GDPR</strong></td><td>EU residents' personal data — global reach</td><td>Lawful basis for processing, data subject rights, 72-hour breach notification</td></tr>
+    <tr><td><strong>SOX</strong></td><td>U.S. public company financial reporting</td><td>Internal control over financial reporting; ITGCs; certification by executives</td></tr>
+    <tr><td><strong>PCI DSS</strong></td><td>Cardholder data — global</td><td>12 control categories; annual assessment; quarterly scans</td></tr>
+    <tr><td><strong>HIPAA</strong></td><td>U.S. protected health information</td><td>Privacy Rule, Security Rule, Breach Notification Rule</td></tr>
+    <tr><td><strong>SOC 2</strong></td><td>Service organizations holding customer data</td><td>Five Trust Service Criteria; auditor attestation</td></tr>
+    <tr><td><strong>FERPA</strong></td><td>U.S. educational records</td><td>Consent for disclosure; access rights for parents/students</td></tr>
+    <tr><td><strong>GLBA</strong></td><td>U.S. financial institutions</td><td>Safeguards Rule; Privacy Rule; written information security program</td></tr>
+    <tr><td><strong>State breach laws</strong></td><td>50 U.S. states + DC</td><td>Notification triggers, timing, content; vary by state</td></tr>
+  </table>
+
+  <h3>The Information Governance Lifecycle</h3>
+  <p>Every piece of regulated data follows a lifecycle. Each stage has compliance obligations. Click each stage to expand.</p>
+
+  <div class="lifecycle">
+    <div class="lifecycle-stage active" data-stage="1" onclick="showStage(1)">
+      <div class="stage-num">1</div>
+      <div class="stage-icon">✏️</div>
+      <div class="stage-name">Creation</div>
+    </div>
+    <div class="lifecycle-stage" data-stage="2" onclick="showStage(2)">
+      <div class="stage-num">2</div>
+      <div class="stage-icon">💾</div>
+      <div class="stage-name">Storage</div>
+    </div>
+    <div class="lifecycle-stage" data-stage="3" onclick="showStage(3)">
+      <div class="stage-num">3</div>
+      <div class="stage-icon">🔍</div>
+      <div class="stage-name">Retrieval</div>
+    </div>
+    <div class="lifecycle-stage" data-stage="4" onclick="showStage(4)">
+      <div class="stage-num">4</div>
+      <div class="stage-icon">📦</div>
+      <div class="stage-name">Retention</div>
+    </div>
+    <div class="lifecycle-stage" data-stage="5" onclick="showStage(5)">
+      <div class="stage-num">5</div>
+      <div class="stage-icon">🗑️</div>
+      <div class="stage-name">Disposal</div>
+    </div>
+  </div>
+  <div class="lifecycle-detail" id="lifecycleDetail"></div>
+
+  <div class="callout">
+    <div class="label">Legal Hold Overrides Disposal</div>
+    <p>When litigation is reasonably anticipated, organizations have a legal duty to preserve relevant evidence — including data that would otherwise be eligible for routine disposal. Failure to suspend retention schedules during a legal hold can result in <em>spoliation</em> sanctions, adverse inference jury instructions, and case-ending consequences. A "delete after 7 years" policy is not a license to delete during active litigation.</p>
+  </div>
+
+  <h3>Ethics — The ISACA Code of Professional Ethics</h3>
+  <p>CISM-certified professionals subscribe to ISACA's Code of Professional Ethics. The core principles align with the governance themes of this lesson:</p>
+  <ul>
+    <li><strong>Support implementation of, and compliance with, appropriate standards and procedures</strong> — uphold the rules even when inconvenient</li>
+    <li><strong>Perform duties with objectivity, due diligence, and professional care</strong> — go beyond minimum compliance</li>
+    <li><strong>Serve in the interest of stakeholders</strong> — recognize the multiple audiences governance balances</li>
+    <li><strong>Maintain privacy and confidentiality</strong> — including not using information for personal benefit</li>
+    <li><strong>Maintain competency</strong> — continue professional education</li>
+    <li><strong>Inform appropriate parties of results</strong> — including bad news, accurately and promptly</li>
+    <li><strong>Support professional education of stakeholders</strong> — help others build governance literacy</li>
+  </ul>
+</section>
+
+<!-- ===================== MODULE 4 ===================== -->
+<section class="module" id="m4">
+  <span class="module-tag">Module 4</span>
+  <span class="duration">40 min</span>
+  <h2>Strategy — From Vision to Roadmap</h2>
+  <p>A security strategy translates governance direction into <em>action</em>. It is the bridge between the board's three-year intent and the operations team's daily work. Done well, it makes the program legible to executives and predictable to the workforce. Done poorly, it produces busy work disconnected from business value.</p>
+
+  <h3>The Strategic Foundation: Asset Awareness</h3>
+  <p>You cannot protect what you do not know exists. Every credible security strategy begins with the same four questions:</p>
+  <ol>
+    <li><strong>Known</strong> — do we have a complete inventory of what we own?</li>
+    <li><strong>Located</strong> — do we know where each asset physically and logically resides?</li>
+    <li><strong>Classified</strong> — do we know its sensitivity and criticality?</li>
+    <li><strong>Valued</strong> — do we know what its loss would cost the business?</li>
+  </ol>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Insuring a Warehouse</div>
+    <p>Before an insurer writes a warehouse policy, they walk the floor, count inventory, photograph the contents, note the fire suppression system, and identify high-value items. They cannot price coverage they don't know exists. <strong>Security strategy is the same.</strong> Spending on a tool to protect the assets you've forgotten is impossible. Asset awareness is the precondition for everything that follows.</p>
+  </div>
+
+  <h3>Asset Classification Tiers</h3>
+  <p>Classification drives proportional protection. Higher tiers require stronger controls; lower tiers can tolerate lighter ones. The point is to spend security dollars where they produce the most risk reduction.</p>
+
+  <div class="classify-stack">
+    <div class="classify-tier t1">
+      <div class="tier-icon">🔴</div>
+      <div class="tier-body">
+        <strong>Critical / Restricted</strong>
+        <div class="tier-desc">Loss would severely harm the organization, customers, or third parties. Strongest controls required.</div>
+        <div class="tier-examples">Examples: PHI, regulated financial data, intellectual property, executive communications, source code for core products</div>
+      </div>
+    </div>
+    <div class="classify-tier t2">
+      <div class="tier-icon">🟠</div>
+      <div class="tier-body">
+        <strong>Confidential</strong>
+        <div class="tier-desc">Internal business information whose loss would cause significant harm. Strong controls; access on need-to-know.</div>
+        <div class="tier-examples">Examples: HR records, contracts, customer lists, internal financial reports, strategic plans</div>
+      </div>
+    </div>
+    <div class="classify-tier t3">
+      <div class="tier-icon">🔵</div>
+      <div class="tier-body">
+        <strong>Internal Use Only</strong>
+        <div class="tier-desc">Day-to-day operational information not for public release. Moderate controls; broad internal access.</div>
+        <div class="tier-examples">Examples: internal wikis, project documentation, standard policies, employee directories</div>
+      </div>
+    </div>
+    <div class="classify-tier t4">
+      <div class="tier-icon">⚪</div>
+      <div class="tier-body">
+        <strong>Public</strong>
+        <div class="tier-desc">Information intentionally released to the public. Minimal access controls; integrity controls still matter (defacement).</div>
+        <div class="tier-examples">Examples: marketing materials, public press releases, published annual reports, public website content</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Interactive: Asset Valuation Calculator</h3>
+  <p>Estimate the business impact of compromise for a single asset using a simple semi-quantitative model based on CIA (Confidentiality, Integrity, Availability) impact.</p>
+  <div class="calc-grid">
+    <div class="calc-field">
+      <label>Asset replacement value ($)</label>
+      <input type="number" id="avValue" value="250000" min="0" step="10000" oninput="updateValuation()">
+    </div>
+    <div class="calc-field">
+      <label>Confidentiality impact if lost</label>
+      <select id="avC" onchange="updateValuation()">
+        <option value="0.1">Low — minimal exposure</option>
+        <option value="0.3">Medium — customer concerns</option>
+        <option value="0.6" selected>High — regulatory exposure</option>
+        <option value="0.9">Critical — major harm</option>
+      </select>
+    </div>
+    <div class="calc-field">
+      <label>Integrity impact if corrupted</label>
+      <select id="avI" onchange="updateValuation()">
+        <option value="0.1">Low</option>
+        <option value="0.3">Medium</option>
+        <option value="0.6" selected>High</option>
+        <option value="0.9">Critical — incorrect decisions made</option>
+      </select>
+    </div>
+    <div class="calc-field">
+      <label>Availability impact if unavailable</label>
+      <select id="avA" onchange="updateValuation()">
+        <option value="0.1">Low — non-essential</option>
+        <option value="0.3" selected>Medium — degraded operations</option>
+        <option value="0.6">High — operations halt</option>
+        <option value="0.9">Critical — safety / revenue impact</option>
+      </select>
+    </div>
+  </div>
+  <div class="calc-result">
+    <div class="result-row"><span>Maximum CIA exposure factor</span><span id="avEF">60%</span></div>
+    <div class="result-row"><span>Estimated single-loss exposure</span><span id="avSLE">$150,000</span></div>
+    <div class="result-row"><span>Recommended classification</span><span id="avClass">Confidential</span></div>
+    <div class="result-row"><span>Control posture</span><span id="avControl">Strong access controls, encryption, monitoring</span></div>
+  </div>
+
+  <h3>Strategic Alignment — Security Must Support Business</h3>
+  <p>Every security initiative should be defensible against the question: <em>"how does this support a business objective?"</em> A program that cannot answer the question is not a strategy — it is a wish list. Strategic alignment ties security spending to specific business outcomes:</p>
+  <table>
+    <tr><th>Business Objective</th><th>Aligned Security Initiative</th><th>Why It's Aligned</th></tr>
+    <tr><td>Faster market expansion into Europe</td><td>GDPR-compliance program, EU data residency architecture</td><td>Enables, rather than blocks, market entry</td></tr>
+    <tr><td>Secure digital transformation to cloud</td><td>Cloud security posture management, identity federation, zero trust</td><td>Makes cloud adoption defensible</td></tr>
+    <tr><td>Regulatory readiness (new DoD contracts)</td><td>CMMC Level 2 certification, NIST SP 800-171 implementation</td><td>Required to win and retain business</td></tr>
+    <tr><td>Customer trust (B2B SaaS growth)</td><td>SOC 2 Type II attestation, ISO 27001 certification</td><td>Reduces sales cycle friction; required by enterprise buyers</td></tr>
+  </table>
+
+  <h3>Interactive Governance Metrics Dashboard</h3>
+  <p>KPIs measure operational performance; KGIs measure strategic goal achievement. Adjust each slider to see how the executive dashboard changes.</p>
+  <div class="metrics-dash" id="metricsDash">
+    <div class="metric-tile" data-metric="compliance">
+      <h5>Policy Compliance Rate</h5>
+      <div class="metric-value">94%</div>
+      <span class="metric-status green">On Target</span>
+      <input type="range" min="60" max="100" value="94" oninput="updateMetric(this, 'compliance', [85,95], '%')">
+      <div class="metric-label">% of systems meeting baseline policy</div>
+    </div>
+    <div class="metric-tile" data-metric="mttr">
+      <h5>Mean Time to Remediate</h5>
+      <div class="metric-value">12 days</div>
+      <span class="metric-status green">On Target</span>
+      <input type="range" min="1" max="60" value="12" oninput="updateMetricInverse(this, 'mttr', [14,30], ' days')">
+      <div class="metric-label">Avg time to close critical vulns</div>
+    </div>
+    <div class="metric-tile" data-metric="audit">
+      <h5>Audit Findings Closure Rate</h5>
+      <div class="metric-value">88%</div>
+      <span class="metric-status green">On Target</span>
+      <input type="range" min="50" max="100" value="88" oninput="updateMetric(this, 'audit', [80,90], '%')">
+      <div class="metric-label">% of findings closed within SLA</div>
+    </div>
+    <div class="metric-tile" data-metric="training">
+      <h5>Security Training Completion</h5>
+      <div class="metric-value">96%</div>
+      <span class="metric-status green">On Target</span>
+      <input type="range" min="50" max="100" value="96" oninput="updateMetric(this, 'training', [90,98], '%')">
+      <div class="metric-label">% of staff current on annual training</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="label">The Value Delivery Test</div>
+    <p>If you cannot tell the CFO, in a single sentence, how each major security investment makes the business better — faster, cheaper, more compliant, more trustworthy to customers, more resilient — the investment will be cut at the first budget pressure. Security strategy is the discipline of having that sentence ready, supported by data, for every line item.</p>
+  </div>
+</section>
+
+<!-- ===================== CAPSTONE ===================== -->
+<section class="module" id="capstone">
+  <span class="module-tag">Capstone Exercise</span>
+  <span class="duration">45 min</span>
+  <h2>Enterprise Governance Simulation</h2>
+
+  <h3>Scenario: NorthBridge Industries</h3>
+  <p>You are the newly hired CISO at NorthBridge Industries, a multinational manufacturer ($2.1B revenue, 8,500 employees). The company is simultaneously:</p>
+  <ul>
+    <li>Expanding into three new international markets — Germany, Brazil, Singapore</li>
+    <li>Migrating core ERP and customer-facing applications from on-premises to AWS</li>
+    <li>Facing increasing regulatory oversight — GDPR (Germany), LGPD (Brazil), PDPA (Singapore), CMMC for U.S. DoD contracts</li>
+    <li>Experiencing a cybersecurity staffing shortage — three of seven senior security positions open for 4+ months</li>
+  </ul>
+  <p>The board has asked for your governance and strategic recommendations within 60 days.</p>
+
+  <h3>Required Deliverables</h3>
+  <ol>
+    <li><strong>Governance structure</strong> — proposed reporting lines, steering committee composition, and decision-rights matrix</li>
+    <li><strong>Risk accountability matrix</strong> — named risk owners for each major risk category, with control owners and custodians</li>
+    <li><strong>Security strategy roadmap</strong> — 3-year strategic plan aligned to the four business priorities</li>
+    <li><strong>Compliance prioritization plan</strong> — which regulations get attention first, and why</li>
+    <li><strong>Asset classification model</strong> — four-tier classification with examples drawn from the business</li>
+    <li><strong>Steering committee recommendations</strong> — proposed membership, charter, meeting cadence, and decision authority</li>
+    <li><strong>Executive governance briefing</strong> — one-page summary for the Board's audit committee</li>
+  </ol>
+
+  <h3>Team Roles</h3>
+  <table>
+    <tr><th>Role</th><th>Responsibility</th></tr>
+    <tr><td>CISO (you)</td><td>Lead the analysis; produce the deliverables</td></tr>
+    <tr><td>CFO advisor</td><td>Challenge cost assumptions; demand ROI</td></tr>
+    <tr><td>General Counsel advisor</td><td>Surface regulatory complexity; advise on legal exposure</td></tr>
+    <tr><td>Business Unit VP</td><td>Demand business alignment; resist friction</td></tr>
+    <tr><td>Board Audit Committee Chair</td><td>Evaluate the final briefing; vote to approve or revise</td></tr>
+  </table>
+
+  <h3>Evaluation Rubric</h3>
+  <table>
+    <tr><th>Criterion</th><th>Weight</th><th>"Excellent" Looks Like</th></tr>
+    <tr><td>Clarity of governance structure</td><td>20%</td><td>Distinguishes accountability from responsibility; CISO reporting line defended; steering committee membership justified</td></tr>
+    <tr><td>Quality of risk accountability</td><td>15%</td><td>Risk owners are named executives with budget authority — not the CISO for everything</td></tr>
+    <tr><td>Strategic alignment</td><td>20%</td><td>Each strategic initiative is tied to a specific business objective with measurable outcomes</td></tr>
+    <tr><td>Compliance prioritization rationale</td><td>15%</td><td>Sequenced by exposure, not alphabetically; addresses extraterritorial reach of GDPR/LGPD</td></tr>
+    <tr><td>Asset classification practicality</td><td>10%</td><td>Tiers are usable by non-security staff; examples concrete; control implications clear</td></tr>
+    <tr><td>Executive communication</td><td>20%</td><td>Board briefing in business language; financial framing; board-appropriate brevity</td></tr>
+  </table>
+</section>
+
+<!-- ===================== ASSESSMENT ===================== -->
+<section class="module" id="assessment">
+  <span class="module-tag">Final Assessment</span>
+  <h2>Knowledge Check — 10 Questions</h2>
+  <p>Test your mastery of Domain 1 Part 1. Each question gives instant feedback and an explanation.</p>
+  <div id="finalQuiz"></div>
+  <div id="finalScore" style="margin-top:1.5rem;padding:1.5rem;background:var(--primary);color:#fff;border-radius:10px;display:none;text-align:center;">
+    <div style="font-size:0.9rem;text-transform:uppercase;letter-spacing:0.1em;opacity:0.85;">Your Score</div>
+    <div style="font-size:3rem;font-weight:700;margin:0.5rem 0;" id="scoreNum">0 / 10</div>
+    <div id="scoreMessage" style="opacity:0.9;"></div>
+  </div>
+  <button class="btn" onclick="gradeFinal()" style="margin-top:1rem;">Grade My Quiz</button>
+  <button class="btn secondary" onclick="resetFinal()">Reset</button>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>NCyTE CISM Course</strong> · Domain 1, Part 1: Information Security Governance and Strategy</p>
+  <p>Interactive lesson by Dr. John Sands · National AI Training Initiative · Moraine Valley Community College</p>
+</footer>
+
+<script>
+// ============ NAV ACTIVE STATE + PROGRESS BAR ============
+const sections = document.querySelectorAll('section.module');
+const navLinks = document.querySelectorAll('nav.modules a');
+const progressBar = document.getElementById('progressBar');
+
+function onScroll() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = Math.min(100, (scrollTop / docHeight) * 100) + '%';
+
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 120;
+    if (scrollTop >= top) current = sec.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+// ============ INLINE QUIZ ============
+document.querySelectorAll('[data-quiz]').forEach(quiz => {
+  const options = quiz.querySelectorAll('.quiz-option');
+  let explainDiv = document.createElement('div');
+  explainDiv.className = 'quiz-explanation';
+  quiz.appendChild(explainDiv);
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      options.forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      if (opt.dataset.answer === 'correct') opt.classList.add('correct');
+      else opt.classList.add('wrong');
+      explainDiv.textContent = opt.dataset.explain || '';
+      explainDiv.classList.add('show');
+    });
+  });
+});
+
+// ============ ACCORDIONS ============
+document.querySelectorAll('.accordion-header').forEach(h => {
+  h.addEventListener('click', () => {
+    h.parentElement.classList.toggle('open');
+  });
+});
+
+// ============ MATCHER ============
+const matchLabels = {
+  governance: 'Governance', strategy: 'Strategy', management: 'Management'
+};
+function checkMatcher(id) {
+  const rows = document.querySelectorAll('#' + id + ' .match-row');
+  rows.forEach(row => {
+    const select = row.querySelector('select');
+    const fb = row.querySelector('.match-feedback');
+    const ans = row.dataset.correct;
+    if (!select.value) {
+      fb.textContent = 'Pick one';
+      fb.className = 'match-feedback';
+      return;
+    }
+    if (select.value === ans) {
+      fb.textContent = '✓ Correct';
+      fb.className = 'match-feedback correct';
+    } else {
+      fb.textContent = '✗ ' + (matchLabels[ans] || ans);
+      fb.className = 'match-feedback wrong';
+    }
+  });
+}
+function resetMatcher(id) {
+  document.querySelectorAll('#' + id + ' .match-row').forEach(row => {
+    row.querySelector('select').value = '';
+    const fb = row.querySelector('.match-feedback');
+    fb.textContent = '';
+    fb.className = 'match-feedback';
+  });
+}
+
+// ============ STAKEHOLDER WHEEL (Module 1) ============
+const stakeData = {
+  customers: { title: '🛒 Customers', body: 'Expect their data to be protected, services to be available, and trust to be honored. A breach of customer trust takes years to rebuild and may permanently damage market position.' },
+  shareholders: { title: '📈 Shareholders', body: 'Expect protection of their investment. Security incidents materially affect stock price; fiduciary duty extends to cybersecurity oversight at the board level (SEC has explicitly stated this).' },
+  regulators: { title: '⚖️ Regulators', body: 'Enforce statutes and rules — HIPAA, GDPR, PCI, SEC cyber rules. Have authority to fine, sanction, mandate remediation, or revoke operating authority.' },
+  suppliers: { title: '🚚 Suppliers', body: 'Trust your environment with credentials, integrations, and data. Their security is your supply chain risk; your security is their reputational risk.' },
+  employees: { title: '👥 Employees', body: 'Expect a workplace where their personal data is protected, their jobs are secure from preventable incidents, and they have the tools to do their work safely.' },
+  community: { title: '🏛️ Community', body: 'Especially for critical infrastructure (water, power, healthcare): the local public depends on services continuing. Cyber incidents have public-safety dimensions.' },
+  partners: { title: '🤝 Partners', body: 'Joint ventures, channel relationships, and integrators share systems and data. Their continued business depends on your reliability and discretion.' },
+  insurers: { title: '📋 Insurers', body: 'Cyber insurance underwriters require controls evidence before binding coverage; premium and exclusions depend on demonstrated due diligence.' }
+};
+function showStake(el) {
+  document.querySelectorAll('.stakeholder').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  const key = el.dataset.stake;
+  const d = stakeData[key];
+  document.getElementById('stakeInfo').innerHTML = `<h5>${d.title}</h5><p>${d.body}</p>`;
+}
+
+// ============ LIFECYCLE STAGES (Module 3) ============
+const stageData = {
+  1: {
+    title: '✏️ Stage 1 — Creation',
+    body: 'Data enters the organization — entered by users, ingested from sources, generated by systems. <strong>Compliance obligations attach immediately</strong> upon creation (lawful basis under GDPR, consent under HIPAA, etc.). Classification should happen at creation, not weeks later when someone notices.',
+    pitfall: 'Treating classification as an afterthought. Data created uncategorized tends to stay that way.'
+  },
+  2: {
+    title: '💾 Stage 2 — Storage',
+    body: 'Data at rest. Compliance dictates <em>where</em> it can be stored (data residency), <em>how</em> (encryption, access controls), and <em>under what protections</em>. Cloud storage adds shared responsibility complexity — the provider secures the infrastructure; you secure the configuration.',
+    pitfall: 'Misconfigured cloud storage buckets. The single most common breach cause of the cloud era.'
+  },
+  3: {
+    title: '🔍 Stage 3 — Retrieval / Use',
+    body: 'Data in active use. Subject to access controls, logging, monitoring, and minimum-necessary principles. Some regulations require audit trails of every access; others impose purpose limitations (data collected for one purpose cannot be used for another without new consent).',
+    pitfall: 'Failing to log access to regulated data. After-the-fact "who saw this?" investigations are impossible without logs.'
+  },
+  4: {
+    title: '📦 Stage 4 — Retention',
+    body: 'How long data is kept. Most regulations specify <em>minimum</em> retention; some specify <em>maximum</em>. GDPR explicitly limits retention to what is necessary; data minimization is the principle. Retention schedules must be documented and enforced.',
+    pitfall: 'Keeping data forever "just in case." Maximum retention rules under GDPR/CCPA make over-retention a regulatory violation.'
+  },
+  5: {
+    title: '🗑️ Stage 5 — Disposal',
+    body: 'Secure destruction at end of life. NIST SP 800-88 defines clear, purge, and destroy levels. Disposal must be documented (certificates of destruction). Cloud data disposal requires confidence the provider actually destroys it. <strong>Legal holds override disposal</strong> during litigation.',
+    pitfall: 'Disposing of media that contained recoverable data — donated PCs with hard drives still mounted, leased printers with internal storage forgotten.'
+  }
+};
+function showStage(n) {
+  document.querySelectorAll('.lifecycle-stage').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.stage) === n);
+  });
+  const d = stageData[n];
+  document.getElementById('lifecycleDetail').innerHTML = `
+    <h4>${d.title}</h4>
+    <p>${d.body}</p>
+    <p style="font-size:0.88rem;color:var(--ink-soft);margin-top:0.75rem"><strong style="color:var(--danger)">Common pitfall:</strong> ${d.pitfall}</p>
+  `;
+}
+showStage(1);
+
+// ============ COMMITTEE BUILDER (Module 2) ============
+function toggleMember(el) {
+  el.classList.toggle('selected');
+}
+function checkCommittee() {
+  const selected = document.querySelectorAll('#committeeGrid .committee-member.selected');
+  let goodCount = 0, badCount = 0;
+  const goodRoles = [], badRoles = [];
+  selected.forEach(s => {
+    if (s.dataset.good === '1') { goodCount++; goodRoles.push(s.querySelector('.m-name').textContent); }
+    else { badCount++; badRoles.push(s.querySelector('.m-name').textContent); }
+  });
+  const v = document.getElementById('committeeVerdict');
+  v.className = 'committee-verdict show';
+
+  if (goodCount >= 6 && badCount === 0) {
+    v.classList.add('win');
+    v.innerHTML = `<strong>🎯 Excellent committee design.</strong> You selected ${goodCount} appropriate senior cross-functional members and avoided role-confusion picks. A steering committee with this composition has the authority and breadth to make real governance decisions.`;
+  } else if (badCount > 0) {
+    v.classList.add('miss');
+    v.innerHTML = `<strong>⚠️ Composition issue.</strong> ${badCount > 0 ? 'You included ' + badRoles.join(', ') + ' — these are operational roles, not strategic decision-makers. Steering committees need executives with budget authority, not analysts or interns.' : ''} ${goodCount < 6 ? ' Consider adding more senior cross-functional members (Legal, Finance, HR, business unit VPs).' : ''}`;
+  } else if (goodCount < 5) {
+    v.classList.add('miss');
+    v.innerHTML = `<strong>⚠️ Too narrow.</strong> Steering committees must be cross-functional. With only ${goodCount} member${goodCount===1?'':'s'}, you're missing critical perspectives. Real trade-offs require Legal, Finance, HR, and business unit voices alongside the CISO.`;
+  } else {
+    v.classList.add('win');
+    v.innerHTML = `<strong>✓ Solid composition.</strong> ${goodCount} senior cross-functional members provides the breadth governance decisions require.`;
+  }
+}
+function resetCommittee() {
+  document.querySelectorAll('#committeeGrid .committee-member').forEach(m => m.classList.remove('selected'));
+  document.getElementById('committeeVerdict').className = 'committee-verdict';
+}
+
+// ============ ASSET VALUATION (Module 4) ============
+function updateValuation() {
+  const v = parseFloat(document.getElementById('avValue').value) || 0;
+  const c = parseFloat(document.getElementById('avC').value);
+  const i = parseFloat(document.getElementById('avI').value);
+  const a = parseFloat(document.getElementById('avA').value);
+  const ef = Math.max(c, i, a);
+  const sle = v * ef;
+  const fmt = n => '$' + Math.round(n).toLocaleString();
+  document.getElementById('avEF').textContent = (ef * 100).toFixed(0) + '%';
+  document.getElementById('avSLE').textContent = fmt(sle);
+
+  let cls, ctl;
+  if (ef >= 0.85) {
+    cls = 'Critical / Restricted';
+    ctl = 'Strongest controls: encryption, MFA, full logging, restricted access, executive approval for changes';
+  } else if (ef >= 0.55) {
+    cls = 'Confidential';
+    ctl = 'Strong access controls, encryption, monitoring, regular review';
+  } else if (ef >= 0.25) {
+    cls = 'Internal Use Only';
+    ctl = 'Standard controls, role-based access, basic logging';
+  } else {
+    cls = 'Public';
+    ctl = 'Integrity controls primarily; minimal access controls';
+  }
+  document.getElementById('avClass').textContent = cls;
+  document.getElementById('avControl').textContent = ctl;
+}
+updateValuation();
+
+// ============ METRICS DASHBOARD (Module 4) ============
+function setMetricColor(tile, status, label) {
+  const span = tile.querySelector('.metric-status');
+  span.className = 'metric-status ' + status;
+  span.textContent = label;
+  tile.style.borderTopColor = status === 'green' ? 'var(--success)' : status === 'yellow' ? '#D69E2E' : 'var(--danger)';
+}
+function updateMetric(slider, key, thresholds, suffix='') {
+  const v = parseFloat(slider.value);
+  const tile = slider.closest('.metric-tile');
+  tile.querySelector('.metric-value').textContent = v + suffix;
+  let status, label;
+  if (v >= thresholds[1]) { status = 'green'; label = 'On Target'; }
+  else if (v >= thresholds[0]) { status = 'yellow'; label = 'Watch'; }
+  else { status = 'red'; label = 'Below Threshold'; }
+  setMetricColor(tile, status, label);
+}
+function updateMetricInverse(slider, key, thresholds, suffix='') {
+  const v = parseFloat(slider.value);
+  const tile = slider.closest('.metric-tile');
+  tile.querySelector('.metric-value').textContent = v + suffix;
+  let status, label;
+  if (v <= thresholds[0]) { status = 'green'; label = 'On Target'; }
+  else if (v <= thresholds[1]) { status = 'yellow'; label = 'Watch'; }
+  else { status = 'red'; label = 'Above Threshold'; }
+  setMetricColor(tile, status, label);
+}
+
+// ============ FINAL QUIZ ============
+const finalQs = [
+  {
+    q: "Which BEST describes the relationship between governance, strategy, and management?",
+    options: [
+      { t: "They are three names for the same activity at different scales", c: false, e: "They are distinct functions, not synonyms. They differ in horizon, audience, and authority." },
+      { t: "Governance sets direction (3–5 years); strategy translates it into plans (1 year); management executes operations (1–3 months)", c: true, e: "Correct. The cleanest separation is by time horizon — governance is long-term direction, strategy is annual planning, management is short-term execution." },
+      { t: "Management directs, strategy plans, governance executes", c: false, e: "The order is reversed — governance directs from the top, management executes at the operational level." },
+      { t: "Governance is for the board; strategy and management are the same thing", c: false, e: "Strategy and management are distinct functions with different time horizons and authority." }
+    ]
+  },
+  {
+    q: "What is the KEY distinction between accountability and responsibility?",
+    options: [
+      { t: "They are synonyms", c: false, e: "They are deliberately distinct concepts in governance — confusing them leads to organizational failure." },
+      { t: "Accountability is for executives; responsibility is for staff", c: false, e: "Both can apply at any level. The distinction is about delegability, not seniority." },
+      { t: "Accountability CANNOT be delegated; responsibility CAN be delegated", c: true, e: "Correct. The accountable party owns the outcome regardless of who does the work. Responsibility — the doing — can be assigned, shared, or transferred." },
+      { t: "Accountability is technical; responsibility is governance", c: false, e: "Both are governance concepts. They apply across technical and non-technical work." }
+    ]
+  },
+  {
+    q: "Which of these is the BEST example of due diligence (as opposed to mere compliance)?",
+    options: [
+      { t: "Completing the annual PCI DSS Self-Assessment Questionnaire on schedule", c: false, e: "That's compliance — meeting the required deadline." },
+      { t: "Implementing all controls required by HIPAA", c: false, e: "Still compliance — doing what is required." },
+      { t: "Conducting threat-led penetration tests beyond what regulations require, because peer organizations have been breached recently", c: true, e: "Correct. Going beyond minimum requirements based on a reasonable risk assessment is due diligence — proactive, evidence-based, beyond the floor." },
+      { t: "Filing the SEC 8-K within 4 business days of incident materiality", c: false, e: "That's compliance — meeting the mandatory reporting timeline." }
+    ]
+  },
+  {
+    q: "An organization is fully PCI DSS compliant and still suffers a major card data breach. What is the BEST conclusion?",
+    options: [
+      { t: "Compliance is meaningless and should be deprioritized", c: false, e: "Compliance still matters — it's the floor. But it isn't sufficient on its own." },
+      { t: "The PCI assessor must have been negligent", c: false, e: "Possible in some cases, but the broader lesson is structural — compliance only verifies certain controls were in place, not that all relevant risks were addressed." },
+      { t: "Compliance is the floor, not the ceiling — true security requires due diligence beyond the rules", c: true, e: "Correct. Target was PCI compliant when breached. Compliance verifies specific controls; it doesn't guarantee a reasonable program. Due diligence adds the missing layer." },
+      { t: "PCI DSS does not protect cardholder data", c: false, e: "PCI DSS does meaningfully reduce risk — but doesn't eliminate it. The standard is necessary, not sufficient." }
+    ]
+  },
+  {
+    q: "A CISO reports directly to the CIO. What is the PRIMARY governance concern with this structure?",
+    options: [
+      { t: "The CIO is technically less skilled than the CISO", c: false, e: "Technical skill is irrelevant to the governance issue." },
+      { t: "The CIO is structurally incentivized to ship features and avoid security delays — creating a conflict of interest", c: true, e: "Correct. The CIO and CISO have inherent goal tension. When security reports to delivery, security loses contested decisions structurally — not because anyone is acting in bad faith." },
+      { t: "It violates HIPAA reporting requirements", c: false, e: "No regulation specifies the CISO's reporting line." },
+      { t: "It saves money but reduces effectiveness", c: false, e: "The primary issue is conflict of interest, not cost." }
+    ]
+  },
+  {
+    q: "Which of these statements about a security steering committee is MOST accurate?",
+    options: [
+      { t: "It should consist primarily of senior security staff", c: false, e: "A committee composed only of security staff is just the security team meeting — it cannot make cross-functional trade-offs." },
+      { t: "It should be cross-functional and senior-level, with authority to resolve trade-offs", c: true, e: "Correct. Steering committees exist to surface and resolve cross-functional trade-offs. Without senior representatives from Legal, Finance, HR, and the business units, they cannot do that work." },
+      { t: "It should include external auditors as voting members", c: false, e: "External auditors compromise independence if they're voting on the same controls they audit." },
+      { t: "It should meet annually to review the security program", c: false, e: "Annual is too infrequent for a steering committee. Quarterly is typical; major incidents trigger ad-hoc meetings." }
+    ]
+  },
+  {
+    q: "What is the FIRST step in developing a security strategy?",
+    options: [
+      { t: "Select and deploy a SIEM platform", c: false, e: "Tool selection comes much later — after strategy is defined." },
+      { t: "Develop the asset inventory and classification", c: true, e: "Correct. You cannot protect what you don't know exists. Asset awareness — known, located, classified, valued — is the foundation of every credible strategy." },
+      { t: "Hire a CISO", c: false, e: "Important, but the question is about the first step in strategy development itself, which begins after the CISO is in place." },
+      { t: "Obtain SOC 2 certification", c: false, e: "Certification is a possible strategic outcome, not the first step." }
+    ]
+  },
+  {
+    q: "What does \"legal hold\" require an organization to do?",
+    options: [
+      { t: "Suspend normal data disposal for relevant records when litigation is reasonably anticipated", c: true, e: "Correct. Once litigation is anticipated, the organization has an affirmative duty to preserve relevant evidence. Routine disposal must be suspended for affected data." },
+      { t: "Encrypt all data at rest until the litigation concludes", c: false, e: "Legal hold is about preservation, not encryption." },
+      { t: "Provide all data to opposing counsel immediately", c: false, e: "Production rules govern disclosure timing; legal hold governs preservation." },
+      { t: "Notify regulators of the litigation", c: false, e: "Notification obligations are separate from preservation obligations." }
+    ]
+  },
+  {
+    q: "Why does asset classification matter to a security program?",
+    options: [
+      { t: "It is required by all major compliance frameworks", c: false, e: "While many frameworks expect classification, that's not the primary purpose." },
+      { t: "It drives proportional protection — higher classifications get stronger controls", c: true, e: "Correct. Classification translates business impact into protection requirements. Without it, organizations either overspend protecting everything equally, or underspend protecting the wrong things." },
+      { t: "It is the same thing as risk assessment", c: false, e: "Classification is an input to risk assessment, not a replacement for it." },
+      { t: "It allows the security team to bill back internal costs", c: false, e: "Chargeback may be a side benefit but is not the purpose." }
+    ]
+  },
+  {
+    q: "Which statement BEST captures the executive principle of governance?",
+    options: [
+      { t: "Governance is the technical management of security controls", c: false, e: "Governance is business leadership — it sets direction; it does not run operations." },
+      { t: "Governance is business leadership focused on direction, oversight, accountability, and value delivery", c: true, e: "Correct. Governance is fundamentally a business leadership function. The technical work flows downstream from the strategic direction governance sets." },
+      { t: "Governance is the same as compliance", c: false, e: "Compliance is part of governance, but governance is much broader — strategy, risk, resource allocation, ethics." },
+      { t: "Governance is only relevant for publicly-traded companies", c: false, e: "Every organization has governance whether they recognize it or not. The question is whether it's deliberate or accidental." }
+    ]
+  }
+];
+
+function buildFinal() {
+  const c = document.getElementById('finalQuiz');
+  c.innerHTML = finalQs.map((q, qi) => `
+    <div class="quiz" data-qi="${qi}">
+      <div class="quiz-question">Q${qi+1}. ${q.q}</div>
+      ${q.options.map((opt, oi) => `
+        <div class="quiz-option" data-qi="${qi}" data-oi="${oi}" data-correct="${opt.c}" data-explain="${opt.e.replace(/"/g,'&quot;')}">${opt.t}</div>
+      `).join('')}
+      <div class="quiz-explanation"></div>
+    </div>
+  `).join('');
+  c.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const qi = opt.dataset.qi;
+      const quiz = c.querySelector(`.quiz[data-qi="${qi}"]`);
+      quiz.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      opt.classList.add(opt.dataset.correct === 'true' ? 'correct' : 'wrong');
+      const ex = quiz.querySelector('.quiz-explanation');
+      ex.textContent = opt.dataset.explain;
+      ex.classList.add('show');
+    });
+  });
+}
+buildFinal();
+
+function gradeFinal() {
+  let score = 0;
+  finalQs.forEach((q, qi) => {
+    const selected = document.querySelector(`.quiz[data-qi="${qi}"] .quiz-option.selected`);
+    if (selected && selected.dataset.correct === 'true') score++;
+  });
+  document.getElementById('scoreNum').textContent = score + ' / ' + finalQs.length;
+  let msg;
+  if (score === 10) msg = "🏆 Perfect score — you're ready to move on to Domain 1, Part 2.";
+  else if (score >= 8) msg = "🎯 Strong mastery — review the missed items and continue.";
+  else if (score >= 6) msg = "📚 Solid foundation — revisit the modules covering missed questions.";
+  else msg = "📖 Re-read the modules and try again — focus on the concepts you missed.";
+  document.getElementById('scoreMessage').textContent = msg;
+  document.getElementById('finalScore').style.display = 'block';
+  document.getElementById('finalScore').scrollIntoView({behavior:'smooth', block:'center'});
+}
+function resetFinal() {
+  document.querySelectorAll('#finalQuiz .quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+  document.querySelectorAll('#finalQuiz .quiz-explanation').forEach(e => { e.classList.remove('show'); e.textContent = ''; });
+  document.getElementById('finalScore').style.display = 'none';
+}
+</script>
+</body>
+</html>
