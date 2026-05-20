@@ -1,0 +1,2309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CISM Domain 3, Part 1: Information Security Program Development and Management — Interactive Lesson</title>
+<style>
+  :root {
+    --primary: #1F4E79;
+    --primary-light: #2E75B6;
+    --primary-lighter: #5B9BD5;
+    --accent: #E8A33D;
+    --bg: #F5F7FA;
+    --surface: #FFFFFF;
+    --ink: #1A2332;
+    --ink-soft: #4A5568;
+    --line: #D8E1EA;
+    --success: #2F855A;
+    --warning: #C05621;
+    --danger: #C53030;
+    --shade: #EAF3FB;
+    --shade-2: #F0F6FC;
+    --shadow: 0 2px 8px rgba(31, 78, 121, 0.08);
+    --shadow-lg: 0 6px 24px rgba(31, 78, 121, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Calibri", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    font-size: 16px;
+  }
+
+  /* ============ HEADER ============ */
+  header.site {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+  }
+  header.site .eyebrow {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+  }
+  header.site h1 {
+    margin: 0.25rem 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  header.site .subtitle {
+    font-size: 1.05rem;
+    opacity: 0.92;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  header.site .meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+  }
+  header.site .meta span {
+    background: rgba(255,255,255,0.15);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+
+  /* ============ NAV BAR ============ */
+  nav.modules {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 2px solid var(--primary);
+    box-shadow: var(--shadow);
+    padding: 0.5rem 1rem;
+  }
+  nav.modules .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  nav.modules .brand {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.95rem;
+    padding-right: 0.75rem;
+    border-right: 1px solid var(--line);
+    margin-right: 0.5rem;
+  }
+  nav.modules a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  nav.modules a:hover { background: var(--shade); color: var(--primary); }
+  nav.modules a.active { background: var(--primary); color: #fff; }
+
+  /* ============ PROGRESS BAR ============ */
+  .progress-track {
+    position: sticky;
+    top: 56px;
+    height: 4px;
+    background: var(--line);
+    z-index: 99;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--primary-light));
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+
+  /* ============ MAIN LAYOUT ============ */
+  main {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem;
+  }
+  section.module {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+    scroll-margin-top: 80px;
+  }
+  section.module .module-tag {
+    display: inline-block;
+    background: var(--shade);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+  section.module .duration {
+    display: inline-block;
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+  }
+  h2 { color: var(--primary); font-size: 1.85rem; margin: 0 0 1rem; line-height: 1.3; }
+  h3 { color: var(--primary-light); font-size: 1.3rem; margin: 2rem 0 0.75rem; }
+  h4 { color: var(--primary); font-size: 1.05rem; margin: 1.5rem 0 0.5rem; font-style: italic; }
+  p { margin: 0.75rem 0; }
+  ul, ol { padding-left: 1.5rem; margin: 0.75rem 0; }
+  li { margin: 0.35rem 0; }
+  strong { color: var(--primary); font-weight: 600; }
+
+  /* ============ CALLOUTS ============ */
+  .callout {
+    background: var(--shade);
+    border-left: 5px solid var(--primary-light);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .callout .label {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .callout .label::before { content: "💡"; font-size: 1.1rem; }
+  .callout.analogy { background: #FFF8E1; border-left-color: var(--accent); }
+  .callout.analogy .label { color: #B7791F; }
+  .callout.analogy .label::before { content: "🧭"; }
+  .callout.emphasis { background: #FEE; border-left-color: var(--danger); }
+  .callout.emphasis .label { color: var(--danger); }
+  .callout.emphasis .label::before { content: "⚠️"; }
+
+  /* ============ TABLES ============ */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    background: var(--surface);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    font-size: 0.92rem;
+  }
+  th { background: var(--primary); color: #fff; padding: 0.85rem 1rem; text-align: left; font-weight: 600; }
+  td { padding: 0.75rem 1rem; border-top: 1px solid var(--line); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--shade-2); }
+  tr:hover td { background: var(--shade); }
+
+  /* ============ OBJECTIVES ============ */
+  .objectives {
+    background: linear-gradient(135deg, var(--shade) 0%, var(--shade-2) 100%);
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .objectives ol { list-style: none; counter-reset: obj; padding-left: 0; }
+  .objectives li {
+    counter-increment: obj;
+    padding-left: 2.5rem;
+    position: relative;
+    margin: 0.75rem 0;
+  }
+  .objectives li::before {
+    content: counter(obj);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--primary);
+    color: #fff;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  /* ============ FLIP CARDS ============ */
+  .flip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .flip-card { perspective: 1000px; height: 220px; cursor: pointer; }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .flip-front {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+  }
+  .flip-front .icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .flip-front h4 { color: #fff; margin: 0; font-style: normal; font-size: 1.15rem; }
+  .flip-front .hint { font-size: 0.75rem; opacity: 0.8; margin-top: 0.5rem; }
+  .flip-back {
+    background: var(--surface);
+    color: var(--ink);
+    transform: rotateY(180deg);
+    border: 2px solid var(--primary-light);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .flip-back strong { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; }
+
+  /* ============ MATCHER ============ */
+  .matcher {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .match-row {
+    display: grid;
+    grid-template-columns: 1.5fr auto 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    padding: 0.6rem;
+    background: var(--surface);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+  }
+  .match-scenario { font-size: 0.92rem; }
+  .match-select {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .match-select:focus { outline: none; border-color: var(--primary-light); }
+  .match-feedback { font-size: 0.85rem; font-weight: 600; min-width: 90px; }
+  .match-feedback.correct { color: var(--success); }
+  .match-feedback.wrong { color: var(--danger); }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    margin: 0.25rem;
+  }
+  .btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+  .btn.secondary { background: var(--surface); color: var(--primary); border: 2px solid var(--primary); }
+  .btn.secondary:hover { background: var(--shade); }
+
+  /* ============ QUIZ ============ */
+  .quiz {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .quiz-question { font-weight: 600; margin-bottom: 0.75rem; color: var(--primary); }
+  .quiz-option {
+    display: block;
+    padding: 0.75rem 1rem;
+    margin: 0.4rem 0;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 0.92rem;
+  }
+  .quiz-option:hover { border-color: var(--primary-light); background: var(--shade); }
+  .quiz-option.selected { border-color: var(--primary); background: var(--shade); }
+  .quiz-option.correct { border-color: var(--success); background: #E8F5E9; }
+  .quiz-option.wrong { border-color: var(--danger); background: #FFEBEE; }
+  .quiz-explanation {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border-left: 4px solid var(--primary-light);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+    display: none;
+  }
+  .quiz-explanation.show { display: block; }
+
+  /* ============ ACCORDION ============ */
+  .accordion-item {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 0.6rem 0;
+    overflow: hidden;
+  }
+  .accordion-header {
+    padding: 1rem 1.25rem;
+    background: var(--shade-2);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .accordion-header:hover { background: var(--shade); }
+  .accordion-header .arrow { transition: transform 0.2s; }
+  .accordion-item.open .accordion-header .arrow { transform: rotate(90deg); }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 1.25rem;
+  }
+  .accordion-item.open .accordion-body {
+    max-height: 2500px;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  /* ============ CITY MAP (Module 1) ============ */
+  .city-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+  .city-tile {
+    background: var(--surface);
+    padding: 1.1rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-light);
+  }
+  .city-tile h5 {
+    margin: 0 0 0.25rem;
+    color: var(--primary);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .city-tile .city-icon { font-size: 1.3rem; }
+  .city-tile .city-map {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin: 0.4rem 0 0;
+  }
+  .city-tile .city-eq {
+    background: var(--shade-2);
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ============ COCKPIT DASH (Module 2) ============ */
+  .cockpit {
+    background: #0E1B2C;
+    color: #C8D6E5;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border: 1px solid #1F4E79;
+  }
+  .cockpit-title {
+    color: #FFE082;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .cockpit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 0.75rem;
+  }
+  .outcome-tile {
+    background: linear-gradient(135deg, #1A365D, #2E75B6);
+    color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+  }
+  .outcome-tile:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .outcome-tile.active { border-color: var(--accent); background: linear-gradient(135deg, var(--accent), #D4882B); }
+  .outcome-tile .o-num {
+    background: rgba(255,255,255,0.2);
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.4rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .outcome-tile .o-icon { font-size: 1.4rem; }
+  .outcome-tile .o-name { font-size: 0.85rem; font-weight: 700; margin-top: 0.3rem; }
+  .outcome-detail {
+    background: var(--shade-2);
+    padding: 1.25rem;
+    border-radius: 10px;
+    margin-top: 0.75rem;
+    min-height: 100px;
+  }
+  .outcome-detail h4 {
+    margin-top: 0;
+    color: var(--primary);
+    font-style: normal;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* ============ LIFECYCLE (Module 3) ============ */
+  .lifecycle-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+  .lc-stage {
+    background: var(--surface);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-top: 4px solid var(--primary-light);
+  }
+  .lc-stage:hover { transform: translateY(-3px); border-top-color: var(--accent); }
+  .lc-stage.active { border-top-color: var(--accent); background: var(--shade); }
+  .lc-stage .lc-num {
+    background: var(--primary);
+    color: #fff;
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 50%;
+    margin: 0 auto 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .lc-stage .lc-icon { font-size: 1.5rem; }
+  .lc-stage .lc-name { font-size: 0.82rem; font-weight: 700; color: var(--primary); margin-top: 0.3rem; }
+
+  /* ============ SDLC COST CURVE (Module 3) ============ */
+  .sdlc-graph {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+  }
+  .sdlc-svg-wrap {
+    background: var(--surface);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
+  .sdlc-readout {
+    background: var(--surface);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 600;
+  }
+  .sdlc-readout .sdlc-cost {
+    font-size: 1.6rem;
+    color: var(--danger);
+  }
+
+  /* ============ CLASSIFICATION (Module 5) ============ */
+  .classify-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+  .classify-tier {
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow);
+  }
+  .classify-tier.t1 { background: linear-gradient(135deg, var(--danger), #9B2C2C); }
+  .classify-tier.t2 { background: linear-gradient(135deg, var(--warning), #C05621); }
+  .classify-tier.t3 { background: linear-gradient(135deg, var(--primary-light), var(--primary)); }
+  .classify-tier.t4 { background: linear-gradient(135deg, var(--ink-soft), #2D3748); }
+  .classify-tier .tier-icon {
+    background: rgba(255,255,255,0.25);
+    width: 3rem;
+    height: 3rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .classify-tier .tier-body strong { color: #fff; font-size: 1.05rem; display: block; margin-bottom: 0.2rem; }
+  .classify-tier .tier-body .tier-desc { font-size: 0.85rem; opacity: 0.92; }
+  .classify-tier .tier-body .tier-examples { font-size: 0.78rem; opacity: 0.85; font-style: italic; margin-top: 0.2rem; }
+
+  /* ============ BIA PRIORITIZATION (Module 6) ============ */
+  .triage-panel {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+  }
+  .triage-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.6rem;
+    background: var(--surface);
+    border-radius: 6px;
+    margin: 0.4rem 0;
+    align-items: center;
+    box-shadow: var(--shadow);
+    font-size: 0.88rem;
+  }
+  .triage-row.header {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 700;
+  }
+  .triage-row select {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    width: 100%;
+  }
+  .triage-priority {
+    text-align: center;
+    font-weight: 700;
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+  }
+  .triage-priority.p1 { background: #FED7D7; color: #742A2A; }
+  .triage-priority.p2 { background: #FEEBC8; color: #7B341E; }
+  .triage-priority.p3 { background: #FEFCBF; color: #744210; }
+  .triage-priority.p4 { background: #C6F6D5; color: #22543D; }
+  .triage-priority.unset { background: var(--shade); color: var(--ink-soft); }
+
+  /* ============ DOC HIERARCHY (Module 7) ============ */
+  .doc-pyramid {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: center;
+  }
+  .doc-layer {
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+  }
+  .doc-layer:hover { transform: scale(1.02); }
+  .doc-layer.l1 { background: linear-gradient(135deg, var(--primary), #1A365D); width: 40%; }
+  .doc-layer.l2 { background: linear-gradient(135deg, var(--primary-light), var(--primary)); width: 60%; }
+  .doc-layer.l3 { background: linear-gradient(135deg, var(--primary-lighter), var(--primary-light)); width: 80%; }
+  .doc-layer.l4 { background: linear-gradient(135deg, var(--accent), #D4882B); width: 100%; }
+  .doc-layer .doc-name { font-weight: 700; font-size: 1.05rem; }
+  .doc-layer .doc-tag {
+    background: rgba(255,255,255,0.25);
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+  }
+  .doc-detail {
+    background: var(--shade-2);
+    padding: 1.25rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    min-height: 100px;
+  }
+  .doc-detail h4 { margin-top: 0; color: var(--primary); font-style: normal; }
+
+  /* ============ METRICS DASH (Module 8) ============ */
+  .metrics-dash {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .metric-tile {
+    background: var(--surface);
+    padding: 1.25rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+  }
+  .metric-tile h5 {
+    margin: 0 0 0.4rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .metric-tile .metric-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+  .metric-tag.lead { background: #C6F6D5; color: #22543D; }
+  .metric-tag.lag { background: #FED7D7; color: #742A2A; }
+  .metric-tile .metric-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0.25rem 0;
+  }
+  .metric-tile .metric-label { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.3rem; }
+  .metric-tile input[type="range"] { width: 100%; margin-top: 0.5rem; accent-color: var(--primary-light); }
+
+  /* ============ SMART CHECK (Module 8) ============ */
+  .smart-card {
+    background: var(--surface);
+    padding: 1.25rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    margin: 0.6rem 0;
+    border-left: 4px solid var(--line);
+  }
+  .smart-card.good { border-left-color: var(--success); }
+  .smart-card.bad { border-left-color: var(--danger); }
+  .smart-card .smart-stmt {
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+  }
+  .smart-card .smart-verdict {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+  }
+  .smart-card.good .smart-verdict { background: #C6F6D5; color: #22543D; }
+  .smart-card.bad .smart-verdict { background: #FED7D7; color: #742A2A; }
+  .smart-card .smart-explain { font-size: 0.85rem; color: var(--ink-soft); }
+
+  /* ============ TRANSLATION (Module 1) ============ */
+  .trans-pair {
+    background: var(--shade-2);
+    padding: 1rem;
+    border-radius: 10px;
+    margin: 0.6rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .trans-pair .trans-side {
+    background: var(--surface);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-light);
+  }
+  .trans-pair .trans-side.exec { border-left-color: var(--success); }
+  .trans-pair .tag {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .trans-pair p { font-size: 0.88rem; margin: 0; line-height: 1.5; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.85rem;
+  }
+  footer a { color: #FFE082; text-decoration: none; font-weight: 600; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 768px) {
+    section.module { padding: 1.5rem; }
+    h2 { font-size: 1.5rem; }
+    header.site h1 { font-size: 1.7rem; }
+    .match-row, .trans-pair { grid-template-columns: 1fr; }
+    .triage-row { grid-template-columns: 1fr 1fr; gap: 0.25rem; }
+    .doc-layer.l1, .doc-layer.l2, .doc-layer.l3 { width: 100%; }
+    nav.modules .brand { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="eyebrow">NCyTE CISM Course</div>
+  <h1>Domain 3, Part 1: Information Security Program Development &amp; Management</h1>
+  <div class="subtitle">Interactive Lesson — From Controls and Policies to an Enterprise Capability</div>
+  <div class="meta">
+    <span>📚 Intermediate–Advanced</span>
+    <span>⏱ 7–9 instructional hours</span>
+    <span>🎓 8 Modules + Capstone</span>
+  </div>
+</header>
+
+<nav class="modules" id="topNav">
+  <div class="inner">
+    <span class="brand">CISM 3.1</span>
+    <a href="#overview">Overview</a>
+    <a href="#m1">1 · Purpose</a>
+    <a href="#m2">2 · Outcomes</a>
+    <a href="#m3">3 · Lifecycle</a>
+    <a href="#m4">4 · Change</a>
+    <a href="#m5">5 · Assets</a>
+    <a href="#m6">6 · BIA</a>
+    <a href="#m7">7 · Frameworks</a>
+    <a href="#m8">8 · Metrics</a>
+    <a href="#capstone">Capstone</a>
+    <a href="#assessment">Quiz</a>
+  </div>
+</nav>
+<div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+
+<main>
+
+<!-- ===================== OVERVIEW ===================== -->
+<section class="module" id="overview">
+  <span class="module-tag">Lesson Overview</span>
+  <h2>A Program Is More Than the Sum of Its Controls</h2>
+  <p>Many organizations have firewalls, EDR, MFA, training videos, and policies. They check boxes. They pass audits. And then they get breached anyway — and the post-incident review reveals that what they had was a <em>collection of security activities</em>, not a <em>security program</em>. The difference is the subject of this lesson.</p>
+  <p>A security program is the organizational capability that makes all the individual controls coherent — that ensures the policy aligns with the architecture, that the architecture supports the operations, that the operations produce metrics, that the metrics reach the board, and that the board's decisions flow back into the next round of changes. It is the connective tissue without which the parts cannot function as a body.</p>
+
+  <div class="callout analogy">
+    <div class="label">Anchoring Analogy: The Operating System</div>
+    <p>An operating system isn't an application — it's the layer that makes applications possible. It schedules processes, allocates memory, manages I/O, handles security boundaries. Without it, the hardware and the applications cannot work together. <strong>A security program is the operating system that runs all your security activities.</strong> Without it, controls run in conflict, policies contradict architecture, and the whole environment crashes the moment something stressful happens.</p>
+  </div>
+
+  <h3>Learning Objectives</h3>
+  <div class="objectives">
+    <ol>
+      <li>Define the purpose and structure of an information security program.</li>
+      <li>Explain the governance and leadership responsibilities required for program success.</li>
+      <li>Identify the six primary outcomes of a mature security program.</li>
+      <li>Analyze the lifecycle of security program development.</li>
+      <li>Evaluate organizational challenges and change management strategies.</li>
+      <li>Perform asset inventory, valuation, and classification activities.</li>
+      <li>Explain how Business Impact Analysis (BIA) supports risk justification.</li>
+      <li>Compare major security frameworks and architectural approaches.</li>
+      <li>Develop meaningful security metrics and measurement strategies.</li>
+      <li>Align information security programs with enterprise business objectives.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== MODULE 1 ===================== -->
+<section class="module" id="m1">
+  <span class="module-tag">Module 1</span>
+  <span class="duration">45 min</span>
+  <h2>Introduction &amp; Core Purpose</h2>
+  <p>What <em>is</em> an information security program? The most useful definition is functional, not structural: a program is the organization's continuous capability to align security activities with business objectives, manage risk to within tolerance, and produce evidence that the work is actually working. Controls are the verbs. The program is the sentence.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The City Infrastructure System</div>
+    <p>Think of a security program as the infrastructure of a city. Each piece does one job; together they make life possible. Without the coordinated whole, you don't have a city — you have a collection of buildings.</p>
+  </div>
+
+  <h3>The City Map of a Security Program</h3>
+  <div class="city-grid">
+    <div class="city-tile">
+      <h5><span class="city-icon">🛣️</span>Roads</h5>
+      <p class="city-map">how things move between places</p>
+      <div class="city-eq">→ Security processes</div>
+    </div>
+    <div class="city-tile">
+      <h5><span class="city-icon">🚦</span>Traffic Signals</h5>
+      <p class="city-map">rules of right-of-way</p>
+      <div class="city-eq">→ Policies and standards</div>
+    </div>
+    <div class="city-tile">
+      <h5><span class="city-icon">👮</span>Police Department</h5>
+      <p class="city-map">enforcement and response</p>
+      <div class="city-eq">→ Security operations</div>
+    </div>
+    <div class="city-tile">
+      <h5><span class="city-icon">🏛️</span>City Planning Office</h5>
+      <p class="city-map">long-term direction</p>
+      <div class="city-eq">→ Governance and strategy</div>
+    </div>
+    <div class="city-tile">
+      <h5><span class="city-icon">💡</span>Utilities</h5>
+      <p class="city-map">power, water, the basics</p>
+      <div class="city-eq">→ Supporting technologies</div>
+    </div>
+    <div class="city-tile">
+      <h5><span class="city-icon">🚨</span>Emergency Services</h5>
+      <p class="city-map">when things go wrong</p>
+      <div class="city-eq">→ Incident response</div>
+    </div>
+  </div>
+
+  <h3>The Leadership Mindset Shift</h3>
+  <p>The single hardest transition for a technically excellent practitioner moving into security leadership is the shift from <strong>technical thinking</strong> to <strong>strategic leadership</strong>. A great firewall engineer becomes a poor CISO if they keep optimizing firewalls instead of the business impact of the firewall program.</p>
+
+  <table>
+    <tr><th>From — Technical Thinking</th><th>To — Strategic Leadership</th></tr>
+    <tr><td>"How do we configure this control?"</td><td>"What business outcome does this control protect?"</td></tr>
+    <tr><td>"This vulnerability has a CVSS 9.8."</td><td>"This vulnerability could cost us $4.2M and a missed earnings call."</td></tr>
+    <tr><td>"We need a SIEM."</td><td>"We need to cut breach detection from 45 days to 6 — here's how a SIEM gets us there."</td></tr>
+    <tr><td>"The team needs more headcount."</td><td>"To meet the regulatory deadline that protects $80M in revenue, we need 3 more FTEs."</td></tr>
+    <tr><td>"They keep ignoring security."</td><td>"Adoption is a change management problem; here's our plan."</td></tr>
+  </table>
+
+  <h3>Translation Practice — Same Finding, Three Audiences</h3>
+  <p>A pen test finds that a customer-facing application is vulnerable to authentication bypass. The same finding needs to be communicated three different ways:</p>
+
+  <div class="trans-pair">
+    <div class="trans-side">
+      <div class="tag">⚙️ For the Technical Team</div>
+      <p>"The login endpoint accepts an empty JWT signature. Exploitable by any unauthenticated user. Fix: validate signature on all incoming tokens before granting session. Reference NIST SP 800-63B §5.1.1."</p>
+    </div>
+    <div class="trans-side exec">
+      <div class="tag">💼 For the CFO</div>
+      <p>"We have a vulnerability that lets attackers log in as any customer without a password. Remediation cost: $40K. Estimated cost if exploited: $3.5M in breach notification, regulatory fines, and brand damage. Recommended: fix this week."</p>
+    </div>
+  </div>
+  <div class="trans-pair">
+    <div class="trans-side">
+      <div class="tag">🎩 For the CEO</div>
+      <p>"Our customer login system has a serious flaw that would let attackers impersonate customers. We've already fixed it in production. No evidence of exploitation. We'll brief the board with our enhanced testing protocol at next month's meeting."</p>
+    </div>
+    <div class="trans-side exec">
+      <div class="tag">🏛️ For the Board of Directors</div>
+      <p>"Our quarterly third-party security testing identified and remediated a high-severity finding in our customer authentication. The incident demonstrates that our pre-deployment testing program is functioning as designed. No customer data was accessed. We continue investing in security as a foundational capability for digital business growth."</p>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Security Leaders Must Speak Business</div>
+    <p>The job is not to be the most technical person in the room — there's usually someone more technical. The job is to be the <em>only</em> person in the room who can translate between technical reality and business consequence, fluently and credibly, in both directions. That skill, more than any certification, is what separates a senior CISM-level leader from a senior technologist.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 2 ===================== -->
+<section class="module" id="m2">
+  <span class="module-tag">Module 2</span>
+  <span class="duration">60 min</span>
+  <h2>Program Outcomes &amp; Accountability</h2>
+  <p>A program without measurable outcomes is just paperwork. The CISM body of knowledge identifies six outcomes that every mature security program produces — and against which every program should be assessed. Click any outcome below to see what it looks like and how it fails.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Aircraft Cockpit</div>
+    <p>A mature security program is the cockpit of an aircraft. <strong>Metrics are the instruments</strong> — altitude, airspeed, fuel. <strong>Governance is the flight control system</strong> — yoke, throttle, autopilot. <strong>Incident response is the emergency systems</strong> — fire suppression, oxygen masks. <strong>Risk management is navigation</strong> — the flight plan and the weather avoidance. Without coordinated visibility and authority, the organization "flies blind." Pilots don't fly without instruments. <em>Don't try to run a security program without them either.</em></p>
+  </div>
+
+  <h3>The Six Essential Program Outcomes</h3>
+  <p>Click any outcome on the cockpit panel below to see what it means and how it's measured.</p>
+  <div class="cockpit">
+    <div class="cockpit-title">▌ Security Program Cockpit ▌</div>
+    <div class="cockpit-grid">
+      <div class="outcome-tile active" data-outcome="1" onclick="showOutcome(1)">
+        <div class="o-num">1</div>
+        <div class="o-icon">⚖️</div>
+        <div class="o-name">Risk Alignment</div>
+      </div>
+      <div class="outcome-tile" data-outcome="2" onclick="showOutcome(2)">
+        <div class="o-num">2</div>
+        <div class="o-icon">✅</div>
+        <div class="o-name">Regulatory Compliance</div>
+      </div>
+      <div class="outcome-tile" data-outcome="3" onclick="showOutcome(3)">
+        <div class="o-num">3</div>
+        <div class="o-icon">💰</div>
+        <div class="o-name">Resource Optimization</div>
+      </div>
+      <div class="outcome-tile" data-outcome="4" onclick="showOutcome(4)">
+        <div class="o-num">4</div>
+        <div class="o-icon">🚨</div>
+        <div class="o-name">Incident Readiness</div>
+      </div>
+      <div class="outcome-tile" data-outcome="5" onclick="showOutcome(5)">
+        <div class="o-num">5</div>
+        <div class="o-icon">📊</div>
+        <div class="o-name">Performance Visibility</div>
+      </div>
+      <div class="outcome-tile" data-outcome="6" onclick="showOutcome(6)">
+        <div class="o-num">6</div>
+        <div class="o-icon">🏛️</div>
+        <div class="o-name">Governance Integration</div>
+      </div>
+    </div>
+  </div>
+  <div class="outcome-detail" id="outcomeDetail"></div>
+
+  <h3>Scenario: The Board Oversight Failure</h3>
+  <p>A mid-size manufacturer ($600M revenue) suffered a major breach despite spending 8% of IT budget on security — significantly above industry average. The investigation revealed: an unpatched VPN exploited for initial access, ransomware deployed across 80% of production systems, three weeks of operational downtime, a $14M loss. Despite the spending, what went wrong?</p>
+
+  <div class="quiz" data-quiz>
+    <div class="quiz-question">Which program outcome MOST clearly failed?</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Resource optimization — spending the right amount on the right things — was clearly part of the failure, but it isn't the primary one. They spent enough; they didn't spend it visibly or governance-coherently.">Resource Optimization — they didn't spend enough on security</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Compliance might be a contributing factor, but the question is broader. Compliant programs still get breached when other outcomes fail.">Regulatory Compliance — they were out of compliance with a standard</div>
+    <div class="quiz-option" data-answer="correct" data-explain="Correct. Performance Visibility is the meta-outcome. Without it, governance can't see whether the other outcomes are being achieved. Spending money without visibility into what the money is producing is the classic failure mode — the board approved budgets but had no instrument panel to read." >Performance Visibility — leadership had no clear view of program performance despite the spending</div>
+    <div class="quiz-option" data-answer="wrong" data-explain="Incident readiness was a downstream failure (they couldn't respond quickly), but the root cause was the absence of visibility into the conditions that made the incident possible.">Incident Readiness — the IR plan didn't activate quickly enough</div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Spending ≠ Maturity</div>
+    <p>Security spending without measurable governance outcomes does not equal security maturity. An organization can spend 12% of IT budget on security tools and still be at CMMI Level 1 if the spending produces noise instead of signal, activities instead of outcomes, and tools instead of program coherence. <strong>Measure outcomes, not inputs.</strong></p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 3 ===================== -->
+<section class="module" id="m3">
+  <span class="module-tag">Module 3</span>
+  <span class="duration">75 min</span>
+  <h2>Program Development Lifecycle</h2>
+  <p>Security programs are not <em>projects</em> — they are <em>lifecycles</em>. A project has a start, a middle, and an end. A program has a start, a middle, and a continuous middle. Treating the program as a project produces a beautiful launch followed by gradual decay; treating it as a lifecycle produces sustained capability.</p>
+
+  <h3>The Program Lifecycle Stages</h3>
+  <p>Click each stage to see what happens, what success looks like, and how it commonly fails.</p>
+  <div class="lifecycle-flow">
+    <div class="lc-stage active" data-stage="1" onclick="showLifecycle(1)">
+      <div class="lc-num">1</div>
+      <div class="lc-icon">🚀</div>
+      <div class="lc-name">Day-One Setup</div>
+    </div>
+    <div class="lc-stage" data-stage="2" onclick="showLifecycle(2)">
+      <div class="lc-num">2</div>
+      <div class="lc-icon">🤝</div>
+      <div class="lc-name">Sponsorship</div>
+    </div>
+    <div class="lc-stage" data-stage="3" onclick="showLifecycle(3)">
+      <div class="lc-num">3</div>
+      <div class="lc-icon">🗺️</div>
+      <div class="lc-name">Roadmap</div>
+    </div>
+    <div class="lc-stage" data-stage="4" onclick="showLifecycle(4)">
+      <div class="lc-num">4</div>
+      <div class="lc-icon">🔨</div>
+      <div class="lc-name">Execute</div>
+    </div>
+    <div class="lc-stage" data-stage="5" onclick="showLifecycle(5)">
+      <div class="lc-num">5</div>
+      <div class="lc-icon">📈</div>
+      <div class="lc-name">Measure</div>
+    </div>
+    <div class="lc-stage" data-stage="6" onclick="showLifecycle(6)">
+      <div class="lc-num">6</div>
+      <div class="lc-icon">🔄</div>
+      <div class="lc-name">Improve</div>
+    </div>
+  </div>
+  <div class="outcome-detail" id="lifecycleDetail"></div>
+
+  <h3>SDLC Integration — Shift-Left Security</h3>
+  <p>The Software Development Lifecycle (SDLC) is the rhythm by which software is built. Security has historically been bolted on at the end — sometimes literally during deployment, sometimes after a breach. <strong>Shift-left</strong> is the discipline of moving security earlier into the SDLC: into design reviews, into requirements, into the developer's IDE.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Catching Errors at the Blueprint Stage</div>
+    <p>A construction company can catch a load-bearing wall problem in three places: <strong>on the blueprint</strong> (a pencil mark; ten minutes; $0), <strong>during framing</strong> (rip out and rebuild a section; a day; $5,000), or <strong>after the building is occupied</strong> (relocate residents, evacuate, structural intervention; months; $500,000 — if the building doesn't collapse first). Software vulnerabilities follow the exact same cost curve. The earlier you find them, the cheaper they are. <em>Always.</em></p>
+  </div>
+
+  <h3>The Cost-of-Defect Curve</h3>
+  <p>Industry research (IBM, NIST, others) has consistently shown that the cost of fixing a defect grows exponentially with how late it is found. The visualization below makes the curve tangible.</p>
+  <div class="sdlc-graph">
+    <div class="sdlc-svg-wrap">
+      <svg viewBox="0 0 700 260" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto">
+        <!-- Background -->
+        <rect x="0" y="0" width="700" height="260" fill="#FFFFFF"/>
+        <!-- Y axis -->
+        <line x1="60" y1="20" x2="60" y2="220" stroke="#4A5568" stroke-width="1"/>
+        <!-- X axis -->
+        <line x1="60" y1="220" x2="680" y2="220" stroke="#4A5568" stroke-width="1"/>
+        <!-- Cost curve - exponential -->
+        <path d="M 80,210 Q 180,205 240,195 Q 320,180 400,155 Q 480,115 560,65 L 620,25" stroke="#C53030" stroke-width="3" fill="none"/>
+        <!-- Stage labels -->
+        <g font-size="11" fill="#4A5568" font-weight="600">
+          <text x="80" y="240">Requirements</text>
+          <text x="180" y="240">Design</text>
+          <text x="290" y="240">Development</text>
+          <text x="400" y="240">Testing</text>
+          <text x="510" y="240">Deployment</text>
+          <text x="600" y="240">Production</text>
+        </g>
+        <!-- Cost points -->
+        <circle cx="100" cy="210" r="6" fill="#2F855A"/>
+        <text x="100" y="200" font-size="10" fill="#2F855A" font-weight="700" text-anchor="middle">1x</text>
+        <circle cx="210" cy="200" r="6" fill="#2F855A"/>
+        <text x="210" y="190" font-size="10" fill="#2F855A" font-weight="700" text-anchor="middle">5x</text>
+        <circle cx="320" cy="180" r="6" fill="#D69E2E"/>
+        <text x="320" y="170" font-size="10" fill="#D69E2E" font-weight="700" text-anchor="middle">10x</text>
+        <circle cx="430" cy="140" r="6" fill="#D69E2E"/>
+        <text x="430" y="130" font-size="10" fill="#D69E2E" font-weight="700" text-anchor="middle">25x</text>
+        <circle cx="540" cy="80" r="6" fill="#C53030"/>
+        <text x="540" y="70" font-size="10" fill="#C53030" font-weight="700" text-anchor="middle">100x</text>
+        <circle cx="630" cy="35" r="7" fill="#C53030"/>
+        <text x="630" y="22" font-size="10" fill="#C53030" font-weight="700" text-anchor="middle">300x+</text>
+        <!-- Y label -->
+        <text x="15" y="120" font-size="11" fill="#4A5568" font-weight="600" transform="rotate(-90 15 120)">Relative Cost to Fix</text>
+        <!-- Title -->
+        <text x="350" y="15" font-size="13" fill="#1F4E79" font-weight="700" text-anchor="middle">Cost of Fixing a Security Defect by SDLC Stage</text>
+      </svg>
+    </div>
+    <div class="sdlc-readout">
+      Fixing a vulnerability after breach is <span class="sdlc-cost">300×</span> more expensive than catching it during requirements.
+    </div>
+  </div>
+
+  <h3>Match the Security Activity to the SDLC Stage</h3>
+  <p>For each security activity, identify the SDLC stage where it most appropriately belongs.</p>
+  <div class="matcher" id="sdlcMatcher">
+    <div class="match-row" data-correct="requirements">
+      <div class="match-scenario">Define regulatory compliance obligations the application must meet</div>
+      <select class="match-select">
+        <option value="">Select stage…</option>
+        <option value="requirements">Requirements</option>
+        <option value="design">Design</option>
+        <option value="development">Development</option>
+        <option value="testing">Testing</option>
+        <option value="deployment">Deployment</option>
+        <option value="maintenance">Maintenance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="design">
+      <div class="match-scenario">Conduct threat modeling on proposed architecture</div>
+      <select class="match-select">
+        <option value="">Select stage…</option>
+        <option value="requirements">Requirements</option>
+        <option value="design">Design</option>
+        <option value="development">Development</option>
+        <option value="testing">Testing</option>
+        <option value="deployment">Deployment</option>
+        <option value="maintenance">Maintenance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="development">
+      <div class="match-scenario">Static application security testing (SAST) on code as it's written</div>
+      <select class="match-select">
+        <option value="">Select stage…</option>
+        <option value="requirements">Requirements</option>
+        <option value="design">Design</option>
+        <option value="development">Development</option>
+        <option value="testing">Testing</option>
+        <option value="deployment">Deployment</option>
+        <option value="maintenance">Maintenance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="testing">
+      <div class="match-scenario">Penetration testing against a feature-complete staging environment</div>
+      <select class="match-select">
+        <option value="">Select stage…</option>
+        <option value="requirements">Requirements</option>
+        <option value="design">Design</option>
+        <option value="development">Development</option>
+        <option value="testing">Testing</option>
+        <option value="deployment">Deployment</option>
+        <option value="maintenance">Maintenance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="deployment">
+      <div class="match-scenario">Validate security configurations against hardening baselines before going live</div>
+      <select class="match-select">
+        <option value="">Select stage…</option>
+        <option value="requirements">Requirements</option>
+        <option value="design">Design</option>
+        <option value="development">Development</option>
+        <option value="testing">Testing</option>
+        <option value="deployment">Deployment</option>
+        <option value="maintenance">Maintenance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="maintenance">
+      <div class="match-scenario">Continuous vulnerability scanning of production systems and patch management</div>
+      <select class="match-select">
+        <option value="">Select stage…</option>
+        <option value="requirements">Requirements</option>
+        <option value="design">Design</option>
+        <option value="development">Development</option>
+        <option value="testing">Testing</option>
+        <option value="deployment">Deployment</option>
+        <option value="maintenance">Maintenance</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <button class="btn" onclick="checkMatcher('sdlcMatcher')">Check Answers</button>
+    <button class="btn secondary" onclick="resetMatcher('sdlcMatcher')">Reset</button>
+  </div>
+</section>
+
+<!-- ===================== MODULE 4 ===================== -->
+<section class="module" id="m4">
+  <span class="module-tag">Module 4</span>
+  <span class="duration">60 min</span>
+  <h2>Common Challenges &amp; Change Management</h2>
+  <p>Security programs fail more often from <strong>organizational resistance</strong> than from technical weakness. A perfect playbook the organization refuses to follow is worth less than a mediocre one the organization actually executes. Understanding why organizations resist — and how to manage that resistance — is one of the most undervalued skills in security leadership.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Organizational Fitness Training</div>
+    <p>Implementing a security program is like getting an organization in shape. Resistance is natural — exercise is uncomfortable; old habits are easy. Discipline is required — you can't just decide to be fit; you have to do the work. Progress is incremental — six-pack abs don't appear overnight, and neither does CMMI Level 4 maturity. And sustainable change requires leadership — without the equivalent of a personal trainer or coach (executive sponsorship), people drift back to the old routine within weeks.</p>
+  </div>
+
+  <h3>The Four Most Common Organizational Challenges</h3>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🏛️</div>
+          <h4>Lack of Executive Buy-In</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>The program operates without air cover</strong>
+          The CISO has no consistent C-suite ally. Initiatives get challenged at every step; budgets get cut at the first business pressure; trade-off decisions go against security by default.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">💸</div>
+          <h4>Resource Limitations</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Not enough people, tools, or time</strong>
+          The team is stretched across too many priorities. Critical initiatives stall because someone has to fix yesterday's problems. New tools sit unused because nobody has time to deploy them.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🚧</div>
+          <h4>Organizational Resistance</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>The workforce won't comply</strong>
+          Developers bypass code review. Business units circumvent procurement. Executives ignore awareness training. Compliance theater replaces actual security.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">📈</div>
+          <h4>Scope Creep</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>The program tries to do too much</strong>
+          Every new threat, regulation, or vendor pitch adds an initiative. Nothing finishes. The team burns out. The roadmap becomes a graveyard of started-but-never-completed projects.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Resistance Management — Three Scenarios</h3>
+  <p>For each scenario below, click to see the recommended change-management approach.</p>
+  <div class="accordion">
+    <div class="accordion-item">
+      <div class="accordion-header">👨‍💻 Developers reject mandatory code-review requirements as "slowing them down" <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong>Diagnose:</strong> The resistance is rational — code review <em>does</em> add friction. The mistake is mandating a process developers experience as pure cost.</p>
+        <p><strong>Approach:</strong> Co-design with engineering leadership. Embed security review into existing PR workflow (not separate). Provide tooling that helps developers fix issues themselves (SAST in IDE, pre-commit hooks). Measure success on time-to-merge with security findings closed — not gate-rejection rates. Make security <em>faster</em>, not just safer.</p>
+        <p><strong>What not to do:</strong> Mandate from on high with no developer input. Add a separate ticketing system that adds 3 days to every merge. Punish teams for missing security gates.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">💼 Executives reject a proposed 30% security budget increase as "too expensive" <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong>Diagnose:</strong> The request is being heard as a cost, not as risk reduction with quantified return. Executives compare it to other budget asks where the ROI is clearer.</p>
+        <p><strong>Approach:</strong> Re-frame in financial terms: "Without this $2M investment, our annualized expected loss from ransomware is $7.4M. With it, we reduce that by 75% — net annual benefit $3.5M, ROI 175%." Reference peer incidents with public dollar figures. Connect to specific business priorities the board has already approved (e.g., "to enable the international expansion we authorized last quarter").</p>
+        <p><strong>What not to do:</strong> Cite scary headlines. Compare to industry average spending percentages. Say "trust me, we need this."</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">🏢 Business unit signs a SaaS vendor without involving the security team's review process <span class="arrow">▶</span></div>
+      <div class="accordion-body">
+        <p><strong>Diagnose:</strong> The security review process is probably too slow, too inflexible, or too opaque for the business unit's actual needs. They bypassed it because it didn't work for them.</p>
+        <p><strong>Approach:</strong> Build a tiered review process (5-day fast track for low-risk SaaS; full review for high-risk). Provide a pre-approved vendor catalog so business units have easy "yes" options. Embed security in procurement workflow so review is automatic, not opt-in. Make the process visibly fair and predictable.</p>
+        <p><strong>What not to do:</strong> Issue a memo demanding compliance. Publicly punish the bypassing unit. Tighten the process further — that just incentivizes more bypassing.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">The Hidden Cause of Most Program Failures</div>
+    <p>When a security program fails, the post-mortem usually blames a specific technical gap. But look closer and you'll often find that the technical gap existed because organizational resistance prevented the fix. <strong>The CISM who masters change management produces results the technically brilliant CISM cannot.</strong></p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 5 ===================== -->
+<section class="module" id="m5">
+  <span class="module-tag">Module 5</span>
+  <span class="duration">75 min</span>
+  <h2>Asset Management, Valuation &amp; Classification</h2>
+  <p>The most leveraged single sentence in security: <strong>"You cannot protect what you do not know you have."</strong> Every security program depends on knowing — accurately, currently, completely — what assets exist in the environment. Almost every breach post-mortem identifies asset visibility as a contributing factor.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Museum</div>
+    <p>A great museum doesn't protect every object the same way. The bathroom hand-soap dispenser sits in the open. The brochures stack on a counter. The 17th-century landscape has motion sensors. The Da Vinci has bulletproof glass, climate control, armed security, and is visible 24/7 on surveillance. <strong>Each artifact gets protection proportional to its value.</strong> Information assets work exactly the same way — and the first step is knowing what's in your collection.</p>
+  </div>
+
+  <h3>The Six Asset Categories</h3>
+  <table>
+    <tr><th>Category</th><th>What It Includes</th><th>Common Visibility Gaps</th></tr>
+    <tr><td><strong>Hardware</strong></td><td>Servers, laptops, network equipment, mobile devices, IoT</td><td>Personal devices, OT/ICS, IoT, retired-but-still-running equipment</td></tr>
+    <tr><td><strong>Software</strong></td><td>Applications, OS, firmware, libraries, container images</td><td>Shadow IT, SaaS adopted without procurement, open-source dependencies</td></tr>
+    <tr><td><strong>Data</strong></td><td>Customer records, IP, financial data, employee data</td><td>Data copies on workstations, in personal cloud, in third-party SaaS</td></tr>
+    <tr><td><strong>Cloud Assets</strong></td><td>IaaS resources, SaaS subscriptions, API integrations, OAuth grants</td><td>Forgotten development accounts, unmanaged subscriptions, orphaned resources</td></tr>
+    <tr><td><strong>Personnel</strong></td><td>Employees, contractors, vendors with access</td><td>Departed employees with active accounts, contractor scope creep</td></tr>
+    <tr><td><strong>Business Processes</strong></td><td>Critical workflows that produce value</td><td>Undocumented tribal knowledge, single-person dependencies</td></tr>
+  </table>
+
+  <h3>Classification Tiers — Proportional Protection</h3>
+  <div class="classify-stack">
+    <div class="classify-tier t1">
+      <div class="tier-icon">🔴</div>
+      <div class="tier-body">
+        <strong>Restricted</strong>
+        <div class="tier-desc">Loss would severely harm the organization, customers, or third parties.</div>
+        <div class="tier-examples">PHI, regulated financial data, source code, trade secrets, executive communications, authentication secrets</div>
+      </div>
+    </div>
+    <div class="classify-tier t2">
+      <div class="tier-icon">🟠</div>
+      <div class="tier-body">
+        <strong>Confidential</strong>
+        <div class="tier-desc">Internal information whose disclosure would cause significant harm.</div>
+        <div class="tier-examples">HR records, internal financials, strategic plans, contracts, customer lists</div>
+      </div>
+    </div>
+    <div class="classify-tier t3">
+      <div class="tier-icon">🔵</div>
+      <div class="tier-body">
+        <strong>Internal</strong>
+        <div class="tier-desc">Day-to-day operational information not for public release.</div>
+        <div class="tier-examples">Internal wikis, project documentation, employee directories, standard procedures</div>
+      </div>
+    </div>
+    <div class="classify-tier t4">
+      <div class="tier-icon">⚪</div>
+      <div class="tier-body">
+        <strong>Public</strong>
+        <div class="tier-desc">Information intentionally released to the public; integrity controls still matter.</div>
+        <div class="tier-examples">Marketing content, press releases, public reports, published website content</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Classify These Assets</h3>
+  <p>For each asset, select the appropriate classification level.</p>
+  <div class="matcher" id="classMatcher">
+    <div class="match-row" data-correct="restricted">
+      <div class="match-scenario">Student academic records and grades (FERPA-protected)</div>
+      <select class="match-select">
+        <option value="">Select classification…</option>
+        <option value="restricted">Restricted</option>
+        <option value="confidential">Confidential</option>
+        <option value="internal">Internal</option>
+        <option value="public">Public</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="restricted">
+      <div class="match-scenario">Customer payment card data (PCI scope)</div>
+      <select class="match-select">
+        <option value="">Select classification…</option>
+        <option value="restricted">Restricted</option>
+        <option value="confidential">Confidential</option>
+        <option value="internal">Internal</option>
+        <option value="public">Public</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="confidential">
+      <div class="match-scenario">Employee performance reviews and compensation data</div>
+      <select class="match-select">
+        <option value="">Select classification…</option>
+        <option value="restricted">Restricted</option>
+        <option value="confidential">Confidential</option>
+        <option value="internal">Internal</option>
+        <option value="public">Public</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="restricted">
+      <div class="match-scenario">Proprietary product source code</div>
+      <select class="match-select">
+        <option value="">Select classification…</option>
+        <option value="restricted">Restricted</option>
+        <option value="confidential">Confidential</option>
+        <option value="internal">Internal</option>
+        <option value="public">Public</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="public">
+      <div class="match-scenario">Marketing brochures and product datasheets</div>
+      <select class="match-select">
+        <option value="">Select classification…</option>
+        <option value="restricted">Restricted</option>
+        <option value="confidential">Confidential</option>
+        <option value="internal">Internal</option>
+        <option value="public">Public</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="internal">
+      <div class="match-scenario">Internal IT documentation and standard operating procedures</div>
+      <select class="match-select">
+        <option value="">Select classification…</option>
+        <option value="restricted">Restricted</option>
+        <option value="confidential">Confidential</option>
+        <option value="internal">Internal</option>
+        <option value="public">Public</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <button class="btn" onclick="checkMatcher('classMatcher')">Check Answers</button>
+    <button class="btn secondary" onclick="resetMatcher('classMatcher')">Reset</button>
+  </div>
+
+  <h3>Supporting Technologies</h3>
+  <table>
+    <tr><th>Technology</th><th>What It Does</th><th>Why It Matters</th></tr>
+    <tr><td><strong>CMDB</strong> (Configuration Management Database)</td><td>Authoritative inventory of IT assets and their relationships</td><td>The "ground truth" against which security tooling compares</td></tr>
+    <tr><td><strong>DLP</strong> (Data Loss Prevention)</td><td>Detects and prevents unauthorized data movement based on classification</td><td>Only works if data is correctly classified — otherwise it blocks everything or nothing</td></tr>
+    <tr><td><strong>Discovery Scanners</strong></td><td>Active and passive identification of unknown assets on the network</td><td>Finds the shadow IT, forgotten subdomains, and orphaned cloud resources</td></tr>
+    <tr><td><strong>CASB</strong> (Cloud Access Security Broker)</td><td>Visibility into and control over SaaS usage</td><td>Surfaces the SaaS adopted without procurement or security review</td></tr>
+  </table>
+</section>
+
+<!-- ===================== MODULE 6 ===================== -->
+<section class="module" id="m6">
+  <span class="module-tag">Module 6</span>
+  <span class="duration">60 min</span>
+  <h2>Business Impact Analysis &amp; Risk Justification</h2>
+  <p>Business Impact Analysis (BIA) is the discipline that translates <em>"this system is important"</em> (a feeling) into <em>"this system has an RTO of 4 hours and an RPO of 15 minutes, supporting $400K/hour revenue"</em> (a fact). It is the bridge between technical risk and executive decision-making.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Hospital Emergency Room Triage</div>
+    <p>An emergency room can't treat every patient simultaneously. Triage nurses use a structured framework to assign priority — life-threatening conditions go first, regardless of who arrived first, who's loudest, or who has the better insurance. The same applies in a major incident. <strong>BIA is triage for systems.</strong> The customer-facing payment processor goes before the internal wiki, every time, because the BIA established that priority <em>before</em> the incident — when judgment was clear, not under pressure.</p>
+  </div>
+
+  <h3>What a BIA Actually Produces</h3>
+  <ol>
+    <li><strong>Identification of critical business functions</strong> — what does the organization actually do that creates value?</li>
+    <li><strong>Mapping of supporting systems</strong> — what technology supports each function?</li>
+    <li><strong>Quantification of disruption impact</strong> — what does an outage cost per hour, per day, per week?</li>
+    <li><strong>Establishment of recovery priorities</strong> — RTO and RPO for each critical system</li>
+    <li><strong>Identification of manual workarounds</strong> — what do we do if recovery is slow?</li>
+  </ol>
+
+  <h3>RTO and RPO — The Two Recovery Metrics</h3>
+  <table>
+    <tr><th>Metric</th><th>What It Measures</th><th>Looks Which Way</th></tr>
+    <tr><td><strong>RTO</strong> — Recovery Time Objective</td><td>Maximum acceptable downtime before recovery is complete</td><td>Forward (how long can we be down?)</td></tr>
+    <tr><td><strong>RPO</strong> — Recovery Point Objective</td><td>Maximum acceptable data loss, measured in time</td><td>Backward (how far back can we afford to go?)</td></tr>
+  </table>
+
+  <h3>BIA Triage Workshop</h3>
+  <p>For each system at a mid-size retail company, set the criticality based on revenue impact and the priority level needed. The matrix updates the recommended priority tier automatically based on your inputs.</p>
+
+  <div class="triage-panel">
+    <div class="triage-row header">
+      <div>System</div>
+      <div>Revenue Impact</div>
+      <div>Customer-Facing?</div>
+      <div>Regulatory Exposure</div>
+      <div>Priority</div>
+    </div>
+    <div class="triage-row" data-system="ecom">
+      <div><strong>E-commerce Platform</strong></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3">High</option><option value="2">Medium</option><option value="1">Low</option>
+      </select></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3">Yes</option><option value="1">No</option>
+      </select></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3">High (PCI)</option><option value="2">Medium</option><option value="1">Low</option>
+      </select></div>
+      <div class="triage-priority unset">—</div>
+    </div>
+    <div class="triage-row" data-system="payroll">
+      <div><strong>Payroll System</strong></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3">High</option><option value="2" selected>Medium</option><option value="1">Low</option>
+      </select></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3">Yes</option><option value="1" selected>No</option>
+      </select></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3" selected>High</option><option value="2">Medium</option><option value="1">Low</option>
+      </select></div>
+      <div class="triage-priority unset">—</div>
+    </div>
+    <div class="triage-row" data-system="mfg">
+      <div><strong>Manufacturing Control (OT)</strong></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3" selected>High</option><option value="2">Medium</option><option value="1">Low</option>
+      </select></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3">Yes</option><option value="1" selected>No</option>
+      </select></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3" selected>High (safety)</option><option value="2">Medium</option><option value="1">Low</option>
+      </select></div>
+      <div class="triage-priority unset">—</div>
+    </div>
+    <div class="triage-row" data-system="email">
+      <div><strong>Corporate Email</strong></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3">High</option><option value="2" selected>Medium</option><option value="1">Low</option>
+      </select></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3">Yes</option><option value="1" selected>No</option>
+      </select></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3">High</option><option value="2" selected>Medium</option><option value="1">Low</option>
+      </select></div>
+      <div class="triage-priority unset">—</div>
+    </div>
+    <div class="triage-row" data-system="crm">
+      <div><strong>Customer Database (CRM)</strong></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3">High</option><option value="2" selected>Medium</option><option value="1">Low</option>
+      </select></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3" selected>Yes</option><option value="1">No</option>
+      </select></div>
+      <div><select onchange="updateTriage(this)">
+        <option value="3" selected>High (privacy)</option><option value="2">Medium</option><option value="1">Low</option>
+      </select></div>
+      <div class="triage-priority unset">—</div>
+    </div>
+    <button class="btn" onclick="calculateAllTriage()">Calculate All Priorities</button>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">BIA Translates Technical Risk into Executive Language</div>
+    <p>The CISO who walks into a budget meeting with <em>"the SAN is at 80% capacity"</em> gets ignored. The CISO who walks in with <em>"if the SAN fails, our 4-hour RTO commitment to customers becomes a 14-hour outage, costing $1.6M and triggering SLA penalties — but a $180K storage upgrade prevents it"</em> gets the budget. <strong>BIA is the conversion from one language to the other.</strong></p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 7 ===================== -->
+<section class="module" id="m7">
+  <span class="module-tag">Module 7</span>
+  <span class="duration">75 min</span>
+  <h2>Frameworks, Architecture &amp; Documentation</h2>
+  <p>Nobody invents governance from scratch. Frameworks exist because the wisdom of thousands of organizations has been crystallized into reusable structures. The skill is in <em>choosing</em> the right one and <em>adapting</em> it — not following it like a recipe and not ignoring it because "we're different."</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Building Blueprint</div>
+    <p>An architect doesn't design every building from first principles. They use blueprints — accumulated knowledge of what structures support what loads, what spaces serve what purposes, what materials work in what climates. <strong>Frameworks are blueprints.</strong> They provide structure, guide consistency, and reduce improvisation. But the blueprint for a coastal resort doesn't work in the mountains; the framework must fit the environment. <em>Use the blueprint, but understand the building.</em></p>
+  </div>
+
+  <h3>The Three Frameworks Every CISM Should Know</h3>
+  <div class="flip-grid">
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🇺🇸</div>
+          <h4>NIST CSF</h4>
+          <div class="hint">Cybersecurity Framework</div>
+        </div>
+        <div class="flip-back">
+          <strong>U.S. National Institute of Standards and Technology</strong>
+          Six functions: Govern, Identify, Protect, Detect, Respond, Recover. Voluntary, flexible, widely adopted in U.S. critical infrastructure. CSF 2.0 added "Govern" as the umbrella function in 2024.
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🌍</div>
+          <h4>ISO 27001</h4>
+          <div class="hint">International Standard</div>
+        </div>
+        <div class="flip-back">
+          <strong>International Organization for Standardization</strong>
+          ISMS (Information Security Management System) certifiable standard. Used globally, especially in EU, APAC, B2B sales contexts. Annex A controls (Annex A 2022: 93 controls in 4 themes).
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🏛️</div>
+          <h4>COBIT</h4>
+          <div class="hint">Enterprise Governance</div>
+        </div>
+        <div class="flip-back">
+          <strong>ISACA's enterprise governance framework</strong>
+          Explicitly separates governance from management. Business-driven, audit-friendly. The framework CISM exam questions most often reference. COBIT 2019 is the current major version.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>The Documentation Hierarchy</h3>
+  <p>Every mature security program has a four-layer documentation pyramid. Each layer answers a different question; mixing them is a common amateur mistake. Click each layer to learn more.</p>
+
+  <div class="doc-pyramid">
+    <div class="doc-layer l1" onclick="showDoc('policy')">
+      <span class="doc-tag">Layer 1</span>
+      <span class="doc-name">📜 Policies</span>
+    </div>
+    <div class="doc-layer l2" onclick="showDoc('standard')">
+      <span class="doc-tag">Layer 2</span>
+      <span class="doc-name">📐 Standards</span>
+    </div>
+    <div class="doc-layer l3" onclick="showDoc('procedure')">
+      <span class="doc-tag">Layer 3</span>
+      <span class="doc-name">🛠️ Procedures</span>
+    </div>
+    <div class="doc-layer l4" onclick="showDoc('guideline')">
+      <span class="doc-tag">Layer 4</span>
+      <span class="doc-name">💡 Guidelines</span>
+    </div>
+  </div>
+  <div class="doc-detail" id="docDetail">
+    <h4>👆 Click any layer above</h4>
+    <p>Each layer of the documentation pyramid serves a distinct purpose. Click any layer to see its definition, audience, example, and the common mistake associated with it.</p>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Policies Define Intent. Procedures Define Execution.</div>
+    <p>If your policy says <em>"Multi-factor authentication shall be implemented for all administrative access"</em>, that's intent. The procedure says <em>"Step 1: Open Okta admin console. Step 2: Click Security → MFA Enrollment…"</em> That's execution. Mixing them produces policies nobody can read (because they're cluttered with screenshots) and procedures nobody can find (because they're buried in policy documents). Keep the layers separate.</p>
+  </div>
+
+  <h3>Identify the Document Type</h3>
+  <p>For each statement, identify which document layer it most naturally belongs in.</p>
+  <div class="matcher" id="docMatcher">
+    <div class="match-row" data-correct="policy">
+      <div class="match-scenario">"All employees and contractors with access to company systems must complete security awareness training annually."</div>
+      <select class="match-select">
+        <option value="">Select layer…</option>
+        <option value="policy">Policy</option>
+        <option value="standard">Standard</option>
+        <option value="procedure">Procedure</option>
+        <option value="guideline">Guideline</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="standard">
+      <div class="match-scenario">"Passwords must be at least 14 characters, contain at least one uppercase letter and one number, and may not match any of the previous 12 passwords."</div>
+      <select class="match-select">
+        <option value="">Select layer…</option>
+        <option value="policy">Policy</option>
+        <option value="standard">Standard</option>
+        <option value="procedure">Procedure</option>
+        <option value="guideline">Guideline</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="procedure">
+      <div class="match-scenario">"Step 1: Navigate to ServiceNow → IT Service Catalog → Access Request. Step 2: Select the system. Step 3: Provide business justification. Step 4: Await manager approval…"</div>
+      <select class="match-select">
+        <option value="">Select layer…</option>
+        <option value="policy">Policy</option>
+        <option value="standard">Standard</option>
+        <option value="procedure">Procedure</option>
+        <option value="guideline">Guideline</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="guideline">
+      <div class="match-scenario">"When handling customer data, consider whether the information could be aggregated to identify an individual. We recommend treating quasi-identifiers (zip code + birthdate + gender) as PII."</div>
+      <select class="match-select">
+        <option value="">Select layer…</option>
+        <option value="policy">Policy</option>
+        <option value="standard">Standard</option>
+        <option value="procedure">Procedure</option>
+        <option value="guideline">Guideline</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <button class="btn" onclick="checkMatcher('docMatcher')">Check Answers</button>
+    <button class="btn secondary" onclick="resetMatcher('docMatcher')">Reset</button>
+  </div>
+</section>
+
+<!-- ===================== MODULE 8 ===================== -->
+<section class="module" id="m8">
+  <span class="module-tag">Module 8</span>
+  <span class="duration">60 min</span>
+  <h2>Metrics &amp; Measuring Success</h2>
+  <p>Metrics are how a security program speaks. Programs that can't measure their performance can't defend their budget, can't demonstrate progress, and can't tell whether they're improving or sliding backward. But not all metrics are equal — and the wrong metrics are worse than none, because they produce false confidence.</p>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Vehicle Dashboard</div>
+    <p>A car dashboard shows you fuel level, speed, engine temperature, oil pressure, and warning lights. <strong>It doesn't show you the radio station, the cupholder temperature, or how much trunk space you have.</strong> Why? Because the dashboard exists to help you drive — it shows what matters for the immediate task. A car with 47 gauges showing everything is unreadable; a car with no gauges is dangerous; a car with the <em>right</em> gauges is safe and informative. Security dashboards are the same. <em>Show what drives decisions; hide the rest.</em></p>
+  </div>
+
+  <h3>The SMART Test for Metrics</h3>
+  <p>A useful metric is SMART: <strong>Specific, Measurable, Achievable, Relevant, Time-bound.</strong> Read each statement and decide if it's a good metric.</p>
+
+  <div class="smart-card good">
+    <div class="smart-verdict">✓ Good Metric</div>
+    <p class="smart-stmt">"Patch 95% of critical vulnerabilities within 14 days of disclosure, measured monthly."</p>
+    <p class="smart-explain"><strong>Specific:</strong> critical vulns only. <strong>Measurable:</strong> percentage and time. <strong>Achievable:</strong> 95%, not 100%. <strong>Relevant:</strong> ties to breach risk. <strong>Time-bound:</strong> measured monthly.</p>
+  </div>
+
+  <div class="smart-card bad">
+    <div class="smart-verdict">✗ Vanity Metric</div>
+    <p class="smart-stmt">"We have implemented a robust security posture across our environment."</p>
+    <p class="smart-explain">Not specific. Not measurable. Not time-bound. "Robust" means whatever the reader wants it to mean. This is corporate prose, not a metric.</p>
+  </div>
+
+  <div class="smart-card bad">
+    <div class="smart-verdict">✗ Activity, Not Outcome</div>
+    <p class="smart-stmt">"Held 12 security training sessions this quarter."</p>
+    <p class="smart-explain">Activity, not outcome. The fact that sessions occurred says nothing about whether anyone learned anything or behavior changed. <strong>Counts of activities are not metrics — they're attendance.</strong></p>
+  </div>
+
+  <div class="smart-card good">
+    <div class="smart-verdict">✓ Good Metric</div>
+    <p class="smart-stmt">"Reduce phishing simulation click rate from 12% to under 5% within 12 months."</p>
+    <p class="smart-explain">Specific, measurable, time-bound, and tied to a behavior change that correlates with real breach risk.</p>
+  </div>
+
+  <h3>Leading vs. Lagging Indicators</h3>
+  <p>Both kinds matter. Programs that watch only one are surprised regularly — by the wrong thing.</p>
+  <table>
+    <tr><th>Type</th><th>Tells You</th><th>Examples</th></tr>
+    <tr><td><strong>Leading indicator</strong></td><td>Predicts future risk; conditions that drive outcomes</td><td>Patch compliance rate, training completion, vulnerability scan coverage, phishing simulation click rate, MFA adoption</td></tr>
+    <tr><td><strong>Lagging indicator</strong></td><td>Measures past performance; what already happened</td><td>Incident counts, MTTD, MTTR, audit finding counts, breach notifications issued, downtime hours</td></tr>
+  </table>
+
+  <div class="callout">
+    <div class="label">The Two-Eyed Approach</div>
+    <p>A program that watches only lagging indicators is reactive — it learns about problems after they've happened. A program that watches only leading indicators is theoretical — it predicts but never verifies. The mature program watches both: <strong>leading indicators to predict and prevent, lagging indicators to validate and learn.</strong></p>
+  </div>
+
+  <h3>Executive Security Dashboard</h3>
+  <p>Below is a sample dashboard mixing leading and lagging indicators. Adjust the sliders to see how the metrics tell a story together.</p>
+  <div class="metrics-dash">
+    <div class="metric-tile">
+      <h5>Patch Compliance (Critical)</h5>
+      <span class="metric-tag lead">Leading</span>
+      <div class="metric-value">94%</div>
+      <input type="range" min="50" max="100" value="94" oninput="updateGenericMetric(this, '%')">
+      <div class="metric-label">Target: ≥95%</div>
+    </div>
+    <div class="metric-tile">
+      <h5>MFA Adoption</h5>
+      <span class="metric-tag lead">Leading</span>
+      <div class="metric-value">97%</div>
+      <input type="range" min="50" max="100" value="97" oninput="updateGenericMetric(this, '%')">
+      <div class="metric-label">Target: 100%</div>
+    </div>
+    <div class="metric-tile">
+      <h5>Phishing Sim Click Rate</h5>
+      <span class="metric-tag lead">Leading</span>
+      <div class="metric-value">4%</div>
+      <input type="range" min="0" max="20" value="4" oninput="updateGenericMetric(this, '%')">
+      <div class="metric-label">Target: &lt;5%</div>
+    </div>
+    <div class="metric-tile">
+      <h5>Security Incidents (Quarter)</h5>
+      <span class="metric-tag lag">Lagging</span>
+      <div class="metric-value">3</div>
+      <input type="range" min="0" max="20" value="3" oninput="updateGenericMetric(this, '')">
+      <div class="metric-label">Trend: ↓ 25% YoY</div>
+    </div>
+    <div class="metric-tile">
+      <h5>Mean Time to Detect (MTTD)</h5>
+      <span class="metric-tag lag">Lagging</span>
+      <div class="metric-value">6 hours</div>
+      <input type="range" min="1" max="72" value="6" oninput="updateGenericMetric(this, ' hours')">
+      <div class="metric-label">Target: &lt;8 hrs</div>
+    </div>
+    <div class="metric-tile">
+      <h5>Mean Time to Respond (MTTR)</h5>
+      <span class="metric-tag lag">Lagging</span>
+      <div class="metric-value">42 min</div>
+      <input type="range" min="5" max="240" value="42" oninput="updateGenericMetric(this, ' min')">
+      <div class="metric-label">Target: &lt;60 min</div>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Vanity Metrics Create False Confidence</div>
+    <p>"Number of alerts processed" is a vanity metric — high numbers don't prove the program is effective; they may prove it's drowning in noise. "Number of policies published" is vanity — a hundred unread policies is worse than five enforced ones. <strong>Every metric must drive a decision.</strong> If you can't name what action would follow a change in the number, the number doesn't belong on the dashboard.</p>
+  </div>
+</section>
+
+<!-- ===================== CAPSTONE ===================== -->
+<section class="module" id="capstone">
+  <span class="module-tag">Capstone Exercise</span>
+  <span class="duration">90 min</span>
+  <h2>Enterprise Security Program Development Simulation</h2>
+
+  <h3>Scenario: MediCore Health Systems</h3>
+  <p>You are the founding CISO at MediCore Health Systems, a rapidly growing regional healthcare provider:</p>
+  <ul>
+    <li><strong>Expanding internationally</strong> — recently acquired clinics in Mexico and Costa Rica; planning further Latin American expansion</li>
+    <li><strong>Facing new privacy regulations</strong> — HIPAA at home, LGPD in Mexico, plus internal HITRUST certification demanded by major insurance partners</li>
+    <li><strong>Decentralized IT operations</strong> — 14 hospitals and clinics each ran their own IT historically; integration is incomplete</li>
+    <li><strong>Increasing ransomware attempts</strong> — three peer health systems hit in the past year; threat actors specifically targeting healthcare</li>
+    <li><strong>No formal security program today</strong> — you are building from a blank slate</li>
+  </ul>
+
+  <h3>Required Deliverables</h3>
+  <ol>
+    <li><strong>Security Program Charter</strong> — purpose, scope, authority, reporting structure (1 page)</li>
+    <li><strong>Governance Structure</strong> — steering committee composition, decision rights, escalation paths</li>
+    <li><strong>Strategic Roadmap</strong> — 3-year program plan with named initiatives, owners, milestones, dependencies</li>
+    <li><strong>Asset Classification Model</strong> — four-tier classification with healthcare-specific examples</li>
+    <li><strong>BIA Summary</strong> — top 10 critical systems with RTO/RPO/criticality and recovery priority</li>
+    <li><strong>Metrics Dashboard</strong> — at least 8 metrics balanced between leading and lagging, with targets</li>
+    <li><strong>Change Management Strategy</strong> — how the 14 acquired sites will adopt enterprise security standards without losing operational continuity</li>
+    <li><strong>Executive Presentation</strong> — one-page summary for the Board's Risk Committee with the budget ask</li>
+  </ol>
+
+  <h3>Team Roles</h3>
+  <table>
+    <tr><th>Role</th><th>Responsibility</th></tr>
+    <tr><td>CISO (you)</td><td>Lead all deliverables; defend the program to the Board</td></tr>
+    <tr><td>CMO advisor</td><td>Surfaces clinical priorities; resists initiatives that disrupt patient care</td></tr>
+    <tr><td>CFO advisor</td><td>Challenges every dollar; demands quantified ROI</td></tr>
+    <tr><td>General Counsel</td><td>Surfaces HIPAA, LGPD, and breach-notification exposure</td></tr>
+    <tr><td>Hospital CEO (Acquired Site)</td><td>Advocates for operational autonomy; resists centralization that ignores local needs</td></tr>
+    <tr><td>Board Risk Committee Chair</td><td>Evaluates the final presentation; votes to approve or revise</td></tr>
+  </table>
+
+  <h3>Evaluation Rubric</h3>
+  <table>
+    <tr><th>Criterion</th><th>Weight</th><th>"Excellent" Looks Like</th></tr>
+    <tr><td>Charter clarity</td><td>10%</td><td>Purpose, scope, and authority defensible to executives and auditors</td></tr>
+    <tr><td>Governance structure</td><td>15%</td><td>Cross-functional steering committee with named decision rights; CISO reporting line justified</td></tr>
+    <tr><td>Roadmap practicality</td><td>15%</td><td>Sequenced for dependencies; respects integration constraints; quarterly milestones</td></tr>
+    <tr><td>Asset classification</td><td>10%</td><td>Healthcare-specific tiers; PHI explicitly addressed; controls implications clear</td></tr>
+    <tr><td>BIA defensibility</td><td>15%</td><td>RTO/RPO tied to revenue/clinical impact; safety-critical systems treated as such</td></tr>
+    <tr><td>Metrics design</td><td>10%</td><td>Mix of leading/lagging; SMART; tied to program outcomes; not vanity</td></tr>
+    <tr><td>Change management</td><td>15%</td><td>Addresses the 14-site integration; named tactics; respect for local autonomy</td></tr>
+    <tr><td>Executive communication</td><td>10%</td><td>Business language; financial framing; specific decision asked of the Board</td></tr>
+  </table>
+</section>
+
+<!-- ===================== ASSESSMENT ===================== -->
+<section class="module" id="assessment">
+  <span class="module-tag">Final Assessment</span>
+  <h2>Knowledge Check — 10 Questions</h2>
+  <p>Test your mastery of Domain 3 Part 1. Each question gives instant feedback and an explanation.</p>
+  <div id="finalQuiz"></div>
+  <div id="finalScore" style="margin-top:1.5rem;padding:1.5rem;background:var(--primary);color:#fff;border-radius:10px;display:none;text-align:center;">
+    <div style="font-size:0.9rem;text-transform:uppercase;letter-spacing:0.1em;opacity:0.85;">Your Score</div>
+    <div style="font-size:3rem;font-weight:700;margin:0.5rem 0;" id="scoreNum">0 / 10</div>
+    <div id="scoreMessage" style="opacity:0.9;"></div>
+  </div>
+  <button class="btn" onclick="gradeFinal()" style="margin-top:1rem;">Grade My Quiz</button>
+  <button class="btn secondary" onclick="resetFinal()">Reset</button>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>NCyTE CISM Course</strong> · Domain 3, Part 1: Information Security Program Development &amp; Management</p>
+  <p>Interactive lesson by Dr. John Sands · National AI Training Initiative · Moraine Valley Community College</p>
+</footer>
+
+<script>
+// ============ NAV ACTIVE STATE + PROGRESS BAR ============
+const sections = document.querySelectorAll('section.module');
+const navLinks = document.querySelectorAll('nav.modules a');
+const progressBar = document.getElementById('progressBar');
+
+function onScroll() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = Math.min(100, (scrollTop / docHeight) * 100) + '%';
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 120;
+    if (scrollTop >= top) current = sec.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+// ============ INLINE QUIZ ============
+document.querySelectorAll('[data-quiz]').forEach(quiz => {
+  const options = quiz.querySelectorAll('.quiz-option');
+  let explainDiv = document.createElement('div');
+  explainDiv.className = 'quiz-explanation';
+  quiz.appendChild(explainDiv);
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      options.forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      if (opt.dataset.answer === 'correct') opt.classList.add('correct');
+      else opt.classList.add('wrong');
+      explainDiv.textContent = opt.dataset.explain || '';
+      explainDiv.classList.add('show');
+    });
+  });
+});
+
+// ============ ACCORDIONS ============
+document.querySelectorAll('.accordion-header').forEach(h => {
+  h.addEventListener('click', () => {
+    h.parentElement.classList.toggle('open');
+  });
+});
+
+// ============ MATCHER ============
+const matchLabels = {
+  requirements: 'Requirements', design: 'Design', development: 'Development',
+  testing: 'Testing', deployment: 'Deployment', maintenance: 'Maintenance',
+  restricted: 'Restricted', confidential: 'Confidential', internal: 'Internal', public: 'Public',
+  policy: 'Policy', standard: 'Standard', procedure: 'Procedure', guideline: 'Guideline'
+};
+function checkMatcher(id) {
+  const rows = document.querySelectorAll('#' + id + ' .match-row');
+  rows.forEach(row => {
+    const select = row.querySelector('select');
+    const fb = row.querySelector('.match-feedback');
+    const ans = row.dataset.correct;
+    if (!select.value) {
+      fb.textContent = 'Pick one';
+      fb.className = 'match-feedback';
+      return;
+    }
+    if (select.value === ans) {
+      fb.textContent = '✓ Correct';
+      fb.className = 'match-feedback correct';
+    } else {
+      fb.textContent = '✗ ' + (matchLabels[ans] || ans);
+      fb.className = 'match-feedback wrong';
+    }
+  });
+}
+function resetMatcher(id) {
+  document.querySelectorAll('#' + id + ' .match-row').forEach(row => {
+    row.querySelector('select').value = '';
+    const fb = row.querySelector('.match-feedback');
+    fb.textContent = '';
+    fb.className = 'match-feedback';
+  });
+}
+
+// ============ PROGRAM OUTCOMES (Module 2) ============
+const outcomeData = {
+  1: {
+    title: '⚖️ Risk Alignment',
+    body: 'Security activities are calibrated to the organization\'s actual risk appetite. The program protects what matters most, not what is most technically interesting. Investments produce risk reduction proportional to exposure.',
+    example: '<strong>Looks like:</strong> A regional bank invests heavily in customer-facing fraud controls but accepts the risk of older internal HR system vulnerabilities — because the BIA quantified the difference.',
+    failure: '<strong>Failure mode:</strong> Spending on every shiny tool while critical assets remain unprotected because no one quantified the relative risk.'
+  },
+  2: {
+    title: '✅ Regulatory Compliance',
+    body: 'The program reliably meets all applicable laws, regulations, and contractual obligations. Compliance is treated as the floor, not the goal.',
+    example: '<strong>Looks like:</strong> A SaaS company maintains continuous SOC 2 Type II readiness, files all SEC required disclosures within deadline, and demonstrates GDPR compliance during EU customer audits.',
+    failure: '<strong>Failure mode:</strong> Annual scramble before audits, last-minute control implementation, repeat findings year over year.'
+  },
+  3: {
+    title: '💰 Resource Optimization',
+    body: 'Security budget, talent, and tooling produce maximum risk reduction for the dollar. Spending is justified by quantified outcomes, not benchmarked against industry averages.',
+    example: '<strong>Looks like:</strong> The CISO can defend every line item with cost-benefit analysis. Underused tools are decommissioned. Spending shifts year over year as risk shifts.',
+    failure: '<strong>Failure mode:</strong> 12% of IT budget on security but no measurable reduction in actual risk. Tools deployed and forgotten. Shelf-ware everywhere.'
+  },
+  4: {
+    title: '🚨 Incident Readiness',
+    body: 'When something goes wrong, the organization responds quickly, coordinately, and effectively. IR plans are tested. Playbooks are current. Teams are trained. Communication channels work.',
+    example: '<strong>Looks like:</strong> A ransomware detection at 2 AM triggers a coordinated response within 15 minutes — playbook executed, isolation completed, executives briefed by 4 AM, customer-facing systems unaffected.',
+    failure: '<strong>Failure mode:</strong> The plan exists on paper. Nobody has rehearsed it. The first real test reveals broken phone numbers, missing authority, and improvised decisions.'
+  },
+  5: {
+    title: '📊 Performance Visibility',
+    body: 'Leadership has clear, consistent, trustworthy insight into program performance. Metrics flow up; decisions flow down. The program\'s state is never a mystery to its accountable executives.',
+    example: '<strong>Looks like:</strong> Monthly CISO report to the executive team with the same dashboard every time, showing leading and lagging indicators trending against targets. Quarterly board update with strategic context.',
+    failure: '<strong>Failure mode:</strong> The board only hears from security after a breach. Dashboards are produced once, then forgotten. Performance is asserted, not demonstrated.'
+  },
+  6: {
+    title: '🏛️ Governance Integration',
+    body: 'Security is woven into enterprise governance — risk committees, audit committees, board agendas, executive decision cycles. Security decisions follow the same discipline as other strategic decisions.',
+    example: '<strong>Looks like:</strong> Major IT investments include a security risk analysis as a standard input. The audit committee has cybersecurity as a standing agenda item. The CISO has a quarterly slot in board meetings.',
+    failure: '<strong>Failure mode:</strong> Security operates as a silo, reactive to incidents, invisible to strategic decision-making until something goes wrong.'
+  }
+};
+function showOutcome(n) {
+  document.querySelectorAll('.outcome-tile').forEach(t => {
+    t.classList.toggle('active', parseInt(t.dataset.outcome) === n);
+  });
+  const d = outcomeData[n];
+  document.getElementById('outcomeDetail').innerHTML = `
+    <h4>${d.title}</h4>
+    <p>${d.body}</p>
+    <p style="font-size:0.88rem;color:var(--ink-soft);margin-top:0.5rem">${d.example}</p>
+    <p style="font-size:0.88rem;color:var(--danger);margin-top:0.3rem">${d.failure}</p>
+  `;
+}
+showOutcome(1);
+
+// ============ LIFECYCLE (Module 3) ============
+const lifecycleData = {
+  1: {
+    title: '🚀 Day-One Setup',
+    body: 'The first 90 days. Establish authority, define scope, secure executive sponsorship, build initial team credibility, conduct a current-state assessment.',
+    example: '<strong>Looks like:</strong> A new CISO meets every C-suite leader in the first 30 days, publishes a 100-day plan to the board, completes a NIST CSF baseline assessment, and lands an executive sponsor.',
+    pitfall: '<strong>Common failure:</strong> Trying to fix everything immediately. Day-one is about diagnosis and authority, not remediation.'
+  },
+  2: {
+    title: '🤝 Executive Sponsorship',
+    body: 'Secure ongoing commitment from a C-suite ally who will defend the program in tough budget cycles and represent it in executive forums.',
+    example: '<strong>Looks like:</strong> The CFO becomes the security program\'s primary champion, citing the financial value of the risk reduction; the CEO publicly endorses the program at all-hands meetings.',
+    pitfall: '<strong>Common failure:</strong> Settling for a junior sponsor or assuming "the board cares" without an active executive ally.'
+  },
+  3: {
+    title: '🗺️ Strategic Roadmap',
+    body: 'Translate executive direction into a sequenced, budgeted, prioritized 3-year plan. Sequence initiatives by risk reduction and dependency. Build in milestones.',
+    example: '<strong>Looks like:</strong> A roadmap with quarterly milestones, named owners, budget estimates, dependencies marked, and explicit alignment to business objectives.',
+    pitfall: '<strong>Common failure:</strong> The "everything is Year 1" plan that ignores team capacity and burns out the program before it stabilizes.'
+  },
+  4: {
+    title: '🔨 Execute',
+    body: 'Run the initiatives. Land the controls. Deploy the tools. Train the teams. Build the playbooks. This is where the program either becomes real or stays paper.',
+    example: '<strong>Looks like:</strong> Quarterly initiative reviews, blocker resolution by the steering committee, on-time delivery of milestone outcomes.',
+    pitfall: '<strong>Common failure:</strong> Project announcements without project delivery. Roadmaps that never close any items.'
+  },
+  5: {
+    title: '📈 Measure',
+    body: 'Track leading and lagging indicators. Validate that initiatives are producing the intended risk reduction. Compare actual outcomes to predicted outcomes.',
+    example: '<strong>Looks like:</strong> A monthly metrics review with the program team and a quarterly review with executive leadership. Metrics that move and drive decisions.',
+    pitfall: '<strong>Common failure:</strong> Measuring what\'s easy to count instead of what matters. Confusing activity counts with outcomes.'
+  },
+  6: {
+    title: '🔄 Improve',
+    body: 'Feed measurement back into the next planning cycle. Retire ineffective controls. Adapt to new threats. Continuously refine. The cycle never ends.',
+    example: '<strong>Looks like:</strong> The annual program plan reflects lessons learned from the previous year. Tools without measurable value are sunsetted. New threats trigger explicit roadmap updates.',
+    pitfall: '<strong>Common failure:</strong> Treating the program as a one-time deliverable that\'s "done." Programs that don\'t improve, decay.'
+  }
+};
+function showLifecycle(n) {
+  document.querySelectorAll('.lc-stage').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.stage) === n);
+  });
+  const d = lifecycleData[n];
+  document.getElementById('lifecycleDetail').innerHTML = `
+    <h4>${d.title}</h4>
+    <p>${d.body}</p>
+    <p style="font-size:0.88rem;color:var(--ink-soft);margin-top:0.5rem">${d.example}</p>
+    <p style="font-size:0.88rem;color:var(--danger);margin-top:0.3rem">${d.pitfall}</p>
+  `;
+}
+showLifecycle(1);
+
+// ============ DOC HIERARCHY (Module 7) ============
+const docData = {
+  policy: {
+    title: '📜 Policy — The "Why" and "What"',
+    audience: 'Executive leadership, audit committee, regulators',
+    body: 'High-level statements of management intent. Define what the organization does and why. Mandatory. Approved by senior leadership. Change rarely.',
+    example: '<em>"The organization shall protect customer information against unauthorized disclosure, modification, or destruction throughout its lifecycle."</em>',
+    pitfall: 'Cluttering policy with implementation detail. If your policy mentions specific tools or step-by-step instructions, it belongs in a procedure.'
+  },
+  standard: {
+    title: '📐 Standard — The "How Much"',
+    audience: 'Technical teams, project leads, auditors',
+    body: 'Specific, measurable requirements that implement policy. Mandatory. Quantified where possible. Reviewed annually.',
+    example: '<em>"Customer information at rest shall be encrypted using AES-256 or equivalent. Encryption keys shall be rotated every 365 days."</em>',
+    pitfall: 'Writing standards that are too rigid (preventing legitimate exceptions) or too vague (impossible to audit).'
+  },
+  procedure: {
+    title: '🛠️ Procedure — The "How"',
+    audience: 'Operations staff, help desk, on-call engineers',
+    body: 'Step-by-step instructions for executing standards. Operationally specific. Updated as systems change. Usually owned by the team that performs the work.',
+    example: '<em>"Step 1: Open the Encryption Console. Step 2: Select \'Generate New Key\'. Step 3: Enter the Customer Database identifier. Step 4: Confirm rotation. Step 5: Verify successful re-encryption in the audit log..."</em>',
+    pitfall: 'Procedures that exist only in one person\'s head. When that person leaves, the capability leaves with them.'
+  },
+  guideline: {
+    title: '💡 Guideline — The "Recommended Practice"',
+    audience: 'All staff, especially those handling judgment calls',
+    body: 'Suggested approaches that aren\'t mandatory. Help people make good decisions in situations where rigid rules don\'t fit. Optional but informed.',
+    example: '<em>"When choosing between strict and lenient interpretations of the privacy policy, default to the stricter interpretation unless business need is clearly documented and approved."</em>',
+    pitfall: 'Treating guidelines as mandatory (eliminating useful flexibility) or ignoring them entirely (eliminating useful structure).'
+  }
+};
+function showDoc(key) {
+  const d = docData[key];
+  document.getElementById('docDetail').innerHTML = `
+    <h4>${d.title}</h4>
+    <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:0"><strong style="color:var(--primary)">Audience:</strong> ${d.audience}</p>
+    <p>${d.body}</p>
+    <p style="font-size:0.88rem;color:var(--ink-soft);background:var(--shade-2);padding:0.5rem 0.75rem;border-radius:6px;margin-top:0.5rem"><strong>Example:</strong> ${d.example}</p>
+    <p style="font-size:0.88rem;color:var(--danger);margin-top:0.3rem"><strong>Common pitfall:</strong> ${d.pitfall}</p>
+  `;
+}
+
+// ============ BIA TRIAGE (Module 6) ============
+function updateTriage(select) {
+  // Placeholder — full calculation happens on button click
+}
+function calculateAllTriage() {
+  document.querySelectorAll('.triage-panel .triage-row[data-system]').forEach(row => {
+    const selects = row.querySelectorAll('select');
+    let total = 0;
+    selects.forEach(s => total += parseInt(s.value));
+    const priority = row.querySelector('.triage-priority');
+    if (total >= 8) {
+      priority.className = 'triage-priority p1';
+      priority.textContent = 'P1 — Critical';
+    } else if (total >= 6) {
+      priority.className = 'triage-priority p2';
+      priority.textContent = 'P2 — High';
+    } else if (total >= 4) {
+      priority.className = 'triage-priority p3';
+      priority.textContent = 'P3 — Medium';
+    } else {
+      priority.className = 'triage-priority p4';
+      priority.textContent = 'P4 — Low';
+    }
+  });
+}
+
+// ============ GENERIC METRIC UPDATE ============
+function updateGenericMetric(slider, suffix) {
+  const v = parseFloat(slider.value);
+  const tile = slider.closest('.metric-tile');
+  tile.querySelector('.metric-value').textContent = v + suffix;
+}
+
+// ============ FINAL QUIZ ============
+const finalQs = [
+  {
+    q: "Which statement BEST describes the difference between a collection of security controls and an information security program?",
+    options: [
+      { t: "There is no difference — they are the same thing", c: false, e: "There's a meaningful difference. Controls are individual safeguards; the program is the coherent capability that makes them work together." },
+      { t: "A program is the organizational capability that makes individual controls coherent — the operating system, not the applications", c: true, e: "Correct. Programs provide governance, alignment, and continuous improvement. Controls without a program are activities; controls within a program are a capability." },
+      { t: "Programs are documented; controls are technical", c: false, e: "Both can be documented; both have technical and non-technical components. The distinction is about coherence and continuity, not documentation." },
+      { t: "Programs are for large organizations only", c: false, e: "Every organization that takes security seriously has a program — explicit or implicit. The question is whether it's intentional." }
+    ]
+  },
+  {
+    q: "An organization spends 12% of IT budget on security but recently suffered a major breach. Which program outcome most clearly failed?",
+    options: [
+      { t: "Resource Optimization — they didn't spend enough", c: false, e: "12% is high. Spending wasn't the problem; visibility into what the spending produced was." },
+      { t: "Performance Visibility — leadership had no clear instrument panel showing whether the spending was producing results", c: true, e: "Correct. Spending without visibility is the classic failure mode. Money flows out; nothing comes back to validate the program is working until something breaks." },
+      { t: "Regulatory Compliance — they weren't compliant", c: false, e: "Compliance might be one factor, but compliant organizations get breached too. The deeper issue is visibility." },
+      { t: "Governance Integration — they didn't have a CISO", c: false, e: "Spending 12% almost certainly means they had a CISO. The issue is what that CISO could see and report on." }
+    ]
+  },
+  {
+    q: "What does \"shift-left\" mean in the context of security and the SDLC?",
+    options: [
+      { t: "Move security testing to the political left of the development team", c: false, e: "That's not what shift-left means. The 'left' refers to position on a timeline diagram, not politics." },
+      { t: "Integrate security earlier in the development lifecycle — into design, requirements, and developer workflows", c: true, e: "Correct. SDLC diagrams typically show stages left to right (requirements → design → development → testing → deployment). Shift-left means push security activities earlier — to the left — where defects are cheaper to fix." },
+      { t: "Delegate security to junior engineers", c: false, e: "Shift-left is about timing, not seniority." },
+      { t: "Move security tools to the cloud", c: false, e: "Cloud migration is unrelated to shift-left." }
+    ]
+  },
+  {
+    q: "A developer team is bypassing the mandatory code review process. What is the MOST effective change-management response?",
+    options: [
+      { t: "Issue a stern memo requiring compliance and publicly punish the team that bypassed the process", c: false, e: "This produces compliance theater at best and quiet sabotage at worst. The team bypassed the process because it didn't work for them; punishment doesn't fix that." },
+      { t: "Diagnose why the process is being bypassed and co-design a workflow with the team that addresses both security and velocity needs", c: true, e: "Correct. Resistance usually has a rational cause. Co-design transforms security from a friction source into a collaborator. Make security faster, not just safer." },
+      { t: "Add additional review layers to make sure bypassing is harder", c: false, e: "Adding friction to a process people are already bypassing accelerates the problem, not solves it." },
+      { t: "Wait for the next incident to prove the point", c: false, e: "Waiting for incidents to validate your authority is malpractice — and once the incident occurs, you'll be blamed for not preventing it." }
+    ]
+  },
+  {
+    q: "What is the foundational principle of asset management in a security program?",
+    options: [
+      { t: "Use the most expensive CMDB available", c: false, e: "Tool choice is downstream of the principle." },
+      { t: "You cannot protect what you do not know you have", c: true, e: "Correct. Asset visibility is the precondition for every other security activity. Every breach post-mortem identifies asset visibility as a contributing factor." },
+      { t: "All assets should be classified as Restricted by default", c: false, e: "Over-classification destroys the value of classification — when everything is Restricted, nothing is. Classify proportionally." },
+      { t: "Only IT-managed assets need to be inventoried", c: false, e: "Shadow IT, personal devices, cloud assets, and SaaS subscriptions all create attack surface and must be visible." }
+    ]
+  },
+  {
+    q: "An e-commerce platform processing real-time payment data should be classified as:",
+    options: [
+      { t: "Public", c: false, e: "Payment data is highly sensitive and regulated under PCI DSS. Public classification would be a serious violation." },
+      { t: "Internal", c: false, e: "Payment data exceeds internal-use classification. It requires the highest tier protection." },
+      { t: "Restricted", c: true, e: "Correct. PCI-scope payment data requires the highest classification level due to regulatory requirements, fraud risk, and customer trust implications." },
+      { t: "Confidential", c: false, e: "Some classification schemes use Confidential as the highest tier, but where Restricted exists, regulated payment data belongs there." }
+    ]
+  },
+  {
+    q: "What is the primary purpose of a Business Impact Analysis (BIA)?",
+    options: [
+      { t: "To document compliance with regulatory frameworks", c: false, e: "Documentation may be a byproduct, but the primary purpose is operational and strategic." },
+      { t: "To translate technical risk into quantified business impact, supporting recovery prioritization and executive decision-making", c: true, e: "Correct. BIA is the bridge between 'this system is important' (feeling) and 'this system has a 4-hour RTO supporting $400K/hour revenue' (fact). It enables decisions under pressure." },
+      { t: "To identify all assets in the organization", c: false, e: "That's asset inventory, which feeds the BIA but is a separate activity." },
+      { t: "To select the right cybersecurity insurance policy", c: false, e: "BIA output may inform insurance decisions, but that's not its primary purpose." }
+    ]
+  },
+  {
+    q: "An organization is choosing between NIST CSF, ISO 27001, and COBIT. Which statement is MOST accurate?",
+    options: [
+      { t: "Only one can be used at a time", c: false, e: "Many mature organizations use multiple frameworks in complementary ways — NIST CSF for operational structure, ISO 27001 for international customer requirements, COBIT for governance discipline." },
+      { t: "Frameworks are guidance structures; the right choice depends on industry, geography, regulatory exposure, and organizational maturity", c: true, e: "Correct. There's no universally best framework. The choice depends on context — and many organizations use multiple frameworks in combination." },
+      { t: "NIST CSF is for U.S. organizations only", c: false, e: "NIST CSF is widely adopted internationally despite its U.S. origin." },
+      { t: "ISO 27001 is the only certifiable option", c: false, e: "ISO 27001 is notable for being certifiable, but SOC 2, HITRUST, and other frameworks also support certification or attestation." }
+    ]
+  },
+  {
+    q: "Which statement BEST captures the difference between a policy and a procedure?",
+    options: [
+      { t: "Policies are written; procedures are oral", c: false, e: "Both should be documented." },
+      { t: "Policy defines intent ('what' and 'why'); procedure defines execution ('how')", c: true, e: "Correct. Policy is the management statement; procedure is the operational implementation. Mixing them produces unreadable policy or unfindable procedure." },
+      { t: "Policies are for executives; procedures are for IT", c: false, e: "Both have multiple audiences. The distinction is about purpose, not audience exclusivity." },
+      { t: "Policies are required; procedures are optional", c: false, e: "Both are essential. Policies without procedures are aspirational; procedures without policies are uncoordinated." }
+    ]
+  },
+  {
+    q: "A CISO presents a dashboard showing 'Number of security alerts processed: 47,392 this quarter.' What is the BEST critique of this metric?",
+    options: [
+      { t: "The number is too high; the team is overworked", c: false, e: "The number alone tells us nothing about workload — depends on alert quality and automation." },
+      { t: "The number is too low; the SIEM isn't catching enough", c: false, e: "Again, the number alone is meaningless without context." },
+      { t: "It's a vanity metric — high counts of activities tell us nothing about outcomes, decisions, or effectiveness", c: true, e: "Correct. Alert volume doesn't indicate program effectiveness. It could mean the team is drowning in noise, or that automation is working well — the number doesn't tell us which. Metrics must drive decisions; activity counts don't." },
+      { t: "It should be expressed as a percentage", c: false, e: "Reformatting doesn't fix the underlying problem — the metric measures activity, not outcomes." }
+    ]
+  }
+];
+
+function buildFinal() {
+  const c = document.getElementById('finalQuiz');
+  c.innerHTML = finalQs.map((q, qi) => `
+    <div class="quiz" data-qi="${qi}">
+      <div class="quiz-question">Q${qi+1}. ${q.q}</div>
+      ${q.options.map((opt, oi) => `
+        <div class="quiz-option" data-qi="${qi}" data-oi="${oi}" data-correct="${opt.c}" data-explain="${opt.e.replace(/"/g,'&quot;')}">${opt.t}</div>
+      `).join('')}
+      <div class="quiz-explanation"></div>
+    </div>
+  `).join('');
+  c.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const qi = opt.dataset.qi;
+      const quiz = c.querySelector(`.quiz[data-qi="${qi}"]`);
+      quiz.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      opt.classList.add(opt.dataset.correct === 'true' ? 'correct' : 'wrong');
+      const ex = quiz.querySelector('.quiz-explanation');
+      ex.textContent = opt.dataset.explain;
+      ex.classList.add('show');
+    });
+  });
+}
+buildFinal();
+
+function gradeFinal() {
+  let score = 0;
+  finalQs.forEach((q, qi) => {
+    const selected = document.querySelector(`.quiz[data-qi="${qi}"] .quiz-option.selected`);
+    if (selected && selected.dataset.correct === 'true') score++;
+  });
+  document.getElementById('scoreNum').textContent = score + ' / ' + finalQs.length;
+  let msg;
+  if (score === 10) msg = "🏆 Perfect score — you're ready for Domain 3 Part 2.";
+  else if (score >= 8) msg = "🎯 Strong mastery — review the missed items and continue.";
+  else if (score >= 6) msg = "📚 Solid foundation — revisit the modules covering missed questions.";
+  else msg = "📖 Re-read the modules and try again — focus on the concepts you missed.";
+  document.getElementById('scoreMessage').textContent = msg;
+  document.getElementById('finalScore').style.display = 'block';
+  document.getElementById('finalScore').scrollIntoView({behavior:'smooth', block:'center'});
+}
+function resetFinal() {
+  document.querySelectorAll('#finalQuiz .quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+  document.querySelectorAll('#finalQuiz .quiz-explanation').forEach(e => { e.classList.remove('show'); e.textContent = ''; });
+  document.getElementById('finalScore').style.display = 'none';
+}
+</script>
+</body>
+</html>
