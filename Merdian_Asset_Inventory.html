@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Inventory & Categorization Report</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the app and print view */
+        :root {
+            --primary-green: #047857; /* Darker emerald green for branding */
+            --light-green: #34d399;   /* Light green for accents */
+            --text-color: #1f2937;    /* Dark gray for readability */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+            color: var(--text-color);
+        }
+        /* Base button style */
+        .btn-base {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.1s;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+        /* Primary button for actions (Add) */
+        .btn-primary {
+            background-color: var(--primary-green);
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #065f46; /* Slightly darker green on hover */
+            transform: translateY(-1px);
+        }
+        /* Secondary buttons (Download, Print) */
+        .btn-secondary {
+            background-color: #374151; /* Dark gray/black theme */
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #1f2937;
+            transform: translateY(-1px);
+        }
+        .tab-active {
+            border-bottom: 4px solid var(--primary-green);
+            color: var(--primary-green);
+            font-weight: 700;
+            /* Added margin adjustment to keep text aligned when border is active */
+            padding-bottom: 9px; 
+        }
+        
+        /* Print Styles - Ensure only the report content is printed cleanly */
+        @media print {
+            body > *:not(.print-container) {
+                display: none;
+            }
+            .print-container {
+                display: block !important;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .print-container h1 {
+                text-align: center;
+                color: #000;
+                font-size: 24pt;
+                margin-bottom: 20pt;
+            }
+            .print-section {
+                margin-bottom: 30pt;
+                page-break-inside: avoid;
+            }
+            .print-section h2 {
+                color: var(--primary-green);
+                font-size: 16pt;
+                border-bottom: 2px solid var(--primary-green);
+                padding-bottom: 5pt;
+                margin-bottom: 10pt;
+            }
+            .print-section table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .print-section th, .print-section td {
+                border: 1px solid #ccc;
+                padding: 8pt;
+                text-align: left;
+                font-size: 10pt;
+            }
+            .print-section th {
+                background-color: #eee;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 sm:p-8">
+    <div id="app-container" class="max-w-7xl mx-auto bg-white shadow-2xl rounded-lg p-4 sm:p-10">
+        <!-- Header -->
+        <header class="pb-6 border-b-2 border-gray-100 mb-8">
+            <h1 class="text-3xl font-extrabold text-gray-900">Asset Inventory & Categorization Report</h1>
+            <p class="mt-2 text-lg text-gray-700">
+                <span class="font-semibold text-primary-green">Cybersecurity Course Module:</span> Building the Foundation for CMMC Scoping.
+            </p>
+            <p class="mt-1 text-sm text-gray-500">
+                Use the organizational case study provided in class to populate these CMMC asset categories. This inventory defines your system boundary.
+            </p>
+        </header>
+        
+        <!-- Administrative Details Block -->
+        <section id="report-admin-details" class="mb-8 p-6 bg-gray-50 border border-gray-200 rounded-lg">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2 text-primary-green">Report Administration Details</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="flex flex-col">
+                    <label for="org-name" class="text-sm font-medium text-gray-700">Name of Organization</label>
+                    <input type="text" id="org-name" value="Starlight Dynamics Inc." class="mt-1 p-2 border border-gray-300 rounded-md focus:ring-primary-green focus:border-primary-green">
+                </div>
+                <div class="flex flex-col">
+                    <label for="inventor-name" class="text-sm font-medium text-gray-700">Completed By (Name)</label>
+                    <input type="text" id="inventor-name" value="[Student/Team Name]" class="mt-1 p-2 border border-gray-300 rounded-md focus:ring-primary-green focus:border-primary-green">
+                </div>
+                <div class="flex flex-col">
+                    <label for="date-completed" class="text-sm font-medium text-gray-700">Date Completed</label>
+                    <input type="date" id="date-completed" value="2024-11-18" class="mt-1 p-2 border border-gray-300 rounded-md focus:ring-primary-green focus:border-primary-green">
+                </div>
+                <div class="flex flex-col">
+                    <label for="next-review-date" class="text-sm font-medium text-gray-700">Date for Next Review</label>
+                    <input type="date" id="next-review-date" value="2025-11-18" class="mt-1 p-2 border border-gray-300 rounded-md focus:ring-primary-green focus:border-primary-green">
+                </div>
+                <div class="sm:col-span-2 lg:col-span-3 flex flex-col">
+                    <label for="facilities-list" class="text-sm font-medium text-gray-700">List of Physical Facilities</label>
+                    <textarea id="facilities-list" rows="2" class="mt-1 p-2 border border-gray-300 rounded-md focus:ring-primary-green focus:border-primary-green">HQ - 123 Main St, Anytown, USA
+Engineering R&D Annex - 456 Industrial Blvd</textarea>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Navigation/Tabs -->
+        <nav class="flex flex-wrap border-b border-gray-200 mb-6" id="nav-tabs">
+            <!-- Tabs will be generated here -->
+        </nav>
+
+        <!-- Main Content Area -->
+        <div id="content-area">
+            
+            <!-- Category Title and Actions -->
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
+                <h2 id="current-category-title" class="text-2xl font-bold text-gray-800 mb-4 sm:mb-0"></h2>
+                
+                <!-- Responsive Button Group -->
+                <div class="space-y-3 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row w-full sm:w-auto">
+                    <button onclick="showForm()" class="btn-primary btn-base flex items-center justify-center w-full sm:w-auto">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        Add New Asset
+                    </button>
+                    <button onclick="downloadData()" class="btn-secondary btn-base flex items-center justify-center w-full sm:w-auto">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download Data
+                    </button>
+                    <button onclick="printReport()" class="btn-secondary btn-base flex items-center justify-center w-full sm:w-auto">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2-5a2 2 0 100-4 2 2 0 000 4zm2-5V9"></path></svg>
+                        Print Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Inventory Table -->
+            <div id="inventory-table-container" class="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
+                <!-- Table will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Add/Edit Asset Form Modal -->
+        <div id="asset-form-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+                <h3 id="form-title" class="text-2xl font-bold mb-4 border-b pb-2 text-gray-800">Add New Asset</h3>
+                <form id="asset-form" onsubmit="saveAsset(event)">
+                    <!-- Hidden fields for tracking context -->
+                    <input type="hidden" id="asset-category-input">
+                    <input type="hidden" id="asset-id-input">
+
+                    <div id="form-fields" class="space-y-4">
+                        <!-- Dynamic form fields will be injected here -->
+                    </div>
+
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button type="button" onclick="hideForm()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-primary px-4 py-2 rounded-lg">
+                            Save Asset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Message Box -->
+        <div id="message-box" class="fixed top-4 right-4 p-4 rounded-lg shadow-xl bg-green-500 text-white font-semibold hidden transition-opacity duration-300 z-50"></div>
+
+    </div>
+
+    <!-- Print Report Container (Hidden in normal view) -->
+    <div id="print-report-container" class="print-container hidden">
+        <!-- Content for printing will be dynamically injected here -->
+    </div>
+
+
+    <script>
+        // Data structure to hold the entire asset inventory
+        let inventoryData = {
+            cui: [],
+            security: [],
+            crm: [],
+            specialized: [],
+            outOfScope: []
+        };
+
+        let currentCategory = 'cui';
+
+        // Configuration mapping CMMC categories to their fields
+        const assetConfig = {
+            cui: {
+                displayName: 'CUI Assets',
+                description: 'Assets that process, store, or transmit Controlled Unclassified Information (CUI).',
+                fields: [
+                    { key: 'id', label: 'Asset ID', type: 'text', readOnly: true },
+                    { key: 'name', label: 'Asset Name', type: 'text' },
+                    { key: 'owner', label: 'Asset Owner', type: 'text' },
+                    { key: 'desc', label: 'Asset Description', type: 'textarea' },
+                    { key: 'type', label: 'Type', type: 'text' },
+                    { key: 'location', label: 'Location', type: 'text' },
+                    { key: 'dataType', label: 'CUI Data Type', type: 'text' },
+                    { key: 'users', label: 'Primary Users', type: 'text' }
+                ]
+            },
+            security: {
+                displayName: 'Security Protection Assets',
+                description: 'Assets that provide security functions (e.g., access control, logging) for CUI assets.',
+                fields: [
+                    { key: 'id', label: 'Asset ID', type: 'text', readOnly: true },
+                    { key: 'name', label: 'Asset Name', type: 'text' },
+                    { key: 'owner', label: 'Asset Owner', type: 'text' },
+                    { key: 'desc', label: 'Asset Description', type: 'textarea' },
+                    { key: 'type', label: 'Type', type: 'text' },
+                    { key: 'location', label: 'Location', type: 'text' },
+                    { key: 'function', label: 'Security Function', type: 'text' }
+                ]
+            },
+            crm: {
+                displayName: 'Contractor Risk Managed Assets',
+                description: 'Assets that can but are not intended to handle CUI and have been deemed acceptable risks by the organization.',
+                fields: [
+                    { key: 'id', label: 'Asset ID', type: 'text', readOnly: true },
+                    { key: 'name', label: 'Asset Name', type: 'text' },
+                    { key: 'owner', label: 'Asset Owner', type: 'text' },
+                    { key: 'desc', label: 'Asset Description', type: 'textarea' },
+                    { key: 'type', label: 'Type', type: 'text' },
+                    { key: 'location', label: 'Location', type: 'text' },
+                    { key: 'measures', label: 'Risk Mgmt Measures', type: 'text' },
+                    { key: 'policy', label: 'Policy/SLA/Contract', type: 'text' }
+                ]
+            },
+            specialized: {
+                displayName: 'Specialized Assets',
+                description: 'Assets that have unique security requirements or operational limitations (e.g., IoT, SCADA, Test Equipment).',
+                fields: [
+                    { key: 'id', label: 'Asset ID', type: 'text', readOnly: true },
+                    { key: 'name', label: 'Asset Name', type: 'text' },
+                    { key: 'owner', label: 'Asset Owner', type: 'text' },
+                    { key: 'desc', label: 'Asset Description', type: 'textarea' },
+                    { key: 'type', label: 'Type', type: 'text' },
+                    { key: 'location', label: 'Location', type: 'text' },
+                    { key: 'reason', label: 'Reason for Specialization', type: 'text' }
+                ]
+            },
+            outOfScope: {
+                displayName: 'Out-of-Scope Assets',
+                description: 'Assets that cannot process, store, or transmit CUI and are physically or logically separated from the CUI environment.',
+                fields: [
+                    { key: 'id', label: 'Asset ID', type: 'text', readOnly: true },
+                    { key: 'name', label: 'Asset Name', type: 'text' },
+                    { key: 'owner', label: 'Asset Owner', type: 'text' },
+                    { key: 'desc', label: 'Asset Description', type: 'textarea' },
+                    { key: 'type', 'label': 'Type', type: 'text' },
+                    { key: 'location', label: 'Location', type: 'text' },
+                    { key: 'usage', label: 'Usage', type: 'text' },
+                    { key: 'separation', label: 'CUI Separation Methods', type: 'text' }
+                ]
+            }
+        };
+
+        // --- Utility Functions ---
+
+        // Simple Message Box Implementation
+        function showMessage(message, type = 'success') {
+            const msgBox = document.getElementById('message-box');
+            msgBox.textContent = message;
+            // Removed existing classes for clean application
+            msgBox.className = 'fixed top-4 right-4 p-4 rounded-lg shadow-xl font-semibold transition-opacity duration-300 z-50';
+            
+            msgBox.classList.add(type === 'success' ? 'bg-green-500' : 'bg-red-500', 'text-white', 'opacity-100');
+            
+            setTimeout(() => {
+                msgBox.classList.remove('opacity-100');
+                // Use a short delay before hiding completely
+                setTimeout(() => msgBox.classList.add('hidden'), 300);
+            }, 3000);
+            msgBox.classList.remove('hidden');
+        }
+
+        // --- Core Rendering Functions ---
+
+        function switchCategory(newCategory) {
+            currentCategory = newCategory;
+            renderNavTabs();
+            renderTable(newCategory);
+        }
+
+        function renderNavTabs() {
+            const nav = document.getElementById('nav-tabs');
+            nav.innerHTML = '';
+
+            Object.keys(assetConfig).forEach(key => {
+                const config = assetConfig[key];
+                const button = document.createElement('button');
+                button.textContent = config.displayName;
+                button.onclick = () => switchCategory(key);
+                button.className = `px-4 py-3 text-sm font-medium transition-colors duration-150 focus:outline-none ${
+                    key === currentCategory ? 'tab-active' : 'text-gray-500 hover:text-gray-700 hover:border-b-2 hover:border-gray-200'
+                }`;
+                nav.appendChild(button);
+            });
+        }
+
+        function renderTable(categoryKey) {
+            const container = document.getElementById('inventory-table-container');
+            const categoryData = inventoryData[categoryKey];
+            const config = assetConfig[categoryKey];
+
+            document.getElementById('current-category-title').textContent = config.displayName;
+            
+            if (categoryData.length === 0) {
+                container.innerHTML = `<p class="p-6 text-gray-500 bg-white">No assets recorded in the <strong>${config.displayName}</strong> category yet. Click "Add New Asset" to begin.</p>`;
+                return;
+            }
+
+            const headerRow = config.fields
+                .filter(f => f.key !== 'id') // Hide ID from main view
+                .map(f => `<th class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-600">${f.label}</th>`)
+                .join('');
+            
+            const tableHTML = `
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            ${headerRow}
+                            <th class="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider text-gray-600">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        ${categoryData.map(asset => `
+                            <tr class="hover:bg-green-50 transition-colors">
+                                ${config.fields.filter(f => f.key !== 'id').map(field => `
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${asset[field.key] || 'N/A'}</td>
+                                `).join('')}
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2 text-center">
+                                    <button onclick="showForm('${categoryKey}', '${asset.id}')" class="text-primary-green hover:text-green-700 transition-colors font-medium">Edit</button>
+                                    <button onclick="deleteAsset('${categoryKey}', '${asset.id}')" class="text-red-600 hover:text-red-800 ml-2 transition-colors font-medium">Delete</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        // --- Form Handling ---
+
+        function generateFormFields(categoryKey, asset) {
+            const config = assetConfig[categoryKey];
+            const fieldsContainer = document.getElementById('form-fields');
+            fieldsContainer.innerHTML = '';
+
+            config.fields.forEach(field => {
+                // Skip the ID field for form generation unless it's explicitly needed (readOnly)
+                if (field.key === 'id' && !field.readOnly) return; 
+
+                const currentValue = asset ? asset[field.key] || '' : '';
+                const required = field.key !== 'id'; // IDs are generated, others are required
+
+                let inputField;
+                const inputClasses = "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-2 focus:ring-primary-green focus:border-primary-green outline-none transition-all duration-150";
+
+                if (field.type === 'textarea') {
+                    inputField = `<textarea 
+                                    id="${field.key}" 
+                                    name="${field.key}" 
+                                    rows="3"
+                                    class="${inputClasses}"
+                                    ${required ? 'required' : ''}>${currentValue}</textarea>`;
+                } else {
+                    inputField = `<input 
+                                    type="${field.type}" 
+                                    id="${field.key}" 
+                                    name="${field.key}" 
+                                    value="${currentValue}"
+                                    class="${inputClasses}"
+                                    ${required ? 'required' : ''}
+                                    ${field.readOnly ? 'readonly disabled bg-gray-50 cursor-not-allowed' : ''}>`;
+                }
+
+                const fieldDiv = document.createElement('div');
+                fieldDiv.className = 'flex flex-col';
+                fieldDiv.innerHTML = `
+                    <label for="${field.key}" class="text-sm font-medium text-gray-700">
+                        ${field.label} ${required ? '<span class="text-red-500">*</span>' : ''}
+                    </label>
+                    ${inputField}
+                `;
+                fieldsContainer.appendChild(fieldDiv);
+            });
+        }
+
+        function showForm(category = currentCategory, assetId = null) {
+            const config = assetConfig[category];
+            let asset = null;
+            
+            if (assetId) {
+                asset = inventoryData[category].find(a => a.id === assetId);
+                document.getElementById('form-title').textContent = `Edit Asset (${config.displayName})`;
+                document.getElementById('asset-id-input').value = assetId;
+            } else {
+                document.getElementById('form-title').textContent = `Add New Asset (${config.displayName})`;
+                document.getElementById('asset-id-input').value = ''; // Clear for new entry
+            }
+
+            document.getElementById('asset-category-input').value = category;
+            generateFormFields(category, asset);
+            document.getElementById('asset-form-modal').classList.remove('hidden');
+            document.getElementById('asset-form-modal').classList.add('flex');
+        }
+
+        function hideForm() {
+            document.getElementById('asset-form-modal').classList.add('hidden');
+            document.getElementById('asset-form-modal').classList.remove('flex');
+            document.getElementById('asset-form').reset();
+        }
+
+        function saveAsset(event) {
+            event.preventDefault();
+            
+            const category = document.getElementById('asset-category-input').value;
+            const assetId = document.getElementById('asset-id-input').value;
+            const config = assetConfig[category];
+            const newAsset = {};
+
+            // Collect data from dynamically created fields
+            config.fields.forEach(field => {
+                const element = document.getElementById(field.key);
+                if (element) {
+                    newAsset[field.key] = element.value.trim();
+                }
+            });
+
+            if (assetId) {
+                // Edit existing asset
+                const index = inventoryData[category].findIndex(a => a.id === assetId);
+                if (index !== -1) {
+                    inventoryData[category][index] = { ...inventoryData[category][index], ...newAsset };
+                    showMessage(`Asset ${assetId} updated successfully.`);
+                }
+            } else {
+                // Add new asset
+                newAsset.id = 'AST-' + Math.random().toString(36).substring(2, 9).toUpperCase(); // Simple unique ID
+                inventoryData[category].push(newAsset);
+                showMessage(`New asset ${newAsset.id} added successfully to ${config.displayName}.`);
+            }
+            
+            renderTable(category);
+            hideForm();
+        }
+
+        function deleteAsset(category, assetId) {
+            // Replaced window.confirm() with a console log and direct deletion for canvas environment
+            console.log(`Deleting asset ${assetId} from ${assetConfig[category].displayName}...`);
+            inventoryData[category] = inventoryData[category].filter(a => a.id !== assetId);
+            renderTable(category);
+            showMessage(`Asset ${assetId} deleted.`, 'success');
+        }
+
+        // --- Reporting & Export ---
+
+        function downloadData() {
+            const dataStr = JSON.stringify(inventoryData, null, 2);
+            const blob = new Blob([dataStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'CMMC_Asset_Inventory_' + new Date().toISOString().slice(0, 10) + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showMessage('Inventory data downloaded as JSON.', 'success');
+        }
+
+        function printReport() {
+            const reportContainer = document.getElementById('print-report-container');
+            
+            // Collect Admin Details
+            const orgName = document.getElementById('org-name').value;
+            const inventorName = document.getElementById('inventor-name').value;
+            const dateCompleted = document.getElementById('date-completed').value;
+            const nextReviewDate = document.getElementById('next-review-date').value;
+            // Replace newlines with <br> for HTML printing
+            const facilitiesList = document.getElementById('facilities-list').value;
+
+            let reportHTML = `<h1>Asset Inventory & Categorization Report</h1>`;
+
+            // Inject Admin Details into Print Report
+            reportHTML += `
+                <div class="print-section">
+                    <h2>Report Administration Details</h2>
+                    <table class="w-full mb-4" style="width: 100%; border-collapse: collapse;">
+                        <tbody>
+                            <tr><th style="width: 30%; border: 1px solid #ccc; padding: 8pt; text-align: left; background-color: #eee;">Name of Organization</th><td style="border: 1px solid #ccc; padding: 8pt;">${orgName || 'N/A'}</td></tr>
+                            <tr><th style="width: 30%; border: 1px solid #ccc; padding: 8pt; text-align: left; background-color: #eee;">Completed By (Name)</th><td style="border: 1px solid #ccc; padding: 8pt;">${inventorName || 'N/A'}</td></tr>
+                            <tr><th style="width: 30%; border: 1px solid #ccc; padding: 8pt; text-align: left; background-color: #eee;">Date Completed</th><td style="border: 1px solid #ccc; padding: 8pt;">${dateCompleted || 'N/A'}</td></tr>
+                            <tr><th style="width: 30%; border: 1px solid #ccc; padding: 8pt; text-align: left; background-color: #eee;">Date for Next Review</th><td style="border: 1px solid #ccc; padding: 8pt;">${nextReviewDate || 'N/A'}</td></tr>
+                            <tr><th style="width: 30%; border: 1px solid #ccc; padding: 8pt; text-align: left; background-color: #eee;">List of Physical Facilities</th><td style="border: 1px solid #ccc; padding: 8pt;">${facilitiesList.replace(/\n/g, '<br>') || 'N/A'}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            Object.keys(assetConfig).forEach(categoryKey => {
+                const config = assetConfig[categoryKey];
+                const data = inventoryData[categoryKey];
+
+                reportHTML += `
+                    <div class="print-section">
+                        <h2>${config.displayName}</h2>
+                        <p class="text-sm">${config.description}</p>
+                `;
+
+                if (data.length === 0) {
+                    reportHTML += `<p>No assets recorded.</p></div>`;
+                    return;
+                }
+
+                // Create Table Headers
+                const headers = config.fields
+                    .map(f => `<th>${f.label}</th>`)
+                    .join('');
+
+                // Create Table Body
+                const rows = data.map(asset => {
+                    const cells = config.fields
+                        .map(field => `<td>${asset[field.key] || 'N/A'}</td>`)
+                        .join('');
+                    return `<tr>${cells}</tr>`;
+                }).join('');
+
+                reportHTML += `
+                    <table>
+                        <thead><tr>${headers}</tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                    </div>
+                `;
+            });
+
+            reportContainer.innerHTML = reportHTML;
+            window.print();
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- INJECTED DUMMY ASSET DATA ---
+
+            // CUI Assets (Assets that process, store, or transmit Controlled Unclassified Information)
+            inventoryData.cui.push(
+                { id: 'AST-001', name: 'File Server 1', owner: 'IT Dept', desc: 'Stores project files with CUI.', type: 'Server', location: 'DC-East', dataType: 'Export Control, Financial', users: 'Engineering, Finance' },
+                { id: 'AST-002', name: 'Engineering Workstation 12', owner: 'Engineering', desc: 'CAD terminal used to design prototypes (CUI creation).', type: 'Desktop PC', location: 'Engineering Lab B', dataType: 'Technical Data (Drawings)', users: 'Sr. Engineers' },
+                { id: 'AST-003', name: 'SharePoint CUI Site', owner: 'Program Management', desc: 'Collaboration platform for project documents and reports.', type: 'Cloud Service (SaaS)', location: 'Azure Gov Cloud', dataType: 'Program Specs, Contracts', users: 'PMs, Contractors' },
+                { id: 'AST-004', name: 'Exchange Server (Email)', owner: 'IT Dept', desc: 'Used to transmit project communications containing CUI (FOUO).', type: 'Server', location: 'DC-West', dataType: 'FOUO Correspondence', users: 'All Employees' },
+                { id: 'AST-005', name: 'Encrypted Laptop - CEO', owner: 'Executive', desc: 'Mobile device for remote access and presentations.', type: 'Laptop', location: 'CEO Home/Travel', dataType: 'Strategic Plans, Financials (with CUI notes)', users: 'CEO' }
+            );
+
+            // Security Protection Assets (Assets that provide security functions for CUI assets)
+            inventoryData.security.push(
+                { id: 'AST-101', name: 'Firewall-Main', owner: 'Network Team', desc: 'Perimeter defense for internal CUI networks.', type: 'Appliance', location: 'Network Rack 1', function: 'Network Segmentation, Access Control' },
+                { id: 'AST-102', name: 'SIEM System (Splunk)', owner: 'SOC Team', desc: 'Central log aggregation and analysis platform.', type: 'Server Appliance', location: 'DC-East', function: 'Auditing, Monitoring, Incident Response' },
+                { id: 'AST-103', name: 'Multi-Factor Auth (MFA) Gateway', owner: 'Identity Team', desc: 'Enforces 2FA for all remote access and CUI system logins.', type: 'Cloud Service', location: 'Azure AD', function: 'Access Control, Authentication' },
+                { id: 'AST-104', name: 'Endpoint Detection & Response (EDR)', owner: 'Endpoint Team', desc: 'Security software agent installed on all CUI endpoints.', type: 'Software', location: 'N/A', function: 'Malware Prevention, Vulnerability Management' },
+                { id: 'AST-105', name: 'Network Switch (Core)', owner: 'Network Team', desc: 'Provides physical connection and VLAN separation for CUI environment.', type: 'Network Device', location: 'Network Rack 2', function: 'Network Segmentation, Traffic Control' }
+            );
+
+            // Contractor Risk Managed Assets (Assets that can but are not intended to handle CUI)
+            inventoryData.crm.push(
+                { id: 'AST-201', name: 'HR Payroll System', owner: 'HR Dept', desc: 'SaaS used for employee payroll and benefits (contains PII, not CUI).', type: 'Cloud Service (SaaS)', location: 'Vendor Data Center', measures: 'Contractual obligation for FedRAMP Moderate equivalency', policy: 'Vendor SLA/MSA, HR Policy 4.1' },
+                { id: 'AST-202', name: 'Marketing Public Website', owner: 'Marketing', desc: 'Publicly accessible informational website (external facing).', type: 'Web Server', location: 'External Hosting', measures: 'Cannot upload CUI; web server is not connected to CUI network', policy: 'Acceptable Use Policy, Security Rule 7.2' },
+                { id: 'AST-203', name: 'General Purpose Copier', owner: 'Facilities', desc: 'Networked copier/scanner in the main office (secured hard drive).', type: 'MFP Device', location: 'Main Office Floor', measures: 'Hard drive wiped daily; isolated on a separate VLAN', policy: 'Shredding Policy, Facilities Guide 3.5' },
+                { id: 'AST-204', name: 'Financial Accounting Software', owner: 'Finance', desc: 'On-premise system storing only financial records (no CUI data types).', type: 'Application Server', location: 'DC-East', measures: 'Segregated network zone; periodic manual check for CUI presence', policy: 'Finance Data Retention Policy' }
+            );
+
+            // Specialized Assets (Assets that have unique security requirements or limitations)
+            inventoryData.specialized.push(
+                { id: 'AST-301', name: 'Prototype 3D Printer', owner: 'R&D', desc: 'Requires unique network access for proprietary print job files.', type: 'IoT Device', location: 'R&D Lab', reason: 'Network limitations (static IP required), unique patching cycle, proprietary firmware.' },
+                { id: 'AST-302', name: 'Manufacturing SCADA Controller', owner: 'Operations', desc: 'Critical operational technology (OT) asset for production line.', type: 'PLC', location: 'Production Line 5', reason: 'Cannot accept modern security agents; legacy protocols sensitive to latency.' },
+                { id: 'AST-303', name: 'Test & Measurement Equipment (TMG)', owner: 'Quality Control', desc: 'Diagnostic device used for hardware verification and testing.', type: 'Proprietary OS', location: 'QC Lab', reason: 'Runs unsupported embedded OS (Windows XP Embedded), must be air-gapped.' },
+                { id: 'AST-304', name: 'Video Teleconference (VTC) Unit', owner: 'Executive', desc: 'Encrypted VTC unit in the Board Room.', type: 'Appliance', location: 'Board Room', reason: 'Hardware encryption requirements (NSA-approved modules); limited configuration access.' }
+            );
+
+            // Out-of-Scope Assets (Assets that cannot process, store, or transmit CUI)
+            inventoryData.outOfScope.push(
+                { id: 'AST-501', name: 'Guest Wi-Fi', owner: 'Facilities', desc: 'Separate network for visitor access.', type: 'WLAN', location: 'Offices', usage: 'Internet access for guests', separation: 'Separate VLAN and dedicated, external physical firewall.' },
+                { id: 'AST-502', name: 'Employee Cafeteria Kiosks', owner: 'Facilities', desc: 'Used for lunch orders and company announcements.', type: 'Tablet/Kiosk', location: 'Cafeteria', usage: 'Ordering food, internal announcements', separation: 'Separate physical network entirely; no route to DC networks.' },
+                { id: 'AST-503', name: 'Personal Mobile Devices (BYOD)', owner: 'Employees', desc: 'Employees\' personal phones and tablets.', type: 'Mobile', location: 'Employee hands', usage: 'Personal calls, social media', separation: 'Access limited to Guest Wi-Fi (AST-501) only; firewall blocks all CUI system access.' },
+                { id: 'AST-504', name: 'IoT HVAC System', owner: 'Facilities', desc: 'Controls building temperature and humidity.', type: 'IoT System', location: 'Building A', usage: 'Environmental control', separation: 'Dedicated, isolated control network with no logical route to the CUI network boundary.' },
+                { id: 'AST-505', name: 'Time Clock System', owner: 'HR Dept', desc: 'Records employee hours via biometric scan.', type: 'Dedicated Terminal', location: 'Main Entrance', usage: 'HR functions, time keeping', separation: 'Only communicates with external SaaS HR vendor over segregated network path.' }
+            );
+            
+            // --- END INJECTED DUMMY ASSET DATA ---
+
+            renderNavTabs();
+            // Start on the CUI Assets tab
+            switchCategory('cui');
+        });
+    </script>
+</body>
+</html>
