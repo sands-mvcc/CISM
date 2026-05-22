@@ -1,0 +1,2560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CISM-to-AAISM Bridge Module, Part 1 — AI Governance, Regulatory Landscape, and Risk Management. Interactive lesson covering NIST AI RMF, EU AI Act, ISO 42001, AI risk taxonomy, shadow AI, and AI vendor/supply chain management.">
+<title>CISM → AAISM Bridge, Part 1: AI Governance & Risk Management — Interactive Lesson</title>
+<style>
+  :root {
+    --primary: #1F4E79;
+    --primary-light: #2E75B6;
+    --primary-lighter: #5B9BD5;
+    --accent: #E8A33D;
+    --bg: #F5F7FA;
+    --surface: #FFFFFF;
+    --ink: #1A2332;
+    --ink-soft: #4A5568;
+    --line: #D8E1EA;
+    --success: #2F855A;
+    --warning: #C05621;
+    --danger: #C53030;
+    --shade: #EAF3FB;
+    --shade-2: #F0F6FC;
+    --shadow: 0 2px 8px rgba(31, 78, 121, 0.08);
+    --shadow-lg: 0 6px 24px rgba(31, 78, 121, 0.14);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --primary: #5B9BD5;
+      --primary-light: #7AB3DD;
+      --primary-lighter: #2E75B6;
+      --accent: #F0B95C;
+      --bg: #0F1620;
+      --surface: #1A2332;
+      --ink: #E8EEF5;
+      --ink-soft: #B0BCC9;
+      --line: #2D3B4D;
+      --shade: #1F2C3D;
+      --shade-2: #243245;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 6px 24px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Calibri", Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    font-size: 16px;
+  }
+
+  /* Skip link */
+  .skip-link {
+    position: absolute;
+    left: -10000px;
+    top: 0;
+    background: var(--primary);
+    color: #fff;
+    padding: 0.6rem 1rem;
+    text-decoration: none;
+    border-radius: 0 0 6px 0;
+    z-index: 1000;
+  }
+  .skip-link:focus { left: 0; }
+
+  /* Focus styles */
+  a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible, .quiz-option:focus-visible, .flip-card:focus-visible, .lifecycle-stage:focus-visible, .accordion-header:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* ============ HEADER ============ */
+  header.site {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+  }
+  header.site .eyebrow {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+  }
+  header.site h1 {
+    margin: 0.25rem 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  header.site .subtitle {
+    font-size: 1.05rem;
+    opacity: 0.92;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  header.site .meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+  }
+  header.site .meta span {
+    background: rgba(255,255,255,0.15);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+
+  /* ============ NAV BAR ============ */
+  nav.modules {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 2px solid var(--primary);
+    box-shadow: var(--shadow);
+    padding: 0.5rem 1rem;
+  }
+  nav.modules .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  nav.modules .brand {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.95rem;
+    padding-right: 0.75rem;
+    border-right: 1px solid var(--line);
+    margin-right: 0.5rem;
+  }
+  nav.modules a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  nav.modules a:hover {
+    background: var(--shade);
+    color: var(--primary);
+  }
+  nav.modules a.active {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  /* ============ PROGRESS BAR ============ */
+  .progress-track {
+    position: sticky;
+    top: 56px;
+    height: 4px;
+    background: var(--line);
+    z-index: 99;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--primary-light));
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+
+  /* ============ MAIN LAYOUT ============ */
+  main {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  section.module {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+    scroll-margin-top: 80px;
+  }
+
+  section.module .module-tag {
+    display: inline-block;
+    background: var(--shade);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+  section.module .duration {
+    display: inline-block;
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+  }
+
+  h2 {
+    color: var(--primary);
+    font-size: 1.85rem;
+    margin: 0 0 1rem;
+    line-height: 1.3;
+  }
+  h3 {
+    color: var(--primary-light);
+    font-size: 1.3rem;
+    margin: 2rem 0 0.75rem;
+  }
+  h4 {
+    color: var(--primary);
+    font-size: 1.05rem;
+    margin: 1.5rem 0 0.5rem;
+    font-style: italic;
+  }
+  p { margin: 0.75rem 0; }
+  ul, ol { padding-left: 1.5rem; margin: 0.75rem 0; }
+  li { margin: 0.35rem 0; }
+  strong { color: var(--primary); font-weight: 600; }
+
+  /* ============ CALLOUTS ============ */
+  .callout {
+    background: var(--shade);
+    border-left: 5px solid var(--primary-light);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .callout .label {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .callout .label::before {
+    content: "💡";
+    font-size: 1.1rem;
+  }
+  .callout.analogy { background: #FFF8E1; border-left-color: var(--accent); }
+  .callout.analogy .label { color: #B7791F; }
+  .callout.analogy .label::before { content: "🧭"; }
+  .callout.emphasis { background: #FEE; border-left-color: var(--danger); }
+  .callout.emphasis .label { color: var(--danger); }
+  .callout.emphasis .label::before { content: "⚠️"; }
+  .callout.bridge { background: var(--shade-2); border-left-color: var(--success); }
+  .callout.bridge .label { color: var(--success); }
+  .callout.bridge .label::before { content: "🌉"; }
+
+  @media (prefers-color-scheme: dark) {
+    .callout.analogy { background: rgba(232, 163, 61, 0.12); }
+    .callout.emphasis { background: rgba(197, 48, 48, 0.15); }
+  }
+
+  /* ============ TABLES ============ */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    background: var(--surface);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    font-size: 0.92rem;
+  }
+  th {
+    background: var(--primary);
+    color: #fff;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--line);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: var(--shade-2); }
+  tr:hover td { background: var(--shade); }
+
+  /* ============ LEARNING OBJECTIVES ============ */
+  .objectives {
+    background: linear-gradient(135deg, var(--shade) 0%, var(--shade-2) 100%);
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .objectives ol { list-style: none; counter-reset: obj; padding-left: 0; }
+  .objectives li {
+    counter-increment: obj;
+    padding-left: 2.5rem;
+    position: relative;
+    margin: 0.75rem 0;
+  }
+  .objectives li::before {
+    content: counter(obj);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--primary);
+    color: #fff;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  /* ============ FLIP CARDS ============ */
+  .flip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .flip-card {
+    perspective: 1000px;
+    height: 220px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    padding: 0;
+    width: 100%;
+    font-family: inherit;
+  }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .flip-front {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+  }
+  .flip-front .icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .flip-front h4 { color: #fff; margin: 0; font-style: normal; font-size: 1.2rem; }
+  .flip-front .hint { font-size: 0.75rem; opacity: 0.8; margin-top: 0.5rem; }
+  .flip-back {
+    background: var(--surface);
+    color: var(--ink);
+    transform: rotateY(180deg);
+    border: 2px solid var(--primary-light);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .flip-back strong { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; }
+
+  /* ============ MATCHER ============ */
+  .matcher {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .match-row {
+    display: grid;
+    grid-template-columns: 1.5fr auto 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    padding: 0.6rem;
+    background: var(--surface);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+  }
+  .match-scenario { font-size: 0.92rem; }
+  .match-select {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    font-family: inherit;
+    min-height: 44px;
+  }
+  .match-select:focus { outline: none; border-color: var(--primary-light); }
+  .match-feedback {
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 90px;
+  }
+  .match-feedback.correct { color: var(--success); }
+  .match-feedback.wrong { color: var(--danger); }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    margin: 0.25rem;
+    min-height: 44px;
+  }
+  .btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+  .btn.secondary { background: var(--surface); color: var(--primary); border: 2px solid var(--primary); }
+  .btn.secondary:hover { background: var(--shade); }
+
+  /* ============ QUIZ ============ */
+  .quiz {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+  }
+  .quiz-question {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--primary);
+  }
+  .quiz-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    margin: 0.4rem 0;
+    background: var(--surface);
+    color: var(--ink);
+    border: 2px solid var(--line);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 0.92rem;
+    font-family: inherit;
+    min-height: 44px;
+  }
+  .quiz-option:hover { border-color: var(--primary-light); background: var(--shade); }
+  .quiz-option.selected { border-color: var(--primary); background: var(--shade); }
+  .quiz-option.correct { border-color: var(--success); background: #E8F5E9; color: var(--ink); }
+  .quiz-option.wrong { border-color: var(--danger); background: #FFEBEE; color: var(--ink); }
+  @media (prefers-color-scheme: dark) {
+    .quiz-option.correct { background: rgba(47, 133, 90, 0.25); }
+    .quiz-option.wrong { background: rgba(197, 48, 48, 0.25); }
+  }
+  .quiz-explanation {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border-left: 4px solid var(--primary-light);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+    display: none;
+  }
+  .quiz-explanation.show { display: block; }
+
+  /* ============ ACCORDION ============ */
+  .accordion-item {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 0.6rem 0;
+    overflow: hidden;
+  }
+  .accordion-header {
+    width: 100%;
+    text-align: left;
+    padding: 1rem 1.25rem;
+    background: var(--shade-2);
+    color: var(--primary);
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    border: none;
+    font-family: inherit;
+    font-size: 1rem;
+    min-height: 44px;
+  }
+  .accordion-header:hover { background: var(--shade); }
+  .accordion-header .arrow { transition: transform 0.2s; }
+  .accordion-item.open .accordion-header .arrow { transform: rotate(90deg); }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 1.25rem;
+  }
+  .accordion-item.open .accordion-body {
+    max-height: 3000px;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  /* ============ LIFECYCLE STAGES ============ */
+  .lifecycle {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+  .lifecycle-stage {
+    background: var(--surface);
+    padding: 1rem 0.5rem;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-top: 4px solid var(--line);
+    box-shadow: var(--shadow);
+    position: relative;
+    width: 100%;
+    font-family: inherit;
+    color: var(--ink);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+  }
+  .lifecycle-stage:hover { transform: translateY(-3px); border-top-color: var(--primary-light); }
+  .lifecycle-stage.active { border-top-color: var(--accent); background: var(--shade); }
+  .lifecycle-stage .stage-num {
+    background: var(--primary);
+    color: #fff;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    margin: 0 auto 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .lifecycle-stage .stage-icon { font-size: 1.4rem; }
+  .lifecycle-stage .stage-name { font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-top: 0.3rem; }
+  .lifecycle-detail {
+    background: var(--shade-2);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+    min-height: 140px;
+  }
+  .lifecycle-detail h4 { margin-top: 0; color: var(--primary); font-style: normal; }
+  .lifecycle-detail .stage-meta {
+    display: inline-block;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    background: var(--surface);
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    margin-left: 0.5rem;
+  }
+
+  /* ============ EU AI ACT TIER STACK ============ */
+  .tier-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+  .tier-row {
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    color: #fff;
+    display: grid;
+    grid-template-columns: 2.5rem 1fr 8rem;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow);
+  }
+  .tier-row.tier-unacceptable { background: linear-gradient(135deg, #742A2A, var(--danger)); }
+  .tier-row.tier-high { background: linear-gradient(135deg, #9C2D0F, var(--warning)); }
+  .tier-row.tier-limited { background: linear-gradient(135deg, var(--primary), var(--primary-light)); }
+  .tier-row.tier-minimal { background: linear-gradient(135deg, #22543D, var(--success)); }
+  .tier-row .tier-icon {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+  .tier-row .tier-content strong { color: #fff; font-size: 1.05rem; display: block; margin-bottom: 0.2rem; }
+  .tier-row .tier-content .tier-desc { font-size: 0.85rem; opacity: 0.92; }
+  .tier-row .tier-obligation {
+    background: rgba(255,255,255,0.2);
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  /* ============ DECISION TREE ============ */
+  .tree-step {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-light);
+  }
+  .tree-step h4 {
+    margin-top: 0;
+    font-style: normal;
+    color: var(--primary);
+  }
+  .tree-step .step-num {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 1.6rem;
+    font-weight: 700;
+    margin-right: 0.5rem;
+    font-size: 0.85rem;
+  }
+  .tree-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+  .tree-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    border: 2px solid var(--primary-light);
+    background: var(--surface);
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-family: inherit;
+    min-height: 44px;
+  }
+  .tree-btn:hover { background: var(--shade); }
+  .tree-result {
+    margin-top: 1rem;
+    padding: 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    display: none;
+  }
+  .tree-result.show { display: block; }
+  .tree-result.unacceptable { background: #FED7D7; color: #742A2A; border-left: 4px solid var(--danger); }
+  .tree-result.high { background: #FED7A7; color: #9C2D0F; border-left: 4px solid var(--warning); }
+  .tree-result.limited { background: var(--shade); color: var(--primary); border-left: 4px solid var(--primary-light); }
+  .tree-result.minimal { background: #C6F6D5; color: #22543D; border-left: 4px solid var(--success); }
+  .tree-result.gpai { background: #FEEBC8; color: #7B341E; border-left: 4px solid var(--accent); }
+  @media (prefers-color-scheme: dark) {
+    .tree-result.unacceptable { background: rgba(197, 48, 48, 0.25); color: #FED7D7; }
+    .tree-result.high { background: rgba(192, 86, 33, 0.25); color: #FED7A7; }
+    .tree-result.limited { background: rgba(46, 117, 182, 0.2); color: var(--ink); }
+    .tree-result.minimal { background: rgba(47, 133, 90, 0.25); color: #C6F6D5; }
+    .tree-result.gpai { background: rgba(232, 163, 61, 0.2); color: #FEEBC8; }
+  }
+
+  /* ============ SHADOW AI SCENARIO CARDS ============ */
+  .scenario-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-light);
+    margin: 1rem 0;
+  }
+  .scenario-card .scen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .scenario-card .scen-title {
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .scenario-card .risk-badge {
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .risk-badge.low { background: #C6F6D5; color: #22543D; }
+  .risk-badge.medium { background: #FEEBC8; color: #7B341E; }
+  .risk-badge.high { background: #FED7A7; color: #9C2D0F; }
+  .risk-badge.critical { background: #FED7D7; color: #742A2A; }
+  .scenario-card .scen-body { font-size: 0.92rem; }
+  .scenario-card .scen-actions {
+    margin-top: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .scen-action-btn {
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    border: 2px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+    min-height: 44px;
+  }
+  .scen-action-btn:hover { border-color: var(--primary-light); background: var(--shade); }
+  .scen-action-btn.selected.correct { border-color: var(--success); background: #C6F6D5; color: #22543D; }
+  .scen-action-btn.selected.wrong { border-color: var(--danger); background: #FED7D7; color: #742A2A; }
+  @media (prefers-color-scheme: dark) {
+    .scen-action-btn.selected.correct { background: rgba(47, 133, 90, 0.3); color: #C6F6D5; }
+    .scen-action-btn.selected.wrong { background: rgba(197, 48, 48, 0.3); color: #FED7D7; }
+  }
+  .scen-explanation {
+    margin-top: 0.75rem;
+    padding: 0.7rem 1rem;
+    background: var(--shade-2);
+    border-left: 4px solid var(--primary-light);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.88rem;
+    display: none;
+  }
+  .scen-explanation.show { display: block; }
+
+  /* ============ VENDOR WORKSHOP GRID ============ */
+  .vendor-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.2fr 1.2fr 1.2fr;
+    gap: 0.4rem;
+    margin: 0.4rem 0;
+    padding: 0.6rem;
+    background: var(--surface);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    align-items: center;
+    font-size: 0.85rem;
+  }
+  .vendor-grid.header {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+  }
+  .vendor-grid select {
+    padding: 0.4rem 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 0.82rem;
+    width: 100%;
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--ink);
+    min-height: 44px;
+  }
+  .vendor-verdict {
+    font-weight: 700;
+    padding: 0.4rem 0.5rem;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.78rem;
+    grid-column: 1 / -1;
+    margin-top: 0.4rem;
+  }
+  .vendor-verdict.accept { background: #C6F6D5; color: #22543D; }
+  .vendor-verdict.conditional { background: #FEEBC8; color: #7B341E; }
+  .vendor-verdict.reject { background: #FED7D7; color: #742A2A; }
+  @media (prefers-color-scheme: dark) {
+    .vendor-verdict.accept { background: rgba(47, 133, 90, 0.3); color: #C6F6D5; }
+    .vendor-verdict.conditional { background: rgba(232, 163, 61, 0.3); color: #FEEBC8; }
+    .vendor-verdict.reject { background: rgba(197, 48, 48, 0.3); color: #FED7D7; }
+  }
+
+  /* ============ RISK TAXONOMY CARDS ============ */
+  .taxonomy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .tax-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-light);
+  }
+  .tax-card h4 {
+    margin: 0 0 0.5rem;
+    font-style: normal;
+    color: var(--primary);
+  }
+  .tax-card .icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+  .tax-card p { font-size: 0.88rem; margin: 0.4rem 0; }
+  .tax-card .examples {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--line);
+    padding-top: 0.5rem;
+  }
+
+  /* ============ COMPARISON CARDS (CISM vs AAISM) ============ */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .comp-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-light);
+  }
+  .comp-card.aaism { border-left-color: var(--accent); }
+  .comp-card .tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+  }
+  .comp-card ul { padding-left: 1.2rem; margin: 0.5rem 0; }
+  .comp-card li { font-size: 0.88rem; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--primary);
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.85rem;
+  }
+  footer a {
+    color: #FFE082;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  footer a:hover { text-decoration: underline; }
+  footer .program { color: #FFE082; font-weight: 600; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 768px) {
+    section.module { padding: 1.5rem; }
+    h2 { font-size: 1.5rem; }
+    header.site h1 { font-size: 1.7rem; }
+    .match-row, .vendor-grid, .comp-grid { grid-template-columns: 1fr; }
+    .lifecycle { grid-template-columns: repeat(2, 1fr); }
+    nav.modules .brand { display: none; }
+    .tier-row { grid-template-columns: 2.5rem 1fr; }
+    .tier-row .tier-obligation { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header class="site">
+  <div class="eyebrow">NCyTE CISM Course · Bridge Module</div>
+  <h1>CISM → AAISM Bridge, Part 1</h1>
+  <div class="subtitle">AI Governance &amp; Risk Management — Where CISM Ends, AAISM Begins</div>
+  <div class="meta">
+    <span>📚 Intermediate–Advanced</span>
+    <span>⏱ 6–8 instructional hours</span>
+    <span>🎓 9 Modules + Capstone</span>
+    <span>🆕 Part 1 of 2</span>
+  </div>
+</header>
+
+<nav class="modules" id="topNav" aria-label="Module navigation">
+  <div class="inner">
+    <span class="brand">Bridge · Pt 1</span>
+    <a href="#overview">Overview</a>
+    <a href="#m1">1 · Bridge</a>
+    <a href="#m2">2 · Governance Gap</a>
+    <a href="#m3">3 · Frameworks</a>
+    <a href="#m4">4 · NIST RMF</a>
+    <a href="#m5">5 · EU AI Act</a>
+    <a href="#m6">6 · Risk Taxonomy</a>
+    <a href="#m7">7 · Shadow AI</a>
+    <a href="#m8">8 · Vendor Risk</a>
+    <a href="#m9">9 · Acceptable Use</a>
+    <a href="#capstone">Capstone</a>
+    <a href="#assessment">Quiz</a>
+  </div>
+</nav>
+<div class="progress-track"><div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Lesson progress"></div></div>
+
+<main id="main">
+
+<!-- ===================== OVERVIEW ===================== -->
+<section class="module" id="overview">
+  <span class="module-tag">Lesson Overview</span>
+  <h2>The Bridge Between Two Worlds</h2>
+  <p>CISM teaches you to govern, manage risk, run a security program, and respond to incidents — for traditional information systems. Those four domains are the foundation. But the systems your enterprise is now deploying don't behave like traditional software. They learn. They hallucinate. They can be coaxed into ignoring their instructions. They are trained on data the enterprise doesn't own and may not be able to inspect. <strong>The CISM playbook does not fully cover them — and ISACA knows it.</strong></p>
+  <p>In August 2025, ISACA launched the <strong>Advanced in AI Security Management (AAISM)</strong> credential, available only to CISM and CISSP holders. AAISM is not a replacement — it's a bridge. It assumes you already know how to govern security; it adds what AI specifically demands. This lesson walks the bridge.</p>
+
+  <div class="callout analogy">
+    <div class="label">Anchoring Analogy: The Pilot's Type Rating</div>
+    <p>An airline pilot earns a base license — the ATPL. That license proves they can fly. But every new aircraft type requires a separate "type rating" because each aircraft has its own systems, its own failure modes, its own emergency procedures. The pilot doesn't unlearn how to fly; they extend their qualifications to a new platform. <strong>CISM is the ATPL. AAISM is the type rating for AI.</strong></p>
+  </div>
+
+  <h3>Learning Objectives</h3>
+  <div class="objectives">
+    <ol>
+      <li>Explain why CISM alone is insufficient for AI-enabled enterprises and where AAISM extends it.</li>
+      <li>Identify the major AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act) and how they interrelate.</li>
+      <li>Apply the four NIST AI RMF functions (Govern, Map, Measure, Manage) to enterprise AI deployment.</li>
+      <li>Classify AI systems under the EU AI Act's four risk tiers and identify required obligations.</li>
+      <li>Differentiate AI risk categories: model risk, data risk, operational risk, ethical risk, third-party risk.</li>
+      <li>Recognize shadow AI patterns and apply appropriate governance responses.</li>
+      <li>Conduct vendor and supply-chain risk assessments for AI-enabled solutions.</li>
+      <li>Distinguish provider, deployer, and importer responsibilities under emerging AI regulation.</li>
+      <li>Develop an enterprise AI acceptable use policy that holds up under audit.</li>
+    </ol>
+  </div>
+
+  <div class="callout bridge">
+    <div class="label">What Comes Next</div>
+    <p>This is Part 1 of a two-part series. <strong>Part 2</strong> covers the AI threat landscape (OWASP Top 10 for LLMs), AI security controls and architecture, and AI incident response — the operational side of the bridge.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 1 ===================== -->
+<section class="module" id="m1">
+  <span class="module-tag">Module 1</span>
+  <span class="duration">45 min</span>
+  <h2>Why CISM Alone Isn't Enough</h2>
+  <p>The CISM body of knowledge was built around four enduring domains: information security governance, information risk management, information security program development, and incident management. These remain correct. They are also incomplete when the assets being governed include systems that <em>learn from data, generate novel outputs, and can be manipulated through their inputs in ways that have no parallel in traditional software</em>.</p>
+
+  <h3>What CISM Covers — and Where It Stops</h3>
+  <div class="comp-grid">
+    <div class="comp-card">
+      <div class="tag">🏛️ CISM (Four Domains)</div>
+      <ul>
+        <li><strong>D1 Governance</strong> — strategy, policy, roles, stakeholder alignment</li>
+        <li><strong>D2 Risk Management</strong> — assess, treat, monitor information security risk</li>
+        <li><strong>D3 Program Development</strong> — design, implement, manage the security program</li>
+        <li><strong>D4 Incident Management</strong> — prepare, detect, respond, recover, learn</li>
+      </ul>
+      <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:0.5rem"><strong>Implicit assumption:</strong> Systems behave deterministically. Inputs map predictably to outputs. The asset inventory is knowable. Threats target code, not training data.</p>
+    </div>
+    <div class="comp-card aaism">
+      <div class="tag">🤖 AAISM (Three Domains)</div>
+      <ul>
+        <li><strong>D1 AI Governance &amp; Program Management</strong> (31%) — AI-specific policy, data and model lifecycle, AI incident response</li>
+        <li><strong>D2 AI Risk Management</strong> (31%) — AI-specific threats, vulnerabilities, vendor and supply chain</li>
+        <li><strong>D3 AI Technologies &amp; Controls</strong> (38%) — security architecture, lifecycle controls, monitoring, ethics &amp; trust</li>
+      </ul>
+      <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:0.5rem"><strong>New assumptions:</strong> Systems behave probabilistically. Inputs can be adversarial. Training data is part of the attack surface. Models drift. Outputs can be wrong with high confidence.</p>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Eligibility Requirement</div>
+    <p>AAISM is <strong>only available to CISM or CISSP holders</strong>. ISACA designed it as a stackable specialization, not a standalone credential. The implicit message: you cannot competently govern AI security without first understanding how to govern security in general.</p>
+  </div>
+
+  <h3>Six Things That Are Genuinely New in AI</h3>
+  <div class="flip-grid">
+    <button type="button" class="flip-card" aria-pressed="false">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🎲</div>
+          <h4>Non-determinism</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>The same input can produce different outputs</strong>
+          Traditional testing assumes repeatability. AI systems break that assumption. Validation, monitoring, and incident triage all need new approaches.
+        </div>
+      </div>
+    </button>
+    <button type="button" class="flip-card" aria-pressed="false">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">📊</div>
+          <h4>Data as code</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Training data <em>becomes</em> the system's behavior</strong>
+          Poisoned data is not just a confidentiality issue — it is a control-plane attack. Data lineage and provenance become security requirements, not nice-to-haves.
+        </div>
+      </div>
+    </button>
+    <button type="button" class="flip-card" aria-pressed="false">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">💬</div>
+          <h4>Prompts as attack surface</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Natural language is now a control plane</strong>
+          Instructions and data flow through the same channel — model can't always tell them apart. Prompt injection is genuinely novel and has no clean traditional analogue.
+        </div>
+      </div>
+    </button>
+    <button type="button" class="flip-card" aria-pressed="false">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🌊</div>
+          <h4>Model drift</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Systems degrade silently over time</strong>
+          Production data shifts; model performance decays even when nothing in the code changed. Continuous monitoring of model behavior — not just availability — is required.
+        </div>
+      </div>
+    </button>
+    <button type="button" class="flip-card" aria-pressed="false">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">🤖</div>
+          <h4>Agentic action</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>Models can now take action, not just answer</strong>
+          When an AI agent has tool access — email, code execution, payments — the blast radius of a single compromised prompt expands dramatically. Excessive agency is a top OWASP risk.
+        </div>
+      </div>
+    </button>
+    <button type="button" class="flip-card" aria-pressed="false">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="icon">⚖️</div>
+          <h4>Regulatory novelty</h4>
+          <div class="hint">Click to flip</div>
+        </div>
+        <div class="flip-back">
+          <strong>New regulators, new categories, new fines</strong>
+          EU AI Act, state-level US laws, sector regulators, and emerging frameworks impose obligations that don't map cleanly to GDPR or HIPAA. Provider vs. deployer is a new distinction with teeth.
+        </div>
+      </div>
+    </button>
+  </div>
+
+  <h3>The Three Stackable ISACA AI Credentials</h3>
+  <p>AAISM is one of three new ISACA "Advanced in AI" credentials, each aimed at a different professional role. Knowing the difference helps a CISM make the right next-credential decision.</p>
+  <table>
+    <thead>
+      <tr><th>Credential</th><th>Audience</th><th>Prerequisite</th><th>Focus</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>AAISM</strong> — Advanced in AI Security Management</td><td>Security managers, CISOs, security architects</td><td>CISM or CISSP</td><td>Governing and securing enterprise AI</td></tr>
+      <tr><td><strong>AAIA</strong> — Advanced in AI Audit</td><td>Auditors, assurance professionals</td><td>CISA or equivalent</td><td>Auditing AI systems and controls</td></tr>
+      <tr><td><strong>AAIR</strong> — Advanced in AI Risk</td><td>Risk and compliance professionals</td><td>CRISC or equivalent</td><td>Enterprise AI risk management</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout bridge">
+    <div class="label">Bridge Concept</div>
+    <p>For a CISM, the natural extension is AAISM. The credential explicitly assumes CISM-level expertise in governance, risk, program development, and incident management — and adds the AI-specific layer on top.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 2 ===================== -->
+<section class="module" id="m2">
+  <span class="module-tag">Module 2</span>
+  <span class="duration">45 min</span>
+  <h2>The Governance Gap — Why "Just Add AI to the Policy" Fails</h2>
+  <p>When a new technology arrives, the first instinct of mature organizations is to fold it into existing governance: <em>"AI is just another technology — our acceptable use policy already covers it."</em> This is wrong in ways that matter.</p>
+
+  <h3>The Three Forces Creating the Gap</h3>
+  <div class="taxonomy-grid">
+    <div class="tax-card">
+      <div class="icon">⚡</div>
+      <h4>Velocity</h4>
+      <p>AI capabilities are advancing on a monthly cadence. Policies written for a six-month review cycle are stale before they reach the second review.</p>
+      <div class="examples"><strong>Symptom:</strong> The AI section of your AUP cites GPT-3.5 and Bard.</div>
+    </div>
+    <div class="tax-card">
+      <div class="icon">🌍</div>
+      <h4>Pervasiveness</h4>
+      <p>AI features are arriving inside tools the enterprise already pays for — without procurement review, without an architecture decision, sometimes without a release note.</p>
+      <div class="examples"><strong>Symptom:</strong> Your Office suite, CRM, IDE, and customer support tool all gained AI features last quarter, none of them flagged.</div>
+    </div>
+    <div class="tax-card">
+      <div class="icon">👤</div>
+      <h4>Personalization</h4>
+      <p>Individual employees can adopt powerful AI tools faster than any IT review process. The "enterprise" no longer holds a monopoly on capability rollout.</p>
+      <div class="examples"><strong>Symptom:</strong> The marketing team is already shipping content from tools the CISO has never heard of.</div>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">The Failure Mode</div>
+    <p>The combination is the danger. Velocity means policy can't keep up. Pervasiveness means AI is everywhere whether you approved it or not. Personalization means employees out-pace IT. The result: <strong>AI governance done well requires entirely new mechanisms, not a paragraph appended to the existing AUP.</strong></p>
+  </div>
+
+  <h3>What Mature AI Governance Looks Like</h3>
+  <p>AAISM's first supporting task says it plainly: "Collaborate on charter, roles, and responsibilities for governance and management of AI to align with business objectives." That is governance language — and it implies that AI gets its own governance structure, not a footnote in someone else's.</p>
+
+  <ul>
+    <li><strong>An AI Steering Committee or AI Governance Board</strong> — cross-functional (legal, privacy, security, business, ethics) with named authority and quarterly cadence at minimum.</li>
+    <li><strong>An AI Use Case Register</strong> — every approved AI deployment recorded with owner, purpose, risk tier, and review date. Functions like a system inventory for AI.</li>
+    <li><strong>An AI Acceptable Use Policy</strong> — distinct from the general AUP, addressing data classification rules for AI inputs, prohibited use cases, and approval pathways.</li>
+    <li><strong>An AI Incident Response Annex</strong> — the standard IR plan extended to cover AI-specific incidents (hallucination-caused harm, prompt injection, data exfiltration via AI tools, deepfake-enabled fraud).</li>
+    <li><strong>Defined Roles</strong> — at minimum an AI Governance Lead, AI Risk Owner, and AI Security Lead. Larger organizations add Model Owner, Data Steward for AI, and Responsible AI Officer.</li>
+  </ul>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Adding a Hospital Wing</div>
+    <p>A general hospital that opens a cardiac surgery wing does not simply tell the existing staff "now you do hearts too." It hires cardiac surgeons, builds dedicated ORs, writes cardiac-specific protocols, and establishes cardiac-specific incident review. The hospital's overall governance still applies — but a new specialty requires new infrastructure. <strong>AI governance is the cardiac wing of your security program.</strong></p>
+  </div>
+
+  <h3>Practice: Spotting Governance Gaps</h3>
+  <div class="quiz" data-quiz>
+    <div class="quiz-question">An employee asks: "We already have an Acceptable Use Policy that says 'use company tools responsibly.' Why do we need a separate AI policy?" Which response is BEST?</div>
+    <button type="button" class="quiz-option" data-answer="wrong" data-explain="This sidesteps the substance. The question deserves a real answer, not a deflection to authority.">"It's a regulatory requirement — the EU AI Act mandates it."</button>
+    <button type="button" class="quiz-option" data-answer="wrong" data-explain="Generic IT policies don't cover AI-specific issues like data classification for prompts, prohibited use cases, model output verification, or the provider/deployer responsibility split.">"The existing AUP is fine — we just need to enforce it more strictly for AI."</button>
+    <button type="button" class="quiz-option" data-answer="correct" data-explain="Correct. AI raises specific questions a generic AUP doesn't address: what data can be entered into prompts? Which use cases require human review? Who owns model outputs? What happens when the AI hallucinates? These need explicit answers.">"AI raises issues a generic AUP doesn't address — what data is allowed in prompts, which use cases need human oversight, who owns AI-generated output, how we handle hallucinations."</button>
+    <button type="button" class="quiz-option" data-answer="wrong" data-explain="Banning external AI is rarely realistic and pushes use underground (shadow AI) — making the governance problem worse, not better.">"We should ban external AI use entirely until we're ready."</button>
+  </div>
+</section>
+
+<!-- ===================== MODULE 3 ===================== -->
+<section class="module" id="m3">
+  <span class="module-tag">Module 3</span>
+  <span class="duration">60 min</span>
+  <h2>The Framework Landscape — NIST, ISO, EU, and How They Fit</h2>
+  <p>The good news: you do not need to invent AI governance from scratch. Several major frameworks already exist, and a CISM-trained professional will recognize the patterns. The challenge is knowing which framework answers which question — and how they layer.</p>
+
+  <h3>The Four Anchors</h3>
+  <table>
+    <thead>
+      <tr><th>Framework</th><th>Type</th><th>What It Gives You</th><th>CISM Analogue</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>NIST AI RMF 1.0</strong></td><td>Voluntary risk management framework (US)</td><td>Risk management operating model — Govern, Map, Measure, Manage</td><td>Like NIST CSF 2.0 — voluntary, function-based</td></tr>
+      <tr><td><strong>ISO/IEC 42001:2023</strong></td><td>Certifiable management system standard</td><td>AI Management System (AIMS) — auditable controls and processes</td><td>Like ISO 27001 — certifiable management system</td></tr>
+      <tr><td><strong>EU AI Act</strong> (Reg. 2024/1689)</td><td>Binding regulation</td><td>Legal obligations by risk tier — fines up to €35M or 7% of global turnover</td><td>Like GDPR — extraterritorial, tiered, enforced</td></tr>
+      <tr><td><strong>OWASP Top 10 for LLM</strong></td><td>Threat reference</td><td>Catalog of LLM-specific vulnerabilities and mitigations</td><td>Like OWASP Top 10 for web — practitioner-driven threat list</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout bridge">
+    <div class="label">How They Layer</div>
+    <p>Most mature programs use NIST AI RMF as the risk-management operating model <em>inside</em> an ISO 42001 management system, and use that combination to meet EU AI Act obligations. <strong>Layered, not alternative.</strong> OWASP sits underneath as the threat reference your controls are designed against.</p>
+  </div>
+
+  <h3>The CISM-to-AI Framework Map</h3>
+  <p>A CISM already knows how to position frameworks. The mental model is the same — only the names change.</p>
+
+  <table>
+    <thead>
+      <tr><th>If you ask this question…</th><th>The framework that answers it…</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>"How should we organize AI risk management?"</td><td>NIST AI RMF (functions, categories, subcategories)</td></tr>
+      <tr><td>"How do we build a certifiable AI management system?"</td><td>ISO/IEC 42001</td></tr>
+      <tr><td>"What is legally required of us in the EU?"</td><td>EU AI Act</td></tr>
+      <tr><td>"What threats should our controls actually defend against?"</td><td>OWASP Top 10 for LLM, MITRE ATLAS</td></tr>
+      <tr><td>"How do we evaluate model performance and trustworthiness?"</td><td>NIST AI RMF Measure function + ISO/IEC 24029 (robustness)</td></tr>
+      <tr><td>"What does an AI impact assessment look like?"</td><td>ISO/IEC 42005, EU AI Act Article 27 (FRIA for high-risk)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The Trustworthiness Characteristics</h3>
+  <p>NIST AI RMF lists seven characteristics of trustworthy AI. Memorize these — they appear across all the major frameworks under different names.</p>
+
+  <div class="taxonomy-grid">
+    <div class="tax-card">
+      <div class="icon">✅</div>
+      <h4>Valid &amp; Reliable</h4>
+      <p>The model produces correct outputs consistently for the intended use case.</p>
+    </div>
+    <div class="tax-card">
+      <div class="icon">🛡️</div>
+      <h4>Safe</h4>
+      <p>The system does not endanger life, health, property, or the environment under foreseeable use.</p>
+    </div>
+    <div class="tax-card">
+      <div class="icon">🔒</div>
+      <h4>Secure &amp; Resilient</h4>
+      <p>Resists adversarial attack; degrades gracefully; recoverable.</p>
+    </div>
+    <div class="tax-card">
+      <div class="icon">📋</div>
+      <h4>Accountable &amp; Transparent</h4>
+      <p>Decisions are documented; responsibility is assigned; behavior can be explained at an appropriate level.</p>
+    </div>
+    <div class="tax-card">
+      <div class="icon">🔍</div>
+      <h4>Explainable &amp; Interpretable</h4>
+      <p>Outputs can be traced and reasoned about by humans where consequential.</p>
+    </div>
+    <div class="tax-card">
+      <div class="icon">🔐</div>
+      <h4>Privacy-Enhanced</h4>
+      <p>Personal data is protected through data minimization, differential privacy, federated approaches where feasible.</p>
+    </div>
+    <div class="tax-card">
+      <div class="icon">⚖️</div>
+      <h4>Fair (Bias Managed)</h4>
+      <p>Harmful biases are identified, measured, and mitigated; outcomes do not systematically disadvantage protected groups.</p>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">Watch the Tradeoffs</div>
+    <p>These characteristics are not always mutually reinforcing. <strong>Explainability and accuracy can pull in opposite directions.</strong> A simpler model may be more explainable but less accurate; a state-of-the-art model may be highly accurate but opaque. Mature AI governance documents these tradeoffs explicitly rather than pretending they don't exist.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 4 ===================== -->
+<section class="module" id="m4">
+  <span class="module-tag">Module 4</span>
+  <span class="duration">75 min</span>
+  <h2>NIST AI RMF — Govern, Map, Measure, Manage</h2>
+  <p>If a CISM remembers one AI framework, it should be the NIST AI RMF 1.0. It is voluntary, technology-agnostic, sector-agnostic, and (most importantly) <strong>structurally parallel to NIST CSF 2.0</strong> — meaning it slots into the mental models a CISM already has. The framework organizes AI risk management around four core functions.</p>
+
+  <p>Click each function below to see what it covers, who owns it, and where the common failure modes lie. <strong>Govern is cross-cutting</strong> — it sits above the other three and informs them all.</p>
+
+  <div class="lifecycle">
+    <button type="button" class="lifecycle-stage active" data-stage="1">
+      <div class="stage-num">1</div>
+      <div class="stage-icon">🏛️</div>
+      <div class="stage-name">GOVERN</div>
+    </button>
+    <button type="button" class="lifecycle-stage" data-stage="2">
+      <div class="stage-num">2</div>
+      <div class="stage-icon">🗺️</div>
+      <div class="stage-name">MAP</div>
+    </button>
+    <button type="button" class="lifecycle-stage" data-stage="3">
+      <div class="stage-num">3</div>
+      <div class="stage-icon">📏</div>
+      <div class="stage-name">MEASURE</div>
+    </button>
+    <button type="button" class="lifecycle-stage" data-stage="4">
+      <div class="stage-num">4</div>
+      <div class="stage-icon">🎛️</div>
+      <div class="stage-name">MANAGE</div>
+    </button>
+  </div>
+
+  <div class="lifecycle-detail" id="lifecycleDetail" aria-live="polite">
+    <!-- Populated by JS -->
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Quality Management Cycle</div>
+    <p>NIST AI RMF follows the same pattern as Deming's Plan-Do-Check-Act, with a governance layer wrapped around it. <strong>Govern</strong> sets the culture and authority. <strong>Map</strong> establishes context (what is this AI for, who does it affect, what could go wrong?). <strong>Measure</strong> turns context into evidence (what are the actual risks, in numbers?). <strong>Manage</strong> acts on the evidence and feeds findings back to Govern. It is continuous, not one-and-done.</p>
+  </div>
+
+  <h3>How NIST AI RMF Maps to the CISM Domains</h3>
+  <p>A CISM should be able to see the parallels immediately. The functions are not new ideas — they are familiar ideas applied to a new asset class.</p>
+
+  <table>
+    <thead>
+      <tr><th>NIST AI RMF Function</th><th>CISM Domain Parallel</th><th>Key Activities</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Govern</strong> (cross-cutting)</td><td>D1 Information Security Governance</td><td>AI policy, AI steering committee, accountability structures, training, legal/regulatory alignment</td></tr>
+      <tr><td><strong>Map</strong></td><td>D2 Information Risk Management (context establishment)</td><td>Document AI system purpose, identify stakeholders, characterize impacts, categorize the system</td></tr>
+      <tr><td><strong>Measure</strong></td><td>D2 Information Risk Management (assessment) + D3 Program Development (metrics)</td><td>Quantify risks, evaluate trustworthiness characteristics, set up monitoring infrastructure</td></tr>
+      <tr><td><strong>Manage</strong></td><td>D2 Risk Management (treatment) + D3 Program (controls) + D4 Incident Management</td><td>Allocate resources to treat risk, document residual risk, respond to incidents, integrate back to Govern</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout bridge">
+    <div class="label">Bridge Insight</div>
+    <p>A CISM who understands NIST CSF 2.0 already understands 80% of NIST AI RMF. The "Govern" function was added to CSF 2.0 in 2024 precisely to align the two frameworks. <strong>The mental model is the same — the asset class is different.</strong></p>
+  </div>
+
+  <h3>The Govern Function — Why It Sits on Top</h3>
+  <p>Govern is unique because it appears at the top of the diagram, not in sequence with the other three. This isn't decorative — it reflects the operational reality. Without governance, Map produces context nobody acts on, Measure produces metrics nobody reviews, and Manage produces decisions nobody owns.</p>
+
+  <ul>
+    <li><strong>Govern 1</strong> — Policies, processes, procedures across the organization related to AI risks are in place, transparent, and implemented effectively</li>
+    <li><strong>Govern 2</strong> — Accountability structures are in place; teams and individuals are empowered, responsible, trained</li>
+    <li><strong>Govern 3</strong> — Workforce diversity, equity, inclusion, and accessibility processes are prioritized</li>
+    <li><strong>Govern 4</strong> — Organizational teams are committed to a culture that considers and communicates AI risk</li>
+    <li><strong>Govern 5</strong> — Processes are in place for robust engagement with relevant AI actors</li>
+    <li><strong>Govern 6</strong> — Policies and procedures are in place to address AI risks and benefits arising from third-party software and data</li>
+  </ul>
+
+  <div class="callout emphasis">
+    <div class="label">Common Trap</div>
+    <p>Organizations new to AI governance often try to start with <strong>Measure</strong> — "let's get metrics on our AI." This puts the cart before the horse. <strong>Without Govern and Map, you don't know which metrics matter.</strong> The functions are listed in order for a reason.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 5 ===================== -->
+<section class="module" id="m5">
+  <span class="module-tag">Module 5</span>
+  <span class="duration">75 min</span>
+  <h2>The EU AI Act — Tiers, Obligations, and the Provider/Deployer Split</h2>
+  <p>The EU AI Act (Regulation 2024/1689) is the world's first comprehensive AI law. Like GDPR, its scope is extraterritorial — <strong>if your AI system is placed on the EU market or its output is used in the EU, you are in scope regardless of where the model is trained or hosted</strong>. Penalties scale from €7.5M up to €35M or 7% of global annual turnover.</p>
+
+  <div class="callout emphasis">
+    <div class="label">Why CISMs Need to Care</div>
+    <p>Prohibited practices took effect February 2025. GPAI model obligations took effect August 2025. <strong>High-risk AI system obligations take effect August 2, 2026.</strong> Article 73 serious-incident reporting also begins August 2026. The Act is in force; the question is no longer "if" but "where do our systems land?"</p>
+  </div>
+
+  <h3>The Four Risk Tiers</h3>
+  <p>The Act classifies AI systems into four risk tiers. Obligations scale with risk. Classification is the cheapest decision in the entire compliance program and the one teams most often get wrong.</p>
+
+  <div class="tier-stack">
+    <div class="tier-row tier-unacceptable">
+      <div class="tier-icon">🚫</div>
+      <div class="tier-content">
+        <strong>Unacceptable Risk</strong>
+        <div class="tier-desc">Prohibited entirely. Social scoring by governments, real-time biometric ID in public spaces (with narrow exceptions), emotion recognition in workplaces/schools, subliminal manipulation, exploitation of vulnerabilities.</div>
+      </div>
+      <div class="tier-obligation">BANNED</div>
+    </div>
+    <div class="tier-row tier-high">
+      <div class="tier-icon">⚠️</div>
+      <div class="tier-content">
+        <strong>High Risk</strong>
+        <div class="tier-desc">Permitted with strict conformity requirements. AI in critical infrastructure, education access, employment decisions, essential services (credit scoring), law enforcement, border control, justice administration — see Annex III.</div>
+      </div>
+      <div class="tier-obligation">FULL CONFORMITY</div>
+    </div>
+    <div class="tier-row tier-limited">
+      <div class="tier-icon">ℹ️</div>
+      <div class="tier-content">
+        <strong>Limited Risk</strong>
+        <div class="tier-desc">Permitted with transparency obligations. Chatbots interacting with humans, AI-generated content (deepfakes, synthetic media), emotion recognition outside prohibited contexts, biometric categorization.</div>
+      </div>
+      <div class="tier-obligation">TRANSPARENCY</div>
+    </div>
+    <div class="tier-row tier-minimal">
+      <div class="tier-icon">✅</div>
+      <div class="tier-content">
+        <strong>Minimal Risk</strong>
+        <div class="tier-desc">Permitted with no specific Act obligations. The vast majority of current AI applications — spam filters, AI-enabled video games, basic recommendation engines.</div>
+      </div>
+      <div class="tier-obligation">NO SPECIFIC RULES</div>
+    </div>
+  </div>
+
+  <h3>Interactive Risk-Tier Classifier</h3>
+  <p>Walk a real AI system through the EU AI Act's classification logic. Answer the questions in order — the tool will land you in the correct tier.</p>
+
+  <div id="aiActClassifier">
+    <div class="tree-step" data-step="1">
+      <h4><span class="step-num">1</span>Prohibited Practice Check</h4>
+      <p>Does the system perform any of these: social scoring by public authorities; real-time remote biometric identification in publicly accessible spaces (outside narrow law-enforcement exceptions); emotion recognition in workplaces or educational institutions; subliminal manipulation; exploitation of vulnerabilities of specific groups?</p>
+      <div class="tree-buttons">
+        <button type="button" class="tree-btn" data-answer="yes" data-result="unacceptable">Yes</button>
+        <button type="button" class="tree-btn" data-answer="no" data-next="2">No</button>
+      </div>
+    </div>
+    <div class="tree-step" data-step="2" style="display:none">
+      <h4><span class="step-num">2</span>Safety Component Check</h4>
+      <p>Is the AI system a safety component of a product (or itself a product) already covered by EU harmonized product safety legislation listed in Annex I — e.g., medical devices, machinery, toys, lifts, vehicles, aviation?</p>
+      <div class="tree-buttons">
+        <button type="button" class="tree-btn" data-answer="yes" data-result="high">Yes</button>
+        <button type="button" class="tree-btn" data-answer="no" data-next="3">No</button>
+      </div>
+    </div>
+    <div class="tree-step" data-step="3" style="display:none">
+      <h4><span class="step-num">3</span>Annex III Check</h4>
+      <p>Does the system fall into any Annex III category: biometric identification/categorization; critical infrastructure (water, gas, electricity); education and vocational training (admissions, evaluation); employment, worker management, access to self-employment; access to essential services (credit scoring, public benefits, insurance); law enforcement; migration, asylum, border control; administration of justice and democratic processes?</p>
+      <div class="tree-buttons">
+        <button type="button" class="tree-btn" data-answer="yes" data-result="high">Yes</button>
+        <button type="button" class="tree-btn" data-answer="no" data-next="4">No</button>
+      </div>
+    </div>
+    <div class="tree-step" data-step="4" style="display:none">
+      <h4><span class="step-num">4</span>Limited Risk Check</h4>
+      <p>Does the system (a) interact directly with natural persons (chatbot, virtual assistant); (b) generate or manipulate synthetic content (deepfakes, AI-generated text/images/audio/video); (c) detect emotions outside prohibited contexts; or (d) perform biometric categorization?</p>
+      <div class="tree-buttons">
+        <button type="button" class="tree-btn" data-answer="yes" data-result="limited">Yes</button>
+        <button type="button" class="tree-btn" data-answer="no" data-next="5">No</button>
+      </div>
+    </div>
+    <div class="tree-step" data-step="5" style="display:none">
+      <h4><span class="step-num">5</span>GPAI Check</h4>
+      <p>Is this a general-purpose AI model — trained on broad data at scale, capable of serving many different downstream tasks (e.g., a large language model offered as an API or product)?</p>
+      <div class="tree-buttons">
+        <button type="button" class="tree-btn" data-answer="yes" data-result="gpai">Yes</button>
+        <button type="button" class="tree-btn" data-answer="no" data-result="minimal">No</button>
+      </div>
+    </div>
+
+    <div class="tree-result unacceptable" id="result-unacceptable">
+      <strong>🚫 UNACCEPTABLE RISK — PROHIBITED</strong>
+      <p>This system is banned under the EU AI Act. It cannot be placed on the EU market, put into service in the EU, or used in the EU. Prohibition penalties: up to €35M or 7% of global annual turnover, whichever is higher.</p>
+      <button type="button" class="btn secondary" data-reset>Try Another System</button>
+    </div>
+    <div class="tree-result high" id="result-high">
+      <strong>⚠️ HIGH RISK — Full Conformity Required</strong>
+      <p>This system requires: risk management system, data governance, technical documentation, record-keeping, transparency to deployers, human oversight, accuracy/robustness/cybersecurity, conformity assessment before market placement, EU declaration of conformity, CE marking, post-market monitoring, and serious-incident reporting (Article 73, effective August 2026). Penalties for non-compliance: up to €15M or 3% of global annual turnover.</p>
+      <button type="button" class="btn secondary" data-reset>Try Another System</button>
+    </div>
+    <div class="tree-result limited" id="result-limited">
+      <strong>ℹ️ LIMITED RISK — Transparency Obligations</strong>
+      <p>Article 50 transparency obligations apply: users must be informed they are interacting with an AI (unless obvious); AI-generated content must be marked as artificially generated/manipulated; emotion recognition and biometric categorization must be disclosed to affected persons. Effective August 2026.</p>
+      <button type="button" class="btn secondary" data-reset>Try Another System</button>
+    </div>
+    <div class="tree-result minimal" id="result-minimal">
+      <strong>✅ MINIMAL RISK — No Specific Act Obligations</strong>
+      <p>The Act imposes no specific obligations beyond existing law (GDPR, product safety, etc.). Voluntary codes of conduct encouraged. Document the classification reasoning in a signed memo and refresh at least quarterly — the system might be re-categorized as deployment evolves.</p>
+      <button type="button" class="btn secondary" data-reset>Try Another System</button>
+    </div>
+    <div class="tree-result gpai" id="result-gpai">
+      <strong>📦 GENERAL-PURPOSE AI MODEL — Title V Obligations</strong>
+      <p>GPAI model obligations apply: technical documentation, downstream provider documentation, copyright policy, training data summary. Additional obligations apply to GPAI models with "systemic risk" (highest-capability models). Note: a GPAI model integrated into a downstream system still needs separate classification of that system.</p>
+      <button type="button" class="btn secondary" data-reset>Try Another System</button>
+    </div>
+  </div>
+
+  <h3>Provider vs. Deployer — A New Distinction with Teeth</h3>
+  <p>The EU AI Act splits responsibility between the entity that <em>builds</em> the AI system and the entity that <em>uses</em> it. Most CISMs work for organizations that are deployers, not providers — but the line is not always obvious.</p>
+
+  <table>
+    <thead>
+      <tr><th>Role</th><th>Definition</th><th>Primary Obligations</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Provider</strong></td><td>Develops an AI system or has one developed and places it on the EU market under its own name/trademark</td><td>The bulk of high-risk obligations: design, conformity assessment, technical documentation, CE marking, post-market monitoring, incident reporting</td></tr>
+      <tr><td><strong>Deployer</strong> (formerly "user")</td><td>Uses an AI system under its authority (not for personal non-professional use)</td><td>Use according to provider instructions, human oversight, input data relevance, log retention, FRIA for certain high-risk uses, transparency to affected persons</td></tr>
+      <tr><td><strong>Importer</strong></td><td>Places on the EU market an AI system bearing the name/trademark of a non-EU entity</td><td>Verify provider has performed conformity assessment, technical documentation is available, system carries CE marking</td></tr>
+      <tr><td><strong>Distributor</strong></td><td>Makes the system available on the EU market without affecting its properties</td><td>Verify CE marking, accompanying documentation, provider/importer details</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout emphasis">
+    <div class="label">The Trap</div>
+    <p>A deployer that <strong>substantially modifies</strong> a high-risk AI system, or puts it into service under their own name, can be reclassified as a provider — with all the heavier obligations that implies. Fine-tuning a foundation model for a high-risk use case is the canonical example. <strong>"We're just deploying it" can quietly become "we're now the provider" depending on what you do to the model.</strong></p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 6 ===================== -->
+<section class="module" id="m6">
+  <span class="module-tag">Module 6</span>
+  <span class="duration">60 min</span>
+  <h2>AI Risk Taxonomy — What You're Actually Managing</h2>
+  <p>A CISM is trained to manage information security risk: confidentiality, integrity, availability, with some adjacency to privacy and operational risk. AI introduces categories that don't fit cleanly into those buckets. Mature AI risk programs use an expanded taxonomy.</p>
+
+  <h3>The Seven Risk Categories</h3>
+  <div class="taxonomy-grid">
+    <div class="tax-card">
+      <div class="icon">🧠</div>
+      <h4>Model Risk</h4>
+      <p>The model itself behaves incorrectly — hallucinates, drifts, fails on edge cases, performs worse on subpopulations than on average.</p>
+      <div class="examples"><strong>Example:</strong> A medical triage model that performs 15% worse on female patients than male patients because the training data was male-skewed.</div>
+    </div>
+    <div class="tax-card">
+      <div class="icon">📊</div>
+      <h4>Data Risk</h4>
+      <p>The data used to train, fine-tune, or query the model creates problems — poisoned, biased, leaking, copyrighted, regulated, or inappropriate.</p>
+      <div class="examples"><strong>Example:</strong> Customer PII inadvertently included in fine-tuning data, then memorized and reproducible in outputs.</div>
+    </div>
+    <div class="tax-card">
+      <div class="icon">⚔️</div>
+      <h4>Adversarial Risk</h4>
+      <p>Attackers actively target the system — prompt injection, model evasion, model extraction, model inversion, training data poisoning.</p>
+      <div class="examples"><strong>Example:</strong> An indirect prompt injection hidden in a document fed to an AI assistant exfiltrates the user's emails.</div>
+    </div>
+    <div class="tax-card">
+      <div class="icon">🔗</div>
+      <h4>Third-Party / Supply Chain Risk</h4>
+      <p>The AI system depends on models, data, or services your organization doesn't control — and you inherit their vulnerabilities, biases, and outages.</p>
+      <div class="examples"><strong>Example:</strong> A foundation model provider changes safety filtering rules; your customer-facing chatbot starts producing outputs that violate your brand standards.</div>
+    </div>
+    <div class="tax-card">
+      <div class="icon">⚖️</div>
+      <h4>Ethical &amp; Societal Risk</h4>
+      <p>The system causes harm even when functioning as designed — discrimination, displacement, deception, dignitary harm.</p>
+      <div class="examples"><strong>Example:</strong> A resume screening model trained on historical hiring data systematically downgrades qualified candidates from groups that were historically underrepresented.</div>
+    </div>
+    <div class="tax-card">
+      <div class="icon">📜</div>
+      <h4>Regulatory &amp; Legal Risk</h4>
+      <p>The deployment violates a binding rule — EU AI Act, sector regulation, IP law, data protection law, consumer protection law.</p>
+      <div class="examples"><strong>Example:</strong> Using a high-risk AI system in employment decisions without the required conformity assessment, FRIA, and human oversight.</div>
+    </div>
+    <div class="tax-card">
+      <div class="icon">🏢</div>
+      <h4>Operational &amp; Business Risk</h4>
+      <p>The AI fails to deliver value, creates dependency on a single provider, blows up costs unexpectedly, or damages reputation through visible failure.</p>
+      <div class="examples"><strong>Example:</strong> A customer support chatbot confidently invents a refund policy that the company has to honor when it goes viral.</div>
+    </div>
+  </div>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: The Pharmaceutical Risk Framework</div>
+    <p>A pharmaceutical company doesn't just ask "does the drug work?" It asks: efficacy (does it do what it claims), safety (does it harm), quality (is it manufactured consistently), supply (can we source the ingredients), regulatory (is it approved), and commercial (will it sell). <strong>AI risk works the same way</strong> — looking at only one or two dimensions gives a falsely reassuring picture.</p>
+  </div>
+
+  <h3>Risk Likelihood and Impact — The AI Wrinkle</h3>
+  <p>A CISM is comfortable with likelihood-times-impact risk math. AI introduces a complication: <strong>some AI risks have heavy-tailed distributions</strong>. The expected behavior is fine 99% of the time; the 1% failure is catastrophic.</p>
+
+  <ul>
+    <li><strong>Hallucination in a customer service chatbot</strong> — mostly harmless; occasionally produces a binding commitment the company has to honor.</li>
+    <li><strong>Bias in a hiring screen</strong> — invisible in aggregate; surfaces as a class-action lawsuit.</li>
+    <li><strong>Prompt injection on an agentic system</strong> — almost never triggered by users; devastating when triggered by an attacker.</li>
+  </ul>
+
+  <p>This means traditional sampling-based testing is necessary but not sufficient. AAISM-level practice includes <strong>adversarial testing (red-teaming), edge-case probing, and continuous monitoring of subpopulation performance</strong>.</p>
+
+  <h3>Practice: Categorizing AI Risks</h3>
+  <div class="matcher" id="riskMatcher">
+    <div class="match-row" data-correct="model">
+      <div class="match-scenario">A loan approval model's accuracy has dropped 8% over six months as economic conditions have shifted from the training period.</div>
+      <select class="match-select" aria-label="Select risk category">
+        <option value="">Select risk category…</option>
+        <option value="model">Model Risk</option>
+        <option value="data">Data Risk</option>
+        <option value="adversarial">Adversarial Risk</option>
+        <option value="supplychain">Third-Party / Supply Chain</option>
+        <option value="ethical">Ethical &amp; Societal</option>
+        <option value="regulatory">Regulatory &amp; Legal</option>
+        <option value="operational">Operational &amp; Business</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="data">
+      <div class="match-scenario">Employees have been pasting confidential customer records into a public chatbot to get summaries.</div>
+      <select class="match-select" aria-label="Select risk category">
+        <option value="">Select risk category…</option>
+        <option value="model">Model Risk</option>
+        <option value="data">Data Risk</option>
+        <option value="adversarial">Adversarial Risk</option>
+        <option value="supplychain">Third-Party / Supply Chain</option>
+        <option value="ethical">Ethical &amp; Societal</option>
+        <option value="regulatory">Regulatory &amp; Legal</option>
+        <option value="operational">Operational &amp; Business</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="adversarial">
+      <div class="match-scenario">Researchers demonstrate that hidden instructions in PDF documents can make your AI assistant exfiltrate emails to an attacker-controlled URL.</div>
+      <select class="match-select" aria-label="Select risk category">
+        <option value="">Select risk category…</option>
+        <option value="model">Model Risk</option>
+        <option value="data">Data Risk</option>
+        <option value="adversarial">Adversarial Risk</option>
+        <option value="supplychain">Third-Party / Supply Chain</option>
+        <option value="ethical">Ethical &amp; Societal</option>
+        <option value="regulatory">Regulatory &amp; Legal</option>
+        <option value="operational">Operational &amp; Business</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="supplychain">
+      <div class="match-scenario">The foundation model your product is built on has its API pricing increased by 4x with 60 days' notice.</div>
+      <select class="match-select" aria-label="Select risk category">
+        <option value="">Select risk category…</option>
+        <option value="model">Model Risk</option>
+        <option value="data">Data Risk</option>
+        <option value="adversarial">Adversarial Risk</option>
+        <option value="supplychain">Third-Party / Supply Chain</option>
+        <option value="ethical">Ethical &amp; Societal</option>
+        <option value="regulatory">Regulatory &amp; Legal</option>
+        <option value="operational">Operational &amp; Business</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="ethical">
+      <div class="match-scenario">An audit reveals that an AI-driven promotion-recommendation tool consistently scores employees with longer career gaps lower, disproportionately affecting women who took parental leave.</div>
+      <select class="match-select" aria-label="Select risk category">
+        <option value="">Select risk category…</option>
+        <option value="model">Model Risk</option>
+        <option value="data">Data Risk</option>
+        <option value="adversarial">Adversarial Risk</option>
+        <option value="supplychain">Third-Party / Supply Chain</option>
+        <option value="ethical">Ethical &amp; Societal</option>
+        <option value="regulatory">Regulatory &amp; Legal</option>
+        <option value="operational">Operational &amp; Business</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <div class="match-row" data-correct="regulatory">
+      <div class="match-scenario">Your company deployed an AI-powered CV ranking system in the EU without a conformity assessment, technical documentation, or registered fundamental rights impact assessment.</div>
+      <select class="match-select" aria-label="Select risk category">
+        <option value="">Select risk category…</option>
+        <option value="model">Model Risk</option>
+        <option value="data">Data Risk</option>
+        <option value="adversarial">Adversarial Risk</option>
+        <option value="supplychain">Third-Party / Supply Chain</option>
+        <option value="ethical">Ethical &amp; Societal</option>
+        <option value="regulatory">Regulatory &amp; Legal</option>
+        <option value="operational">Operational &amp; Business</option>
+      </select>
+      <div class="match-feedback"></div>
+    </div>
+    <button type="button" class="btn" data-check-matcher="riskMatcher">Check Answers</button>
+    <button type="button" class="btn secondary" data-reset-matcher="riskMatcher">Reset</button>
+  </div>
+</section>
+
+<!-- ===================== MODULE 7 ===================== -->
+<section class="module" id="m7">
+  <span class="module-tag">Module 7</span>
+  <span class="duration">60 min</span>
+  <h2>Shadow AI — The Governance Iceberg</h2>
+  <p>"Shadow AI" is the AI equivalent of shadow IT: <strong>AI tools and capabilities being used inside the enterprise without the knowledge, approval, or oversight of IT, security, or governance functions</strong>. It is not a hypothetical. It is the default state of most enterprises in 2026.</p>
+
+  <h3>Why Shadow AI Is Different from Shadow IT</h3>
+  <table>
+    <thead>
+      <tr><th>Dimension</th><th>Shadow IT</th><th>Shadow AI</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Adoption friction</td><td>Requires installing software, often a credit card</td><td>Free, web-based, no installation, often inside existing tools</td></tr>
+      <tr><td>Detection difficulty</td><td>Network monitoring can catch most unauthorized SaaS</td><td>Often indistinguishable from normal web traffic; embedded in approved tools</td></tr>
+      <tr><td>Data exfiltration vector</td><td>File uploads to unauthorized cloud storage</td><td>Pasting sensitive data into prompts — far easier, far less visible</td></tr>
+      <tr><td>Output ownership</td><td>Mostly clear (you made it, you own it)</td><td>Murky — IP status of AI-generated content varies by jurisdiction</td></tr>
+      <tr><td>Governance baseline</td><td>Generally treated as a security issue</td><td>Often treated as a productivity tool; governance hasn't caught up</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout emphasis">
+    <div class="label">The Iceberg</div>
+    <p>When CISOs survey their organizations, they typically find that <strong>between 3x and 10x more AI tools are in active use than IT is aware of</strong>. The visible AI deployments are the iceberg's tip. The mass below the waterline is shadow AI — and it is doing real work, with real data, every day.</p>
+  </div>
+
+  <h3>The Five Shadow AI Patterns</h3>
+  <div class="taxonomy-grid">
+    <div class="tax-card">
+      <div class="icon">🌐</div>
+      <h4>Direct Consumer Use</h4>
+      <p>Employees use public chatbots (ChatGPT, Claude.ai, Gemini, etc.) on their work tasks, often via personal accounts, often with sensitive data.</p>
+    </div>
+    <div class="tax-card">
+      <div class="icon">🔌</div>
+      <h4>Embedded Feature Use</h4>
+      <p>AI features arrive inside already-approved tools (CRM, IDE, office suite) — adopted without anyone realizing a new AI dependency now exists.</p>
+    </div>
+    <div class="tax-card">
+      <div class="icon">🌉</div>
+      <h4>Bridge Tools</h4>
+      <p>Browser extensions, plugins, and integration apps that route enterprise data through external AI services as a side effect.</p>
+    </div>
+    <div class="tax-card">
+      <div class="icon">🤖</div>
+      <h4>Citizen Developer Agents</h4>
+      <p>Business users build automation, chatbots, and agents using low-code tools without security or architecture review.</p>
+    </div>
+    <div class="tax-card">
+      <div class="icon">📱</div>
+      <h4>Personal Productivity Tools</h4>
+      <p>Note-taking, meeting transcription, and writing-assistant apps that quietly upload work content to external AI services.</p>
+    </div>
+  </div>
+
+  <h3>Practice: Shadow AI Scenarios</h3>
+  <p>For each scenario, choose the BEST initial governance response. Click an action; feedback appears below.</p>
+
+  <div class="scenario-card" data-scenario>
+    <div class="scen-header">
+      <div class="scen-title">Scenario 1 — The Meeting Transcriber</div>
+      <div class="risk-badge medium">Medium Risk</div>
+    </div>
+    <div class="scen-body">A salesperson installed a popular AI meeting-transcription app on their laptop. It joins Zoom calls automatically and emails them summaries. They've been using it on client calls for six weeks. IT discovers it during a routine endpoint audit.</div>
+    <div class="scen-actions">
+      <button type="button" class="scen-action-btn" data-correct="false" data-explain="Punishing the employee is rarely the best first response — it signals that the issue is the person, not the gap in tooling and policy that let this happen. It also drives future shadow AI further underground.">Reprimand the employee and report to HR</button>
+      <button type="button" class="scen-action-btn" data-correct="false" data-explain="Just removing the tool addresses the symptom, not the cause. The employee had a legitimate need; if you remove the unsanctioned tool without offering an approved alternative, they'll find another shadow tool tomorrow.">Block the tool and uninstall it immediately, no further action</button>
+      <button type="button" class="scen-action-btn" data-correct="true" data-explain="Correct. The first move is to understand scope: what data has been processed, who else is using similar tools, what legitimate need is being served, and what an approved equivalent would look like. Then formalize a policy and approved alternatives.">Investigate scope (how widespread, what data exposed), assess the legitimate need, evaluate sanctioned alternatives, then build policy</button>
+      <button type="button" class="scen-action-btn" data-correct="false" data-explain="Issuing an enterprise-wide ban without understanding the underlying need creates resentment and pushes the behavior further underground. Bans without alternatives rarely work in practice.">Issue an enterprise-wide ban on all transcription tools effective immediately</button>
+    </div>
+    <div class="scen-explanation"></div>
+  </div>
+
+  <div class="scenario-card" data-scenario>
+    <div class="scen-header">
+      <div class="scen-title">Scenario 2 — The CRM Surprise</div>
+      <div class="risk-badge high">High Risk</div>
+    </div>
+    <div class="scen-body">Your CRM vendor pushes an update that adds an "AI Assistant" sidebar to every record. It summarizes customer notes, drafts follow-up emails, and suggests next actions. The feature is enabled by default. Your security team finds out from a LinkedIn post by the vendor's CEO.</div>
+    <div class="scen-actions">
+      <button type="button" class="scen-action-btn" data-correct="false" data-explain="Doing nothing is exactly the failure mode — embedded AI features adopted invisibly are how shadow AI becomes enterprise AI without any governance.">Take no action — the vendor has presumably vetted the feature</button>
+      <button type="button" class="scen-action-btn" data-correct="true" data-explain="Correct. Embedded AI features in approved tools require the same governance as net-new AI deployments. Disable while assessing, then make an informed decision about enabling it with appropriate controls.">Disable the feature while assessing data handling, model provider, training data use, and contractual terms — then decide</button>
+      <button type="button" class="scen-action-btn" data-correct="false" data-explain="Terminating a major vendor contract over one feature is disproportionate as a first move. Engagement and disablement of the specific feature comes before contract termination.">Immediately terminate the CRM contract</button>
+      <button type="button" class="scen-action-btn" data-correct="false" data-explain="Leaving the feature enabled and just emailing employees treats this as an awareness problem when it's actually a governance and data-protection problem.">Leave the feature enabled and send an email asking employees to be careful</button>
+    </div>
+    <div class="scen-explanation"></div>
+  </div>
+
+  <div class="scenario-card" data-scenario>
+    <div class="scen-header">
+      <div class="scen-title">Scenario 3 — The Marketing Copilot</div>
+      <div class="risk-badge medium">Medium Risk</div>
+    </div>
+    <div class="scen-body">The marketing team has been using a popular AI image-generation service to produce campaign visuals. The contracts and licensing terms have never been reviewed. Some of the images closely resemble copyrighted characters and styles. The team is about to launch a campaign featuring these images.</div>
+    <div class="scen-actions">
+      <button type="button" class="scen-action-btn" data-correct="false" data-explain="The campaign launch creates legal exposure that survives the launch. Letting the campaign proceed without legal and IP review is not a defensible choice.">Allow the campaign to proceed; address the policy issue afterwards</button>
+      <button type="button" class="scen-action-btn" data-correct="true" data-explain="Correct. Pause the campaign for an IP and legal review, evaluate the tool's licensing terms (training data, output ownership, indemnification), then build the approval pathway for AI-generated marketing content going forward.">Pause the campaign for IP and legal review of the specific images and the tool's licensing terms; establish AI content approval workflow</button>
+      <button type="button" class="scen-action-btn" data-correct="false" data-explain="Banning all AI tools in marketing is overcorrection. The legitimate need exists; the failure was governance, not the technology itself.">Ban all generative AI in marketing immediately</button>
+      <button type="button" class="scen-action-btn" data-correct="false" data-explain="Asking marketing to self-certify defeats the purpose of governance review — the team that created the issue is not the right team to assess it.">Ask marketing to certify the images don't infringe and proceed</button>
+    </div>
+    <div class="scen-explanation"></div>
+  </div>
+
+  <div class="scenario-card" data-scenario>
+    <div class="scen-header">
+      <div class="scen-title">Scenario 4 — The Code Assistant</div>
+      <div class="risk-badge critical">Critical Risk</div>
+    </div>
+    <div class="scen-body">A developer has been using a public code-completion AI tool in their IDE to write code for an internal financial reporting system. The tool sends code context to an external service to generate suggestions. The reporting system handles regulated financial data; the developer pasted database schemas and sample records into prompts to get better suggestions.</div>
+    <div class="scen-actions">
+      <button type="button" class="scen-action-btn" data-correct="false" data-explain="Doing nothing is not defensible. Regulated data has been exposed to an external service without contractual protections — this triggers a security incident and may trigger regulatory notification obligations.">Take no action — the data is just used for completion, not stored</button>
+      <button type="button" class="scen-action-btn" data-correct="true" data-explain="Correct. This is an incident. Treat it as one: stop further data exposure, determine what was sent and retained, assess regulatory notification obligations, review the code for AI-generated vulnerabilities, then establish an approved AI coding tool for the organization.">Treat as a security incident — contain, assess data exposure, evaluate notification obligations, audit the code, then approve a sanctioned tool</button>
+      <button type="button" class="scen-action-btn" data-correct="false" data-explain="The developer's behavior is part of the problem, but firing them addresses the symptom while the underlying governance gap remains. Multiple other developers are almost certainly doing the same thing.">Fire the developer</button>
+      <button type="button" class="scen-action-btn" data-correct="false" data-explain="Allowing continued use after discovery makes the organization knowingly negligent. The tool needs to come off until a proper assessment is done.">Allow continued use while you write a policy</button>
+    </div>
+    <div class="scen-explanation"></div>
+  </div>
+
+  <div class="callout bridge">
+    <div class="label">The Governance Pattern</div>
+    <p>Notice the pattern across the scenarios: <strong>understand scope, assess legitimate need, evaluate approved alternatives, then govern</strong>. Bans without alternatives fail. Punishment without policy fails. The right response is almost always to formalize the use case, not eliminate it.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 8 ===================== -->
+<section class="module" id="m8">
+  <span class="module-tag">Module 8</span>
+  <span class="duration">60 min</span>
+  <h2>AI Vendor &amp; Supply Chain Risk Management</h2>
+  <p>The AAISM exam outline calls out a specific domain area — "AI Vendor and Supply Chain Management" — because the AI supply chain is unlike any traditional IT supply chain. <strong>An AI system is rarely something you fully build or fully buy</strong>; it is assembled from layered dependencies, most of which you do not control.</p>
+
+  <h3>The Five-Layer AI Supply Chain</h3>
+  <table>
+    <thead>
+      <tr><th>Layer</th><th>What's There</th><th>Who Typically Owns It</th><th>Key Risk</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>1. Foundation model</strong></td><td>The pretrained large model (LLM, vision, multimodal)</td><td>Major AI lab (OpenAI, Anthropic, Google, Meta, etc.)</td><td>Provider changes safety policy, pricing, or terms; model deprecated; provider outage</td></tr>
+      <tr><td><strong>2. Training data</strong></td><td>Pretraining corpus + fine-tuning datasets</td><td>Foundation model provider (opaque); fine-tuner</td><td>Copyright, regulated data, poisoning, bias</td></tr>
+      <tr><td><strong>3. Fine-tuning / RAG layer</strong></td><td>Customizations: fine-tunes, prompts, retrieval data, embeddings</td><td>Your organization, your vendors, your contractors</td><td>Sensitive data leakage; prompt injection through retrieval; embedding leakage</td></tr>
+      <tr><td><strong>4. Application layer</strong></td><td>The product or service wrapping the model</td><td>SaaS vendor or your dev team</td><td>Improper output handling, excessive agency, insecure plugin chains</td></tr>
+      <tr><td><strong>5. Tools / integrations</strong></td><td>External tools the AI can call (databases, APIs, file systems, code execution)</td><td>Mix of internal and third-party</td><td>Blast radius of compromised prompt — agent can act on your behalf</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout analogy">
+    <div class="label">Analogy: Food Supply Chain</div>
+    <p>You are a restaurant. The foundation model is the wheat. The fine-tuning data is your secret recipe. The application is your kitchen. The tools are your suppliers, ovens, and delivery drivers. <strong>A contamination, a recipe leak, a supplier failure, or an oven malfunction can each ruin the meal — and you might be liable even if the wheat is what was contaminated</strong>. AI supply chain due diligence is the equivalent of food safety inspection across the whole chain.</p>
+  </div>
+
+  <h3>Buy vs. Build vs. Consume</h3>
+  <p>AAISM exam guidance distinguishes <strong>"Consumer vs. Enterprise" and "Buy vs. Build"</strong> as foundational AI procurement decisions. A CISM should be able to articulate the security tradeoffs of each.</p>
+
+  <div class="comp-grid">
+    <div class="comp-card">
+      <div class="tag">🏗️ Build (or heavily customize)</div>
+      <ul>
+        <li>Maximum control over data, behavior, deployment</li>
+        <li>Heaviest regulatory burden — you are the provider</li>
+        <li>Hardest to keep up with state of the art</li>
+        <li>Best for: highly differentiated use cases, regulated industries with strict data sovereignty</li>
+      </ul>
+    </div>
+    <div class="comp-card aaism">
+      <div class="tag">🛒 Buy / Consume (SaaS / API)</div>
+      <ul>
+        <li>Fastest time to value, latest capabilities</li>
+        <li>You inherit vendor's choices on safety, data handling, defaults</li>
+        <li>Often deployer role under EU AI Act — lighter regulatory burden</li>
+        <li>Best for: common use cases where parity with the market is enough</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>The AI Vendor Risk Assessment Workshop</h3>
+  <p>Evaluate four hypothetical AI vendors against four risk dimensions. The verdict is auto-calculated based on your selections. Try varying combinations to see how each dimension drives the overall decision.</p>
+
+  <div id="vendorWorkshop">
+    <div class="vendor-grid header">
+      <div>Vendor / Use Case</div>
+      <div>Data Handling</div>
+      <div>Model Transparency</div>
+      <div>Security Posture</div>
+      <div>Contractual Protection</div>
+    </div>
+    <div class="vendor-grid" data-vendor="1">
+      <div><strong>Vendor A</strong><br><span style="font-size:0.78rem;color:var(--ink-soft)">Customer support chatbot</span></div>
+      <div>
+        <select data-dim="data" aria-label="Vendor A data handling">
+          <option value="2">No data retention guarantee</option>
+          <option value="3">Retention with opt-out</option>
+          <option value="5" selected>Zero retention, no training on inputs</option>
+        </select>
+      </div>
+      <div>
+        <select data-dim="trans" aria-label="Vendor A model transparency">
+          <option value="2">Black box</option>
+          <option value="3" selected>Model card available</option>
+          <option value="5">Full documentation + eval suite</option>
+        </select>
+      </div>
+      <div>
+        <select data-dim="sec" aria-label="Vendor A security posture">
+          <option value="2">No third-party attestation</option>
+          <option value="4" selected>SOC 2 Type II</option>
+          <option value="5">SOC 2 + ISO 27001 + ISO 42001</option>
+        </select>
+      </div>
+      <div>
+        <select data-dim="contract" aria-label="Vendor A contractual protection">
+          <option value="2">Standard SaaS terms only</option>
+          <option value="4" selected>IP indemnification, DPA, SLA</option>
+          <option value="5">Above + AI-specific incident liability</option>
+        </select>
+      </div>
+      <div class="vendor-verdict" data-verdict>Calculating…</div>
+    </div>
+    <div class="vendor-grid" data-vendor="2">
+      <div><strong>Vendor B</strong><br><span style="font-size:0.78rem;color:var(--ink-soft)">Medical diagnostic assist</span></div>
+      <div>
+        <select data-dim="data" aria-label="Vendor B data handling">
+          <option value="2" selected>No data retention guarantee</option>
+          <option value="3">Retention with opt-out</option>
+          <option value="5">Zero retention, no training on inputs</option>
+        </select>
+      </div>
+      <div>
+        <select data-dim="trans" aria-label="Vendor B model transparency">
+          <option value="2" selected>Black box</option>
+          <option value="3">Model card available</option>
+          <option value="5">Full documentation + eval suite</option>
+        </select>
+      </div>
+      <div>
+        <select data-dim="sec" aria-label="Vendor B security posture">
+          <option value="2">No third-party attestation</option>
+          <option value="4" selected>SOC 2 Type II</option>
+          <option value="5">SOC 2 + ISO 27001 + ISO 42001</option>
+        </select>
+      </div>
+      <div>
+        <select data-dim="contract" aria-label="Vendor B contractual protection">
+          <option value="2" selected>Standard SaaS terms only</option>
+          <option value="4">IP indemnification, DPA, SLA</option>
+          <option value="5">Above + AI-specific incident liability</option>
+        </select>
+      </div>
+      <div class="vendor-verdict" data-verdict>Calculating…</div>
+    </div>
+    <div class="vendor-grid" data-vendor="3">
+      <div><strong>Vendor C</strong><br><span style="font-size:0.78rem;color:var(--ink-soft)">HR resume screening</span></div>
+      <div>
+        <select data-dim="data" aria-label="Vendor C data handling">
+          <option value="2">No data retention guarantee</option>
+          <option value="3" selected>Retention with opt-out</option>
+          <option value="5">Zero retention, no training on inputs</option>
+        </select>
+      </div>
+      <div>
+        <select data-dim="trans" aria-label="Vendor C model transparency">
+          <option value="2">Black box</option>
+          <option value="3" selected>Model card available</option>
+          <option value="5">Full documentation + eval suite</option>
+        </select>
+      </div>
+      <div>
+        <select data-dim="sec" aria-label="Vendor C security posture">
+          <option value="2">No third-party attestation</option>
+          <option value="4" selected>SOC 2 Type II</option>
+          <option value="5">SOC 2 + ISO 27001 + ISO 42001</option>
+        </select>
+      </div>
+      <div>
+        <select data-dim="contract" aria-label="Vendor C contractual protection">
+          <option value="2">Standard SaaS terms only</option>
+          <option value="4" selected>IP indemnification, DPA, SLA</option>
+          <option value="5">Above + AI-specific incident liability</option>
+        </select>
+      </div>
+      <div class="vendor-verdict" data-verdict>Calculating…</div>
+    </div>
+    <div class="vendor-grid" data-vendor="4">
+      <div><strong>Vendor D</strong><br><span style="font-size:0.78rem;color:var(--ink-soft)">Internal meeting summarizer</span></div>
+      <div>
+        <select data-dim="data" aria-label="Vendor D data handling">
+          <option value="2">No data retention guarantee</option>
+          <option value="3">Retention with opt-out</option>
+          <option value="5" selected>Zero retention, no training on inputs</option>
+        </select>
+      </div>
+      <div>
+        <select data-dim="trans" aria-label="Vendor D model transparency">
+          <option value="2">Black box</option>
+          <option value="3" selected>Model card available</option>
+          <option value="5">Full documentation + eval suite</option>
+        </select>
+      </div>
+      <div>
+        <select data-dim="sec" aria-label="Vendor D security posture">
+          <option value="2">No third-party attestation</option>
+          <option value="4" selected>SOC 2 Type II</option>
+          <option value="5">SOC 2 + ISO 27001 + ISO 42001</option>
+        </select>
+      </div>
+      <div>
+        <select data-dim="contract" aria-label="Vendor D contractual protection">
+          <option value="2">Standard SaaS terms only</option>
+          <option value="4" selected>IP indemnification, DPA, SLA</option>
+          <option value="5">Above + AI-specific incident liability</option>
+        </select>
+      </div>
+      <div class="vendor-verdict" data-verdict>Calculating…</div>
+    </div>
+  </div>
+
+  <h3>What to Demand of an AI Vendor — A Procurement Checklist</h3>
+  <div class="accordion">
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">Data handling and residency <span class="arrow">▶</span></button>
+      <div class="accordion-body">
+        <ul>
+          <li>What happens to inputs (prompts, uploaded documents) — retained? for how long? used for training?</li>
+          <li>Can we opt out of training on our inputs? Is opt-out the default?</li>
+          <li>Where is data processed? Stored? Backed up? Any cross-border transfers?</li>
+          <li>What's the deletion process? How is it verified?</li>
+          <li>Sub-processors — who else gets to see our data?</li>
+        </ul>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">Model provenance and transparency <span class="arrow">▶</span></button>
+      <div class="accordion-body">
+        <ul>
+          <li>Which foundation model is in use? Is the choice documented and version-pinned?</li>
+          <li>Model card — what does it disclose about training data, evaluation, limitations?</li>
+          <li>What happens when the underlying model is updated or deprecated?</li>
+          <li>Can we test the model independently? Are evals available?</li>
+          <li>Disclosure of known biases or failure modes for our use case?</li>
+        </ul>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">Security posture <span class="arrow">▶</span></button>
+      <div class="accordion-body">
+        <ul>
+          <li>Third-party attestations: SOC 2, ISO 27001 — and now ISO/IEC 42001 for AIMS.</li>
+          <li>Penetration testing cadence; AI-specific red-teaming results?</li>
+          <li>Vulnerability disclosure program and AI-specific reporting channel?</li>
+          <li>Incident notification SLA — including AI-specific incidents (prompt injection, data leakage, model misuse)?</li>
+          <li>Access controls, encryption in transit and at rest, key management?</li>
+        </ul>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">Contractual protection <span class="arrow">▶</span></button>
+      <div class="accordion-body">
+        <ul>
+          <li>IP indemnification — vendor indemnifies you against claims that AI outputs infringe third-party IP.</li>
+          <li>Data Processing Agreement (DPA) under GDPR / similar.</li>
+          <li>Service Level Agreement (SLA) — uptime, latency, support response.</li>
+          <li>Liability cap — is it reasonable given the use case? Are there carve-outs for AI-specific incidents?</li>
+          <li>Audit rights — can you (or a third party) audit AI-specific controls?</li>
+          <li>Exit and data portability — what do you get back if you leave?</li>
+        </ul>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">Responsible AI commitments <span class="arrow">▶</span></button>
+      <div class="accordion-body">
+        <ul>
+          <li>Published responsible AI principles — and evidence they're operationalized.</li>
+          <li>Bias testing for your population of interest — protected classes, languages, contexts.</li>
+          <li>Human-in-the-loop and override mechanisms appropriate to risk level.</li>
+          <li>EU AI Act readiness — provider obligations met if high-risk? Documentation available?</li>
+          <li>Sustainability disclosure — energy and water consumption per query/training run?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout emphasis">
+    <div class="label">The Procurement Trap</div>
+    <p>Existing vendor management processes were not designed to catch AI-specific risks. <strong>An AI vendor questionnaire is a distinct artifact</strong> from your standard SaaS questionnaire — it overlaps maybe 60%. If procurement is running AI vendors through the old questionnaire, you are missing the questions that matter most.</p>
+  </div>
+</section>
+
+<!-- ===================== MODULE 9 ===================== -->
+<section class="module" id="m9">
+  <span class="module-tag">Module 9</span>
+  <span class="duration">45 min</span>
+  <h2>Building an AI Acceptable Use Policy That Holds Up</h2>
+  <p>An AI Acceptable Use Policy (AUP) is the single most-asked-for document in any AI governance program, and the single most often produced badly. Most first drafts are too vague to be actionable and too rigid to be realistic. A good AI AUP is specific, scenario-driven, and lives alongside an approval pathway — not in place of one.</p>
+
+  <h3>The Seven Required Sections of an AI AUP</h3>
+  <div class="accordion">
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">1 · Scope and definitions <span class="arrow">▶</span></button>
+      <div class="accordion-body">
+        <p>State what the policy applies to. <strong>Be specific.</strong> Naming "AI" is not enough — distinguish generative AI, predictive ML, decision-support systems, AI assistants embedded in approved tools, and AI-powered third-party services. State the audience (employees, contractors, vendors) and geographic scope.</p>
+        <p><em>Anti-pattern:</em> "This policy covers all uses of artificial intelligence at the company."</p>
+        <p><em>Better:</em> "This policy covers (a) any use of generative AI systems by employees or contractors, including via web interfaces, APIs, plugins, or embedded features; (b) any AI system deployed by the company to make or support decisions affecting customers, employees, or third parties; (c) any AI-related procurement decision over $10,000 or affecting regulated data."</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">2 · Data classification rules for AI inputs <span class="arrow">▶</span></button>
+      <div class="accordion-body">
+        <p>For each data classification level, state which AI systems may be used. This is the section employees actually need — most violations come from people who didn't know the rule, not people who knew and ignored it.</p>
+        <table>
+          <thead><tr><th>Data Class</th><th>Sanctioned Enterprise AI</th><th>Public AI Tools</th></tr></thead>
+          <tbody>
+            <tr><td>Public</td><td>✓ Allowed</td><td>✓ Allowed</td></tr>
+            <tr><td>Internal</td><td>✓ Allowed</td><td>✗ Prohibited</td></tr>
+            <tr><td>Confidential</td><td>✓ Allowed with approval</td><td>✗ Prohibited</td></tr>
+            <tr><td>Restricted / Regulated</td><td>✗ Prohibited without explicit DPO + Legal approval</td><td>✗ Prohibited</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">3 · Prohibited use cases <span class="arrow">▶</span></button>
+      <div class="accordion-body">
+        <p>Be explicit. Prohibited use cases typically include: making consequential decisions about people (hiring, firing, promotion, credit, healthcare) without human review and documented oversight; impersonating real people; generating deceptive content; circumventing access controls or safety measures; producing content that violates law or company policy; using AI to write code for security-sensitive systems without review.</p>
+        <p><em>Plain-language test:</em> An employee should be able to read this section and know, within 30 seconds, whether what they're about to do is allowed.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">4 · Required human oversight <span class="arrow">▶</span></button>
+      <div class="accordion-body">
+        <p>For every AI output that drives an action with non-trivial consequences, state who reviews and who is accountable. Patterns: <strong>human-in-the-loop</strong> (every output reviewed before action), <strong>human-on-the-loop</strong> (humans supervise but don't review each output), <strong>human-out-of-the-loop</strong> (fully automated, with monitoring).</p>
+        <p>The required pattern should scale with risk: HITL for hiring decisions, HOTL for content moderation queue triage, HOOL for routine email sorting.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">5 · Approval pathway for new AI use cases <span class="arrow">▶</span></button>
+      <div class="accordion-body">
+        <p>A policy without an approval pathway is a policy without compliance. Document who employees go to when they want to use an AI tool the policy doesn't cover. State the expected response time. Use a tiered model — light-touch self-registration for low-risk uses, full review for high-risk uses.</p>
+        <p><em>Pattern:</em> The fastest way to kill shadow AI is to make sanctioned AI faster and easier to adopt than shadow AI.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">6 · Disclosure and transparency <span class="arrow">▶</span></button>
+      <div class="accordion-body">
+        <p>State when AI use must be disclosed: to customers (when interacting with a bot, when receiving AI-generated content), to colleagues (when work product is substantially AI-generated), to leadership (when AI is used in consequential decisions). The EU AI Act's Article 50 sets a regulatory floor; many organizations should commit to more.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">7 · Enforcement and consequences <span class="arrow">▶</span></button>
+      <div class="accordion-body">
+        <p>State that the policy is enforceable and that violations have consequences proportionate to severity. Tie to existing employee conduct policies. Note that good-faith reports of shadow AI by the user themselves should not result in punishment — you want disclosure, not concealment.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout bridge">
+    <div class="label">The "Lives Alongside" Principle</div>
+    <p>The biggest single failure of AI AUPs is treating the policy as the governance program. <strong>A policy without an approval pathway, a use case register, a vendor questionnaire, and an enforcement mechanism is theater.</strong> The AUP is one artifact in a multi-artifact program.</p>
+  </div>
+
+  <h3>Test: Is This AUP Clause Specific Enough?</h3>
+  <div class="quiz" data-quiz>
+    <div class="quiz-question">Which of these AUP clauses is BEST written?</div>
+    <button type="button" class="quiz-option" data-answer="wrong" data-explain="Too vague to be actionable. 'Responsible' is undefined; 'appropriate caution' provides no guidance. An employee reading this still doesn't know whether they can paste a customer email into ChatGPT.">"Employees must use AI tools responsibly and with appropriate caution regarding company data."</button>
+    <button type="button" class="quiz-option" data-answer="wrong" data-explain="Total bans without alternatives drive shadow AI underground. They also signal that the policy author hasn't engaged with the real use cases employees have.">"All use of generative AI is prohibited."</button>
+    <button type="button" class="quiz-option" data-answer="correct" data-explain="Correct. Specific data classes, specific tools, specific exceptions with a named approver. An employee can read this and know exactly what to do.">"Confidential and Restricted data classes may not be entered into public AI tools (ChatGPT, Claude.ai, Gemini, Copilot consumer). They may be entered into [Sanctioned Enterprise Tool] only with prior approval from the Data Steward. Internal and Public data may be entered into either."</button>
+    <button type="button" class="quiz-option" data-answer="wrong" data-explain="Listing tools is good — but without rules about WHAT can go into them, it's a vendor inventory, not a usage policy. The employee still doesn't know whether they can paste customer data.">"Approved AI tools are: [list of vendor names]. All other AI tools are not approved."</button>
+  </div>
+</section>
+
+<!-- ===================== CAPSTONE ===================== -->
+<section class="module" id="capstone">
+  <span class="module-tag">Capstone Exercise</span>
+  <span class="duration">90 min</span>
+  <h2>AI Governance Build — TerraHealth Insurance</h2>
+
+  <h3>Scenario</h3>
+  <p>You are the CISM at TerraHealth, a $2.1B regional health insurance company with operations in the US (NY, NJ, PA, CT) and a small EU subsidiary based in Dublin. The board has asked the CISO to "develop a comprehensive AI governance program within 90 days" after the following events:</p>
+
+  <ul>
+    <li><strong>Customer service team</strong> has been using a popular consumer chatbot to draft member-facing letters for the past four months. A draft response containing PHI was inadvertently sent without review; the member's diagnosis was inaccurately summarized.</li>
+    <li><strong>The claims team</strong> deployed an internal "auto-denial" model six months ago without governance review. A state insurance regulator has opened an inquiry after a local newspaper investigated unusual denial patterns.</li>
+    <li><strong>The CFO</strong> wants to deploy a vendor-provided "AI-powered fraud detection" system that classifies claims as fraudulent for human review. The vendor is in the EU.</li>
+    <li><strong>The CEO</strong> is excited about using an AI tool to "personalize wellness recommendations" for members — and has been talking to two startup vendors directly, bypassing procurement.</li>
+    <li><strong>The Dublin subsidiary</strong> processes claims from EU members. Several AI-powered tools are already in use locally.</li>
+  </ul>
+
+  <h3>Your Required Deliverables</h3>
+  <ol>
+    <li><strong>AI governance structure</strong> — committee composition, charter, cadence, decision authority, escalation path</li>
+    <li><strong>AI use case register</strong> — initial entries for the four use cases above, with classification, risk tier (including EU AI Act tier where applicable), and owner</li>
+    <li><strong>Risk assessment</strong> — for each of the four scenarios, identify the top three risks from the risk taxonomy and propose treatment</li>
+    <li><strong>Regulatory mapping</strong> — which obligations apply (EU AI Act, HIPAA, state insurance regulation, NYDFS Part 500, etc.) and to which systems</li>
+    <li><strong>AI acceptable use policy</strong> — covering data classification rules for AI inputs, prohibited use cases, approval pathway, and disclosure requirements</li>
+    <li><strong>Vendor risk assessment</strong> — for the fraud detection vendor and one of the wellness startups, run the procurement checklist and produce a recommendation</li>
+    <li><strong>30/60/90-day roadmap</strong> — what gets done in the first month, the second, the third — and what executive decisions are required at each phase</li>
+  </ol>
+
+  <h3>Evaluation Rubric</h3>
+  <table>
+    <thead>
+      <tr><th>Criterion</th><th>Weight</th><th>"Excellent" Looks Like</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Governance structure realism</td><td>15%</td><td>Cross-functional committee with named roles, clear authority, realistic cadence; not a paper org chart</td></tr>
+      <tr><td>EU AI Act classification accuracy</td><td>15%</td><td>Each system correctly classified; high-risk obligations properly identified; provider/deployer split clear</td></tr>
+      <tr><td>Risk taxonomy depth</td><td>15%</td><td>Multiple categories per scenario; not just confidentiality/integrity/availability; ethical and societal risk surfaced</td></tr>
+      <tr><td>Treatment realism</td><td>15%</td><td>Treatments matched to risk level and business need; bans only where actually warranted; alternatives provided</td></tr>
+      <tr><td>AUP specificity and usability</td><td>15%</td><td>Employees can read it and know what to do; specific tools, specific data classes, specific exceptions</td></tr>
+      <tr><td>Vendor assessment rigor</td><td>10%</td><td>Goes beyond standard SaaS questionnaire; AI-specific questions raised; provider/deployer responsibilities clear</td></tr>
+      <tr><td>Roadmap feasibility</td><td>15%</td><td>Sequenced, dependency-aware, recognizes executive decision points; not a wish list</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout bridge">
+    <div class="label">Capstone Tip</div>
+    <p>This scenario was built to surface every concept in Part 1. The customer service incident is a shadow AI case. The auto-denial model is a regulatory and ethical risk case. The fraud detection vendor is a vendor risk case. The wellness AI is a procurement governance case. The Dublin subsidiary is an EU AI Act case. <strong>If your deliverable doesn't touch all four risk categories and all five regulatory contexts, you've missed something.</strong></p>
+  </div>
+</section>
+
+<!-- ===================== ASSESSMENT ===================== -->
+<section class="module" id="assessment">
+  <span class="module-tag">Final Assessment</span>
+  <h2>Knowledge Check — 10 Questions</h2>
+  <p>Test your mastery of Part 1. Each question gives instant feedback and an explanation.</p>
+  <div id="finalQuiz"></div>
+  <div id="finalScore" style="margin-top:1.5rem;padding:1.5rem;background:var(--primary);color:#fff;border-radius:10px;display:none;text-align:center;">
+    <div style="font-size:0.9rem;text-transform:uppercase;letter-spacing:0.1em;opacity:0.85;">Your Score</div>
+    <div style="font-size:3rem;font-weight:700;margin:0.5rem 0;" id="scoreNum">0 / 10</div>
+    <div id="scoreMessage" style="opacity:0.9;"></div>
+  </div>
+  <button type="button" class="btn" id="gradeFinalBtn" style="margin-top:1rem;">Grade My Quiz</button>
+  <button type="button" class="btn secondary" id="resetFinalBtn">Reset</button>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>CISM → AAISM Bridge Module, Part 1</strong> · AI Governance &amp; Risk Management</p>
+  <p>Built for <span class="program">NCyTE CISM Course</span> · Department of Engineering &amp; Technology · Brookdale Community College · 2026</p>
+  <p>Part 2 covers AI threats (OWASP LLM Top 10), AI security controls, and AI incident response.</p>
+</footer>
+
+<script>
+// ============ NAV ACTIVE STATE + PROGRESS BAR ============
+const sections = document.querySelectorAll('section.module');
+const navLinks = document.querySelectorAll('nav.modules a');
+const progressBar = document.getElementById('progressBar');
+
+function onScroll() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+  progressBar.style.width = pct + '%';
+  progressBar.setAttribute('aria-valuenow', Math.round(pct));
+
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 120;
+    if (scrollTop >= top) current = sec.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// ============ FLIP CARDS ============
+document.querySelectorAll('.flip-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const flipped = card.classList.toggle('flipped');
+    card.setAttribute('aria-pressed', flipped ? 'true' : 'false');
+  });
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      card.click();
+    }
+  });
+});
+
+// ============ QUIZ (inline data-quiz) ============
+document.querySelectorAll('[data-quiz]').forEach(quiz => {
+  const options = quiz.querySelectorAll('.quiz-option');
+  const explainDiv = document.createElement('div');
+  explainDiv.className = 'quiz-explanation';
+  explainDiv.setAttribute('aria-live', 'polite');
+  quiz.appendChild(explainDiv);
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      options.forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      if (opt.dataset.answer === 'correct') opt.classList.add('correct');
+      else opt.classList.add('wrong');
+      explainDiv.textContent = opt.dataset.explain || '';
+      explainDiv.classList.add('show');
+    });
+  });
+});
+
+// ============ ACCORDIONS ============
+document.querySelectorAll('.accordion-header').forEach(h => {
+  h.addEventListener('click', () => {
+    const item = h.parentElement;
+    const isOpen = item.classList.toggle('open');
+    h.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  h.setAttribute('aria-expanded', 'false');
+});
+
+// ============ MATCHER ============
+const matchLabels = {
+  model: 'Model Risk',
+  data: 'Data Risk',
+  adversarial: 'Adversarial Risk',
+  supplychain: 'Third-Party / Supply Chain',
+  ethical: 'Ethical & Societal',
+  regulatory: 'Regulatory & Legal',
+  operational: 'Operational & Business'
+};
+document.querySelectorAll('[data-check-matcher]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.getAttribute('data-check-matcher');
+    document.querySelectorAll('#' + id + ' .match-row').forEach(row => {
+      const select = row.querySelector('select');
+      const fb = row.querySelector('.match-feedback');
+      const ans = row.dataset.correct;
+      if (!select.value) {
+        fb.textContent = 'Pick one';
+        fb.className = 'match-feedback';
+        return;
+      }
+      if (select.value === ans) {
+        fb.textContent = '✓ Correct';
+        fb.className = 'match-feedback correct';
+      } else {
+        fb.textContent = '✗ ' + (matchLabels[ans] || ans);
+        fb.className = 'match-feedback wrong';
+      }
+    });
+  });
+});
+document.querySelectorAll('[data-reset-matcher]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.getAttribute('data-reset-matcher');
+    document.querySelectorAll('#' + id + ' .match-row').forEach(row => {
+      row.querySelector('select').value = '';
+      const fb = row.querySelector('.match-feedback');
+      fb.textContent = '';
+      fb.className = 'match-feedback';
+    });
+  });
+});
+
+// ============ LIFECYCLE STAGES (NIST AI RMF) ============
+const stageData = {
+  1: {
+    title: '🏛️ GOVERN — Cross-cutting',
+    meta: 'Continuous',
+    body: 'Establish the policies, processes, accountability structures, culture, and resourcing that make AI risk management possible. Govern is unique: it sits <em>above</em> Map, Measure, and Manage rather than in sequence with them. Without Govern, the other functions produce artifacts that nobody owns and nobody acts on.',
+    activities: 'AI policy and standards; cross-functional governance committee; defined roles (AI risk owner, model owner, data steward); training and awareness; legal/regulatory alignment; third-party governance.',
+    pitfall: 'Treating Govern as a one-time setup. Governance is a continuous activity — policy review, role refresh, training updates, regulatory tracking.'
+  },
+  2: {
+    title: '🗺️ MAP — Context',
+    meta: 'Before deployment',
+    body: 'Establish the context for every AI system: what is it for, who does it affect, where does it sit in the business, what could go wrong? Map is where you take a fuzzy AI idea and turn it into a documented, scoped, classified system the rest of the framework can act on.',
+    activities: 'Document AI system purpose, intended use, scope; identify stakeholders and affected populations; characterize potential impacts (positive and negative); categorize the system (e.g., EU AI Act tier); inventory dependencies.',
+    pitfall: 'Skipping Map for "obvious" use cases. The systems that seem obvious are the ones whose impacts are most often underestimated.'
+  },
+  3: {
+    title: '📏 MEASURE — Evidence',
+    meta: 'Throughout lifecycle',
+    body: 'Turn the context from Map into evidence. Quantify risks using both quantitative and qualitative methods. Set up the metrics, evaluation processes, and monitoring infrastructure that make AI behavior observable over time. Measure is what differentiates a real AI risk program from an AI ethics statement.',
+    activities: 'Trustworthiness characteristic evaluation; bias and fairness testing; robustness/adversarial testing; performance monitoring; subpopulation analysis; drift detection; red-team exercises.',
+    pitfall: 'Measuring what is easy to measure rather than what is important. Latency and accuracy are easy; harmful bias and rare-event safety are hard — but the second pair matter more.'
+  },
+  4: {
+    title: '🎛️ MANAGE — Action',
+    meta: 'Throughout lifecycle',
+    body: 'Allocate resources to treat identified risks, respond to incidents, document residual risk, and feed findings back to Govern and Map. Manage closes the loop and keeps the framework operating as a continuous risk-management process rather than a one-time documentation exercise.',
+    activities: 'Risk treatment decisions (mitigate, transfer, accept, avoid); residual risk documentation and approval; AI incident response; integration of monitoring findings into governance; resource allocation for AI risk activities.',
+    pitfall: 'Failing to feed findings back. A Manage function that doesn\'t update Govern\'s policies and Map\'s system characterizations turns the framework into a one-way street and lessons get lost.'
+  }
+};
+
+function showStage(n) {
+  document.querySelectorAll('.lifecycle-stage').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.stage) === n);
+  });
+  const d = stageData[n];
+  document.getElementById('lifecycleDetail').innerHTML =
+    '<h4>' + d.title + ' <span class="stage-meta">' + d.meta + '</span></h4>' +
+    '<p>' + d.body + '</p>' +
+    '<p style="font-size:0.88rem;color:var(--ink-soft)"><strong style="color:var(--primary)">Key activities:</strong> ' + d.activities + '</p>' +
+    '<p style="font-size:0.88rem;color:var(--ink-soft)"><strong style="color:var(--danger)">Common pitfall:</strong> ' + d.pitfall + '</p>';
+}
+document.querySelectorAll('.lifecycle-stage').forEach(s => {
+  s.addEventListener('click', () => showStage(parseInt(s.dataset.stage)));
+});
+showStage(1);
+
+// ============ EU AI ACT CLASSIFIER ============
+function resetClassifier() {
+  document.querySelectorAll('#aiActClassifier .tree-step').forEach((step, i) => {
+    step.style.display = i === 0 ? 'block' : 'none';
+  });
+  document.querySelectorAll('#aiActClassifier .tree-result').forEach(r => r.classList.remove('show'));
+}
+document.querySelectorAll('#aiActClassifier .tree-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const next = btn.dataset.next;
+    const result = btn.dataset.result;
+    if (next) {
+      // Hide all steps, show the next one
+      document.querySelectorAll('#aiActClassifier .tree-step').forEach(s => s.style.display = 'none');
+      const target = document.querySelector('#aiActClassifier .tree-step[data-step="' + next + '"]');
+      if (target) target.style.display = 'block';
+      document.querySelectorAll('#aiActClassifier .tree-result').forEach(r => r.classList.remove('show'));
+    }
+    if (result) {
+      document.querySelectorAll('#aiActClassifier .tree-step').forEach(s => s.style.display = 'none');
+      document.querySelectorAll('#aiActClassifier .tree-result').forEach(r => r.classList.remove('show'));
+      const target = document.getElementById('result-' + result);
+      if (target) target.classList.add('show');
+    }
+  });
+});
+document.querySelectorAll('#aiActClassifier [data-reset]').forEach(btn => {
+  btn.addEventListener('click', resetClassifier);
+});
+
+// ============ SHADOW AI SCENARIOS ============
+document.querySelectorAll('[data-scenario]').forEach(card => {
+  const buttons = card.querySelectorAll('.scen-action-btn');
+  const expl = card.querySelector('.scen-explanation');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('selected', 'correct', 'wrong'));
+      btn.classList.add('selected');
+      const correct = btn.dataset.correct === 'true';
+      btn.classList.add(correct ? 'correct' : 'wrong');
+      expl.textContent = (correct ? '✓ ' : '✗ ') + (btn.dataset.explain || '');
+      expl.classList.add('show');
+    });
+  });
+});
+
+// ============ VENDOR WORKSHOP ============
+function calcVendor(row) {
+  const selects = row.querySelectorAll('select');
+  let total = 0;
+  selects.forEach(s => total += parseInt(s.value, 10) || 0);
+  const verdict = row.querySelector('[data-verdict]');
+  // Max total 20, min 8. Cutoffs: 17+ accept, 12-16 conditional, <12 reject.
+  if (total >= 17) {
+    verdict.textContent = '✓ ACCEPT — strong vendor (score ' + total + '/20)';
+    verdict.className = 'vendor-verdict accept';
+  } else if (total >= 12) {
+    verdict.textContent = '⚠ CONDITIONAL — strengthen weak dimensions before approval (score ' + total + '/20)';
+    verdict.className = 'vendor-verdict conditional';
+  } else {
+    verdict.textContent = '✗ REJECT — multiple critical gaps (score ' + total + '/20)';
+    verdict.className = 'vendor-verdict reject';
+  }
+}
+document.querySelectorAll('[data-vendor]').forEach(row => {
+  row.querySelectorAll('select').forEach(s => {
+    s.addEventListener('change', () => calcVendor(row));
+  });
+  calcVendor(row);
+});
+
+// ============ FINAL QUIZ ============
+const finalQs = [
+  {
+    q: "Why is AAISM offered only to existing CISM or CISSP holders?",
+    options: [
+      { t: "ISACA wanted to limit demand to keep certification value high.", c: false, e: "Eligibility restrictions are about scope and prerequisites, not market scarcity. AAISM explicitly builds on existing security management expertise." },
+      { t: "AAISM assumes baseline expertise in security governance, risk, program development, and incident management — and adds the AI-specific layer on top.", c: true, e: "Correct. AAISM is a stackable specialization. ISACA designed it to extend, not replace, traditional security management expertise." },
+      { t: "It's a regulatory requirement under the EU AI Act.", c: false, e: "The EU AI Act does not require any particular certification. AAISM is an industry credential, not a regulatory one." },
+      { t: "Because AI security is fundamentally different from traditional security and requires starting over.", c: false, e: "The opposite is closer to true. AI security extends traditional security principles — it does not replace them." }
+    ]
+  },
+  {
+    q: "Under the NIST AI RMF, which function is described as 'cross-cutting' and sits above the others?",
+    options: [
+      { t: "Map", c: false, e: "Map establishes context but operates in sequence with Measure and Manage. Govern is the cross-cutting one." },
+      { t: "Measure", c: false, e: "Measure produces evidence but is not cross-cutting; it sits in the operational sequence." },
+      { t: "Govern", c: true, e: "Correct. Govern is cross-cutting because policies, accountability, and culture need to be in place before Map, Measure, and Manage can operate effectively." },
+      { t: "Manage", c: false, e: "Manage acts on evidence and closes the loop, but it operates within the framework, not above it." }
+    ]
+  },
+  {
+    q: "An organization deploys a high-risk AI system in the EU without performing a conformity assessment. Maximum penalty?",
+    options: [
+      { t: "Up to €7.5M or 1.5% of global annual turnover", c: false, e: "This range applies to lesser violations under the Act, not high-risk non-compliance." },
+      { t: "Up to €15M or 3% of global annual turnover", c: true, e: "Correct. High-risk obligation violations are tiered at this level. Prohibited practices carry the higher €35M/7% penalty." },
+      { t: "Up to €35M or 7% of global annual turnover", c: false, e: "This is the maximum penalty under the Act, but it applies to prohibited (unacceptable risk) practices, not high-risk obligation violations." },
+      { t: "There are no financial penalties under the EU AI Act", c: false, e: "The EU AI Act establishes substantial financial penalties, structured by violation type." }
+    ]
+  },
+  {
+    q: "A US-based company sells an AI hiring tool to an employer in Berlin. Who is the 'provider' under the EU AI Act?",
+    options: [
+      { t: "The Berlin employer, because they're using the tool", c: false, e: "The employer is the deployer (formerly 'user'), not the provider. They use the system but did not develop and market it." },
+      { t: "The US-based company that developed and markets the AI hiring tool", c: true, e: "Correct. The provider is the entity that develops the AI system and places it on the EU market under its own name. The provider carries the bulk of high-risk obligations." },
+      { t: "The cloud platform hosting the tool", c: false, e: "Cloud infrastructure providers are not automatically AI providers under the Act. The provider is the entity that develops and markets the AI system itself." },
+      { t: "Nobody, because the company is US-based", c: false, e: "The EU AI Act has extraterritorial scope. Providers placing AI systems on the EU market are covered regardless of where they are headquartered." }
+    ]
+  },
+  {
+    q: "An employee pastes confidential customer records into a public AI chatbot to summarize them. Which AI risk category is MOST directly involved?",
+    options: [
+      { t: "Adversarial risk — the employee is attacking the system", c: false, e: "The employee isn't attacking the AI; they're misusing it. Adversarial risk specifically refers to attackers targeting the AI." },
+      { t: "Data risk — sensitive data has been exposed to an external system without controls", c: true, e: "Correct. Data risk includes inappropriate use of regulated or confidential data with AI systems. This is the canonical shadow AI data exposure case." },
+      { t: "Model risk — the chatbot will perform incorrectly", c: false, e: "Model risk is about the model behaving incorrectly, not about what data is sent to it." },
+      { t: "Operational risk — productivity might decrease", c: false, e: "Operational risk concerns business operations; the immediate issue here is data exposure, not productivity." }
+    ]
+  },
+  {
+    q: "Which of these is the BEST first response when an embedded AI feature appears in a tool the enterprise already uses?",
+    options: [
+      { t: "Take no action — the vendor has presumably vetted it", c: false, e: "Embedded AI features adopted invisibly are precisely how shadow AI becomes enterprise AI without governance. Vendor vetting is a starting point, not an end point." },
+      { t: "Immediately terminate the vendor contract", c: false, e: "Disproportionate as a first move. Engagement and disablement of the specific feature come before contract termination." },
+      { t: "Disable the feature while assessing data handling, model provider, and contractual terms — then decide", c: true, e: "Correct. Embedded AI features require the same governance as net-new AI deployments. Pause, assess, then decide with full information." },
+      { t: "Allow the feature and send an email asking employees to be careful", c: false, e: "This treats a governance issue as an awareness problem. Awareness without controls is not adequate governance." }
+    ]
+  },
+  {
+    q: "Which trustworthiness characteristic is MOST directly at odds with model accuracy?",
+    options: [
+      { t: "Privacy-enhanced", c: false, e: "Privacy can constrain model accuracy somewhat, but the most direct tradeoff with accuracy is generally explainability." },
+      { t: "Secure and resilient", c: false, e: "Security and accuracy are usually complementary; both depend on robust evaluation." },
+      { t: "Explainable and interpretable", c: true, e: "Correct. Simpler models tend to be more explainable but less accurate; state-of-the-art models tend to be highly accurate but opaque. This is the classic AI tradeoff to document explicitly." },
+      { t: "Valid and reliable", c: false, e: "Validity and reliability are aspects of accuracy itself, not in tension with it." }
+    ]
+  },
+  {
+    q: "A deployer fine-tunes a foundation model for a high-risk use case. What happens to their EU AI Act role?",
+    options: [
+      { t: "Nothing — they're still a deployer", c: false, e: "Substantial modification can change the regulatory role. Fine-tuning a foundation model for a high-risk use case is the canonical example." },
+      { t: "They may be reclassified as a provider, with all heavier provider obligations", c: true, e: "Correct. A deployer that substantially modifies a high-risk system, or puts it into service under their own name, can become a provider — with conformity assessment, technical documentation, and CE marking obligations." },
+      { t: "They become an importer", c: false, e: "Importer status is about placing on the EU market a system bearing a non-EU provider's name. It is unrelated to fine-tuning." },
+      { t: "They are exempt from the Act because they're using an existing model", c: false, e: "There is no exemption for fine-tuning. If anything, fine-tuning brings additional obligations." }
+    ]
+  },
+  {
+    q: "What is the BEST first step when discovering widespread shadow AI use?",
+    options: [
+      { t: "Issue an enterprise-wide ban with disciplinary consequences", c: false, e: "Bans without alternatives push behavior underground rather than eliminating it. Punishment without policy treats symptoms, not causes." },
+      { t: "Investigate scope and legitimate need, then formalize sanctioned alternatives", c: true, e: "Correct. The pattern across mature programs is: understand scope, assess legitimate need, evaluate approved alternatives, then govern. The fastest way to kill shadow AI is to make sanctioned AI faster than shadow AI." },
+      { t: "Block all external AI domains at the firewall", c: false, e: "Blocking is a partial control. Many AI services are embedded in approved tools or accessible via mobile devices not on the corporate network." },
+      { t: "Let it continue and gather usage data for six months", c: false, e: "Passive observation while regulated data flows to unauthorized services creates ongoing compliance exposure." }
+    ]
+  },
+  {
+    q: "Which is the BEST description of how NIST AI RMF, ISO/IEC 42001, and the EU AI Act relate to each other?",
+    options: [
+      { t: "They are competing frameworks; organizations must pick one", c: false, e: "They are complementary, not competitive. Most mature programs use all three at different layers." },
+      { t: "ISO 42001 supersedes NIST AI RMF; the EU AI Act supersedes both", c: false, e: "Supersession is the wrong mental model. They operate at different levels — operating model, management system, and legal obligation respectively." },
+      { t: "NIST AI RMF is the risk-management operating model inside an ISO 42001 management system, used to meet EU AI Act obligations", c: true, e: "Correct. They layer — operating model (NIST), management system (ISO), legal obligation (EU AI Act). OWASP sits underneath as the threat reference." },
+      { t: "They cover entirely different topics and don't interact", c: false, e: "They have substantial overlap in trustworthiness characteristics and core functions. They are designed to interoperate." }
+    ]
+  }
+];
+
+function buildFinal() {
+  const c = document.getElementById('finalQuiz');
+  c.innerHTML = finalQs.map((q, qi) =>
+    '<div class="quiz" data-qi="' + qi + '">' +
+      '<div class="quiz-question">Q' + (qi+1) + '. ' + q.q + '</div>' +
+      q.options.map((opt, oi) =>
+        '<button type="button" class="quiz-option" data-qi="' + qi + '" data-oi="' + oi + '" data-correct="' + opt.c + '" data-explain="' + opt.e.replace(/"/g,'&quot;') + '">' + opt.t + '</button>'
+      ).join('') +
+      '<div class="quiz-explanation" aria-live="polite"></div>' +
+    '</div>'
+  ).join('');
+  c.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const qi = opt.dataset.qi;
+      const quiz = c.querySelector('.quiz[data-qi="' + qi + '"]');
+      quiz.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      opt.classList.add(opt.dataset.correct === 'true' ? 'correct' : 'wrong');
+      const ex = quiz.querySelector('.quiz-explanation');
+      ex.textContent = opt.dataset.explain;
+      ex.classList.add('show');
+    });
+  });
+}
+buildFinal();
+
+document.getElementById('gradeFinalBtn').addEventListener('click', () => {
+  let score = 0;
+  finalQs.forEach((q, qi) => {
+    const selected = document.querySelector('.quiz[data-qi="' + qi + '"] .quiz-option.selected');
+    if (selected && selected.dataset.correct === 'true') score++;
+  });
+  document.getElementById('scoreNum').textContent = score + ' / ' + finalQs.length;
+  let msg;
+  if (score === 10) msg = "🏆 Perfect score — you're ready for Part 2 and AAISM-level governance work.";
+  else if (score >= 8) msg = "🎯 Strong mastery — review the missed items and proceed to Part 2.";
+  else if (score >= 6) msg = "📚 Solid foundation — revisit the modules covering missed questions.";
+  else msg = "📖 Re-read the modules and try again — focus on the framework relationships and EU AI Act tiers.";
+  document.getElementById('scoreMessage').textContent = msg;
+  document.getElementById('finalScore').style.display = 'block';
+  document.getElementById('finalScore').scrollIntoView({behavior:'smooth', block:'center'});
+});
+
+document.getElementById('resetFinalBtn').addEventListener('click', () => {
+  document.querySelectorAll('#finalQuiz .quiz-option').forEach(o => o.classList.remove('selected','correct','wrong'));
+  document.querySelectorAll('#finalQuiz .quiz-explanation').forEach(e => { e.classList.remove('show'); e.textContent = ''; });
+  document.getElementById('finalScore').style.display = 'none';
+});
+
+</script>
+</body>
+</html>
