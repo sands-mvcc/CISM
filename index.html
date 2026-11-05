@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Callejas Installations | Chicago &amp; Illinois Construction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4F3; --surface:#FFFFFF; --surface-2:#E7EBEA; --ink:#18212D; --muted:#56606D;
+  --line:#CDD4D6; --sky:#41B6E6; --sky-ink:#0F6E96; --red:#C8102E; --red-ink:#FFFFFF;
+  --ok:#1E7A4F; --shadow:0 1px 0 rgba(24,33,45,.06), 0 8px 24px -12px rgba(24,33,45,.25);
+  --head:"Big Shoulders Display", "Arial Narrow", "Roboto Condensed", Impact, sans-serif;
+  --body:"Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F151D; --surface:#17202B; --surface-2:#1F2A37; --ink:#E9EEF3; --muted:#9CA8B5;
+    --line:#2E3B4A; --sky:#41B6E6; --sky-ink:#7FD0F0; --red:#E0334B; --red-ink:#FFFFFF;
+    --ok:#4CC28A; --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 28px -12px rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F151D; --surface:#17202B; --surface-2:#1F2A37; --ink:#E9EEF3; --muted:#9CA8B5;
+  --line:#2E3B4A; --sky:#41B6E6; --sky-ink:#7FD0F0; --red:#E0334B; --red-ink:#FFFFFF;
+  --ok:#4CC28A; --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 28px -12px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+img{max-width:100%;display:block}
+a{color:var(--sky-ink)}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px;border-radius:4px}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+h1,h2,h3{font-family:var(--head);line-height:.95;margin:0;letter-spacing:.005em}
+h2{font-size:clamp(2.4rem,5vw,3.6rem);font-weight:800}
+h3{font-size:1.7rem;font-weight:800}
+.lede{color:var(--muted);max-width:60ch;margin:.8rem 0 0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* Chicago-flag stripes: structural divider between major sections */
+.stripes{height:22px;background:linear-gradient(var(--sky) 0 6px,transparent 6px 16px,var(--sky) 16px 22px);opacity:.9}
+
+/* Header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:18px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:auto}
+.brand svg{width:30px;height:30px;color:var(--red);flex:none}
+.brand b{font-family:var(--head);font-size:1.65rem;font-weight:900;line-height:1}
+.brand small{display:block;font-size:.72rem;color:var(--muted);font-weight:600;letter-spacing:.02em}
+nav.main{display:flex;gap:22px}
+nav.main a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem}
+nav.main a:hover{color:var(--sky-ink)}
+.theme-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:999px;padding:7px 12px;font:600 .85rem var(--body);cursor:pointer}
+.theme-btn svg{width:18px;height:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:6px;padding:12px 20px;font:700 1rem var(--body);cursor:pointer;text-decoration:none;transition:transform .12s ease, background .15s}
+.btn:active{transform:translateY(1px)}
+.btn-red{background:var(--red);color:var(--red-ink)}
+.btn-red:hover{filter:brightness(1.08)}
+.btn-ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--bg)}
+.btn-sm{padding:8px 14px;font-size:.9rem}
+@media (max-width:860px){nav.main{display:none}.bar .btn-quote{display:none}}
+
+/* Hero */
+.hero{padding:clamp(48px,8vw,96px) 0 56px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.25fr .9fr;gap:48px;align-items:end}
+.hero h1{font-size:clamp(3.4rem,10vw,7.6rem);font-weight:900;line-height:.86;text-transform:none}
+.hero p{font-size:1.15rem;color:var(--muted);max-width:46ch;margin:22px 0 28px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.tape{margin-top:34px;height:46px;background:#F2C230;color:#1a1a1a;border-radius:4px;position:relative;overflow:hidden;box-shadow:var(--shadow);transform-origin:left center;animation:pull 1.1s cubic-bezier(.2,.8,.2,1) both .15s}
+.tape svg{position:absolute;inset:0;width:100%;height:100%}
+@keyframes pull{from{transform:scaleX(.06)}to{transform:scaleX(1)}}
+.facts{display:grid;gap:14px}
+.fact{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--sky);padding:16px 18px;border-radius:4px}
+.fact strong{display:block;font-family:var(--head);font-size:1.6rem;font-weight:800;line-height:1}
+.fact span{color:var(--muted);font-size:.95rem}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr}}
+
+section.block{padding:72px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:32px}
+
+/* Services */
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:900px){.services{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.services{grid-template-columns:1fr}}
+.svc{background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+.svc .swatch{height:120px;color:var(--sky-ink);background:var(--surface-2);border-bottom:1px solid var(--line)}
+.svc .swatch svg{width:100%;height:100%}
+.svc .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.svc p{margin:0;color:var(--muted)}
+.svc ul{margin:0;padding-left:18px;color:var(--ink);font-size:.95rem;display:none}
+.svc[aria-expanded="true"] ul{display:block}
+.svc .row{display:flex;gap:10px;margin-top:auto;padding-top:6px;flex-wrap:wrap}
+.chip-toggle{border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;font:600 .88rem var(--body);cursor:pointer}
+.chip-toggle[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.link-btn{background:none;border:0;color:var(--sky-ink);font:600 .88rem var(--body);cursor:pointer;padding:6px 2px;text-decoration:underline;text-underline-offset:3px}
+
+/* Process */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:s;border-top:3px solid var(--ink)}
+.step{padding:20px 22px 8px 0;position:relative}
+.step::before{counter-increment:s;content:counter(s);font-family:var(--head);font-weight:900;font-size:3rem;color:var(--red);line-height:1;display:block;margin-bottom:6px}
+.step h3{font-size:1.4rem}
+.step p{color:var(--muted);margin:.4rem 0 0;font-size:.95rem}
+@media (max-width:760px){.steps{grid-template-columns:1fr 1fr;row-gap:16px}}
+
+/* Gallery */
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.shot{position:relative;border-radius:6px;overflow:hidden;background:var(--surface-2);aspect-ratio:4/3;border:1px solid var(--line);cursor:zoom-in;padding:0}
+.shot img{width:100%;height:100%;object-fit:cover}
+.shot .cap{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 10px;background:linear-gradient(transparent,rgba(10,14,20,.82));color:#fff;text-align:left;font-size:.9rem}
+.shot .cap b{display:block;font-size:.75rem;font-weight:700;color:#BFE9FA}
+.shot .del{position:absolute;top:8px;right:8px;background:rgba(10,14,20,.75);color:#fff;border:0;border-radius:4px;padding:4px 8px;font:600 .78rem var(--body);cursor:pointer}
+.empty{border:2px dashed var(--line);border-radius:8px;padding:40px 24px;text-align:center;color:var(--muted)}
+.uploader{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px;margin-bottom:20px;display:none}
+.uploader.on{display:block}
+.drop{border:2px dashed var(--sky);border-radius:6px;padding:26px;text-align:center;color:var(--muted);cursor:pointer}
+.drop.over{background:color-mix(in srgb,var(--sky) 12%,transparent)}
+.up-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;margin-top:14px;align-items:end}
+@media (max-width:640px){.up-grid{grid-template-columns:1fr}}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.thumbs img{width:72px;height:56px;object-fit:cover;border-radius:4px;border:1px solid var(--line)}
+dialog.lb{border:0;padding:0;background:transparent;max-width:min(1000px,94vw)}
+dialog.lb::backdrop{background:rgba(5,8,12,.85)}
+dialog.lb img{max-height:80vh;border-radius:6px;margin:auto}
+dialog.lb p{color:#fff;text-align:center;margin:10px 0 0}
+dialog.lb button{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);right:14px;background:#fff;color:#111;border:0;border-radius:999px;width:40px;height:40px;font-size:1.3rem;cursor:pointer}
+
+/* Quote */
+.quote-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:28px;align-items:start}
+@media (max-width:920px){.quote-grid{grid-template-columns:1fr}}
+form.card,.estimate{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:24px}
+fieldset{border:0;padding:0;margin:0 0 22px}
+legend{font-family:var(--head);font-weight:800;font-size:1.5rem;margin-bottom:10px}
+.svc-pick{display:flex;flex-wrap:wrap;gap:8px}
+.sizes{display:grid;gap:10px;margin-top:14px}
+.size-row{display:grid;grid-template-columns:140px 1fr;gap:10px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{border:0;background:transparent;color:var(--ink);padding:7px 12px;font:600 .85rem var(--body);cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--sky);color:#0B2230}
+@media (max-width:520px){.size-row{grid-template-columns:1fr}}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fields .full{grid-column:1/-1}
+@media (max-width:560px){.fields{grid-template-columns:1fr}}
+label.f{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:.92rem}
+label.f span.hint{font-weight:400;color:var(--muted);font-size:.82rem}
+input,select,textarea{font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px 12px;width:100%}
+textarea{min-height:110px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--sky);outline-offset:0;border-color:var(--sky)}
+.err{color:var(--red);font-size:.85rem;min-height:1.2em;margin:4px 0 0}
+.estimate{position:sticky;top:calc(env(safe-area-inset-top,0px) + 88px)}
+.estimate h3{font-size:1.5rem}
+.est-lines{list-style:none;padding:0;margin:16px 0;display:grid;gap:8px}
+.est-lines li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding-bottom:8px;font-size:.95rem}
+.est-total{font-family:var(--head);font-weight:900;font-size:clamp(2.2rem,5vw,3rem);line-height:1}
+.est-note{color:var(--muted);font-size:.85rem;margin-top:12px}
+.confirm{display:none;border-left:6px solid var(--ok);background:var(--surface);padding:20px;border-radius:6px;margin-top:16px}
+.confirm.on{display:block}
+
+/* Inbox */
+#inbox{display:none}
+#inbox.on{display:block}
+.req{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px;display:grid;gap:6px}
+.req.done{opacity:.6}
+.req-list{display:grid;gap:12px}
+.req header{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+/* Area + footer */
+.area{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+@media (max-width:800px){.area{grid-template-columns:1fr}}
+.towns{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.towns span{background:var(--surface);border:1px solid var(--line);padding:6px 12px;border-radius:999px;font-size:.92rem}
+footer{background:var(--ink);color:var(--bg);padding:44px 0 36px;margin-top:40px}
+footer a{color:var(--sky)}
+.foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.foot b{font-family:var(--head);font-size:2rem;font-weight:900}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:6px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="Callejas Installations home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5l2.6 5.3 5.8-.9-3.5 4.6 3.5 4.7-5.8-.9L12 19.6l-2.6-5.3-5.8.9 3.5-4.7-3.5-4.6 5.8.9z"/></svg>
+      <span><b>Callejas Installations</b><small>Chicago &amp; Illinois</small></span>
+    </a>
+    <nav class="main" aria-label="Main">
+      <a href="#services">Services</a>
+      <a href="#work">Our work</a>
+      <a href="#quote">Quotes</a>
+      <a href="#area">Service area</a>
+    </nav>
+    <button class="theme-btn" id="themeBtn" type="button" aria-pressed="false">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"></svg>
+      <span id="themeLabel">Dark mode</span>
+    </button>
+    <a class="btn btn-red btn-sm btn-quote" href="#quote">Get a quote</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Built right,<br>room by room.</h1>
+        <p>Carpentry, tile, plumbing, painting, drywall and electrical work for homes and businesses across Chicago and Illinois. One crew, one point of contact, start to finish.</p>
+        <div class="ctas">
+          <a class="btn btn-red" href="#quote">Get a free estimate</a>
+          <a class="btn btn-ghost" href="#work">See our work</a>
+        </div>
+        <div class="tape" aria-hidden="true">
+          <svg preserveAspectRatio="none" viewBox="0 0 600 46" id="tapeSvg"></svg>
+        </div>
+      </div>
+      <div class="facts">
+        <div class="fact"><strong>6 trades, 1 crew</strong><span>No juggling subcontractors on small and mid-size jobs.</span></div>
+        <div class="fact"><strong>Written quotes</strong><span>Itemized pricing after a free site visit, before any work starts.</span></div>
+        <div class="fact"><strong>Chicagoland based</strong><span>City neighborhoods and suburbs in Cook, DuPage, Will, Lake and Kane counties.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stripes" aria-hidden="true"></div>
+
+  <section class="block" id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>What we do</h2>
+          <p class="lede">Pick the services your project needs. They’ll be added to your quote request below.</p>
+        </div>
+      </div>
+      <div class="services" id="svcGrid"></div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <h2 style="margin-bottom:24px">How a job goes</h2>
+      <div class="steps">
+        <div class="step"><h3>Tell us about it</h3><p>Send the quote form with photos or a short description.</p></div>
+        <div class="step"><h3>Site visit</h3><p>We measure, look at what’s behind the walls, and answer questions.</p></div>
+        <div class="step"><h3>Written quote</h3><p>Itemized by trade, with a schedule. No surprise add-ons.</p></div>
+        <div class="step"><h3>We build</h3><p>Clean work areas, daily updates, final walk-through together.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stripes" aria-hidden="true"></div>
+
+  <section class="block" id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>Recent jobs</h2>
+          <p class="lede">Photos from finished projects around Chicagoland.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <div class="filters" id="filters" role="group" aria-label="Filter photos by service"></div>
+          <button class="btn btn-ghost btn-sm" id="openUploader" type="button" hidden>Add job photos</button>
+        </div>
+      </div>
+
+      <div class="uploader" id="uploader">
+        <h3 style="font-size:1.4rem;margin-bottom:12px">Add photos of a finished job</h3>
+        <label class="drop" id="drop" tabindex="0">
+          <input type="file" id="fileIn" accept="image/*" multiple class="sr">
+          <strong>Drop photos here</strong> or click to choose (JPG, PNG, WebP, up to 20 MB each)
+        </label>
+        <div class="thumbs" id="pending"></div>
+        <div class="up-grid">
+          <label class="f">Caption<input id="upCap" maxlength="90" placeholder="e.g. Basement bathroom, Oak Lawn"></label>
+          <label class="f">Service
+            <select id="upSvc"></select>
+          </label>
+          <button class="btn btn-red" id="upBtn" type="button">Upload photos</button>
+        </div>
+        <p class="err" id="upErr" role="status"></p>
+      </div>
+
+      <div class="gallery" id="gallery" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <div class="stripes" aria-hidden="true"></div>
+
+  <section class="block" id="quote">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>Request a quote</h2>
+          <p class="lede">Tell us what you need and get a ballpark range right away. We’ll follow up to schedule a free site visit.</p>
+        </div>
+      </div>
+      <div class="quote-grid">
+        <form class="card" id="qForm" novalidate>
+          <fieldset>
+            <legend>Services needed</legend>
+            <div class="svc-pick" id="svcPick" role="group" aria-label="Services"></div>
+            <div class="sizes" id="sizes"></div>
+            <p class="err" id="svcErr"></p>
+          </fieldset>
+          <fieldset>
+            <legend>Project details</legend>
+            <div class="fields">
+              <label class="f">Property type
+                <select id="prop"><option>Single-family home</option><option>Condo or apartment</option><option>Multi-unit building</option><option>Commercial space</option></select>
+              </label>
+              <label class="f">Timeline
+                <select id="timeline"><option value="flex">Flexible</option><option value="month">Within a month</option><option value="asap">As soon as possible</option></select>
+              </label>
+              <label class="f full">Describe the job <span class="hint">Rooms, measurements, materials you like, anything we should know.</span>
+                <textarea id="desc" maxlength="2000" placeholder="e.g. Retile the main bathroom floor (about 60 sq ft), replace the vanity faucet, and repaint walls."></textarea>
+              </label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Your contact info</legend>
+            <div class="fields">
+              <label class="f">Full name<input id="name" autocomplete="name" required></label>
+              <label class="f">Phone<input id="phone" type="tel" autocomplete="tel" required></label>
+              <label class="f">Email<input id="email" type="email" autocomplete="email"></label>
+              <label class="f">City or ZIP<input id="city" autocomplete="address-level2" placeholder="e.g. Berwyn or 60402" required></label>
+              <label class="f full">Best way to reach you
+                <select id="pref"><option>Phone call</option><option>Text message</option><option>Email</option></select>
+              </label>
+            </div>
+            <p class="err" id="formErr" role="alert"></p>
+          </fieldset>
+          <button class="btn btn-red" type="submit" style="width:100%">Send quote request</button>
+          <div class="confirm" id="confirm" role="status"></div>
+        </form>
+
+        <aside class="estimate" aria-live="polite">
+          <h3>Ballpark estimate</h3>
+          <ul class="est-lines" id="estLines"><li><span>Pick a service to start</span><span>—</span></li></ul>
+          <div class="est-total" id="estTotal">$0</div>
+          <p class="est-note">A rough range for labor and standard materials in the Chicago area. Your written quote comes after the site visit and can be higher or lower depending on what we find.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="inbox" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><h2>Quote requests</h2><p class="lede">Only you and your editors see this list.</p></div>
+      </div>
+      <div class="req-list" id="reqList"></div>
+    </div>
+  </section>
+
+  <div class="stripes" aria-hidden="true"></div>
+
+  <section class="block" id="area">
+    <div class="wrap area">
+      <div>
+        <h2>Where we work</h2>
+        <p class="lede">Based in the Chicago area and serving the city and suburbs. Outside these areas? Send a request anyway and we’ll let you know.</p>
+        <div class="towns">
+          <span>Chicago</span><span>Cook County</span><span>DuPage County</span><span>Will County</span><span>Lake County</span><span>Kane County</span><span>Northwest Indiana (by request)</span>
+        </div>
+      </div>
+      <div class="fact" style="border-left-color:var(--red)">
+        <strong>Questions first?</strong>
+        <span>Call or text <a id="phoneLink" href="#"></a> or email <a id="emailLink" href="#"></a>. Monday to Saturday, 7 am to 6 pm.</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div><b>Callejas Installations</b><p style="margin:.4rem 0 0;opacity:.8">Carpentry · Tiling · Plumbing · Painting · Wall boarding · Electrical</p></div>
+    <div style="opacity:.85">Serving Chicago and Illinois<br><span id="footContact"></span><br>© <span id="yr"></span> Callejas Installations</div>
+  </div>
+</footer>
+
+<dialog class="lb" id="lb"><button type="button" id="lbClose" aria-label="Close photo">×</button><img id="lbImg" alt=""><p id="lbCap"></p></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ===== Business settings: edit these ===== */
+const CONFIG = {
+  phone: "(708) 555-0100",          // replace with the real number
+  email: "quotes@example.com",      // replace with the real address
+  rushMultiplier: 1.15
+};
+/* Ballpark ranges in USD per service: [Small, Medium, Large] each [low, high] */
+const SERVICES = [
+  {key:"carpentry", name:"Carpentry", blurb:"Framing, trim, doors, built-ins, decks and repairs.",
+   items:["Interior trim and crown molding","Door and window installs","Custom shelving and built-ins","Decks, stairs and railings"],
+   sizes:["A door or trim run","A room of trim or built-ins","Deck or full framing"], ranges:[[400,1200],[1200,4500],[4500,15000]]},
+  {key:"tiling", name:"Tiling", blurb:"Floors, showers, backsplashes and accent walls.",
+   items:["Bathroom floors and showers","Kitchen backsplashes","Porcelain, ceramic and natural stone","Waterproofing and leveling"],
+   sizes:["Backsplash or small floor","Bathroom floor or shower","Full bathroom or large floor"], ranges:[[600,1800],[1800,6000],[6000,18000]]},
+  {key:"plumbing", name:"Plumbing", blurb:"Fixtures, leaks, water heaters and remodel rough-ins.",
+   items:["Faucet, sink and toilet installs","Leak detection and repair","Water heater replacement","Kitchen and bath rough-ins"],
+   sizes:["A fixture or repair","Water heater or several fixtures","Remodel rough-in"], ranges:[[250,900],[900,3500],[3500,12000]]},
+  {key:"painting", name:"Painting", blurb:"Interior and exterior painting with clean prep.",
+   items:["Walls, ceilings and trim","Cabinet refinishing","Exterior siding and fences","Drywall patching before paint"],
+   sizes:["One room","Several rooms","Whole interior or exterior"], ranges:[[400,1200],[1200,4000],[4000,10000]]},
+  {key:"boarding", name:"Wall boarding", blurb:"Drywall hanging, taping, finishing and repair.",
+   items:["New drywall hang and finish","Basement finishing","Water-damage repair","Textures and smooth-wall finishes"],
+   sizes:["Patch or repair","One room","Basement or several rooms"], ranges:[[400,1200],[1200,4000],[4000,12000]]},
+  {key:"electric", name:"Electrical", blurb:"Lighting, outlets, panels and remodel wiring.",
+   items:["Light fixtures and ceiling fans","Outlets, switches and GFCI","Panel upgrades","Remodel and basement wiring"],
+   sizes:["A few fixtures or outlets","Room rewiring or new circuits","Panel or full remodel"], ranges:[[250,900],[900,4000],[4000,15000]]}
+];
+const SIZE_LABELS = ["Small","Medium","Large"];
+
+/* Swatch illustrations drawn from each trade's materials */
+const SWATCH = {
+  carpentry:`<svg viewBox="0 0 300 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" opacity=".7">${Array.from({length:9},(_,i)=>`<path d="M0 ${10+i*13} C60 ${4+i*13},90 ${18+i*13},150 ${10+i*13} S240 ${2+i*13},300 ${12+i*13}"/>`).join("")}<ellipse cx="210" cy="58" rx="16" ry="7"/><ellipse cx="210" cy="58" rx="8" ry="3"/></g></svg>`,
+  tiling:`<svg viewBox="0 0 300 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="currentColor" opacity=".18">${Array.from({length:4},(_,r)=>Array.from({length:9},(_,c)=>`<rect x="${c*36+(r%2?-18:0)+2}" y="${r*30+2}" width="32" height="26" rx="1"/>`).join("")).join("")}</g></svg>`,
+  plumbing:`<svg viewBox="0 0 300 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" opacity=".55"><path d="M-10 36 H150 a24 24 0 0 1 24 24 V130"/><path d="M200 -10 V40 a20 20 0 0 0 20 20 H320"/></g><g fill="currentColor" opacity=".7"><rect x="92" y="26" width="10" height="20"/><rect x="164" y="88" width="20" height="10"/><rect x="254" y="50" width="10" height="20"/></g></svg>`,
+  painting:`<svg viewBox="0 0 300 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M-10 70 C40 50,80 86,130 66 S230 40,310 62 L310 96 C240 80,190 110,130 98 S30 92,-10 104Z" fill="currentColor" opacity=".25"/><g fill="none" stroke="currentColor" stroke-width="3" opacity=".75"><rect x="196" y="22" width="70" height="22" rx="4"/><path d="M266 33 h10 v20 h-46 v18"/></g></svg>`,
+  boarding:`<svg viewBox="0 0 300 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g stroke="currentColor" opacity=".6" fill="none" stroke-width="2"><path d="M100 0 V120 M200 0 V120"/></g><g fill="currentColor" opacity=".6">${[20,50,80,110].map(y=>[[100,y],[200,y],[50,y-5],[150,y-5],[250,y-5]].map(([x,yy])=>`<circle cx="${x}" cy="${yy}" r="2.4"/>`).join("")).join("")}</g><rect x="88" y="0" width="24" height="120" fill="currentColor" opacity=".08"/></svg>`,
+  electric:`<svg viewBox="0 0 300 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" opacity=".6"><path d="M-10 30 H90 V90 H180 V40 H310"/><path d="M-10 52 H70 V104 H200 V62 H310" stroke-dasharray="7 6"/></g><g fill="none" stroke="currentColor" stroke-width="2.5" opacity=".85"><rect x="120" y="22" width="40" height="52" rx="6"/></g><g fill="currentColor" opacity=".85"><rect x="132" y="34" width="4" height="10" rx="1"/><rect x="144" y="34" width="4" height="10" rx="1"/><rect x="132" y="54" width="4" height="10" rx="1"/><rect x="144" y="54" width="4" height="10" rx="1"/></g></svg>`
+};
+
+const $ = s => document.querySelector(s);
+const fmt = n => "$" + (Math.round(n/50)*50).toLocaleString("en-US");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("on");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("on"),2600)}
+
+/* ===== Contact details ===== */
+const tel = CONFIG.phone.replace(/[^\d+]/g,"");
+$("#phoneLink").textContent = CONFIG.phone; $("#phoneLink").href = "tel:" + tel;
+$("#emailLink").textContent = CONFIG.email; $("#emailLink").href = "mailto:" + CONFIG.email;
+$("#footContact").textContent = CONFIG.phone + " | " + CONFIG.email;
+$("#yr").textContent = new Date().getFullYear();
+
+/* ===== Tape measure ===== */
+(function(){
+  let s = "";
+  for (let i=0;i<=600;i+=6){
+    const inch = i % 48 === 0, half = i % 24 === 0;
+    s += `<line x1="${i}" y1="0" x2="${i}" y2="${inch?22:half?15:8}" stroke="#1a1a1a" stroke-width="${inch?1.6:1}"/>`;
+    if (inch && i>0) s += `<text x="${i-3}" y="38" font-family="Public Sans, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="end" fill="${(i/48)%12===0?'#C8102E':'#1a1a1a'}">${i/48}</text>`;
+  }
+  $("#tapeSvg").innerHTML = s;
+})();
+
+/* ===== Theme toggle (defaults to light) ===== */
+const SUN = '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/>';
+const MOON = '<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/>';
+function setTheme(t){
+  document.documentElement.setAttribute("data-theme", t);
+  const dark = t === "dark";
+  $("#themeBtn").setAttribute("aria-pressed", String(dark));
+  $("#themeIcon").innerHTML = dark ? SUN : MOON;
+  $("#themeLabel").textContent = dark ? "Light mode" : "Dark mode";
+  try { localStorage.setItem("ci-theme", t); } catch(e){}
+}
+let saved = null; try { saved = localStorage.getItem("ci-theme"); } catch(e){}
+setTheme(saved === "dark" ? "dark" : "light");
+$("#themeBtn").addEventListener("click", () => setTheme(document.documentElement.getAttribute("data-theme")==="dark" ? "light" : "dark"));
+
+/* ===== Services + quote state ===== */
+const picked = new Map(); // key -> size index
+function renderServices(){
+  $("#svcGrid").innerHTML = SERVICES.map(s => `
+    <article class="svc" id="svc-${s.key}" aria-expanded="false">
+      <div class="swatch">${SWATCH[s.key]}</div>
+      <div class="body">
+        <h3>${s.name}</h3>
+        <p>${s.blurb}</p>
+        <ul>${s.items.map(i=>`<li>${i}</li>`).join("")}</ul>
+        <div class="row">
+          <button type="button" class="chip-toggle" data-add="${s.key}" aria-pressed="false">Add to quote</button>
+          <button type="button" class="link-btn" data-more="${s.key}">What’s included</button>
+        </div>
+      </div>
+    </article>`).join("");
+  $("#svcPick").innerHTML = SERVICES.map(s => `<button type="button" class="chip-toggle" data-add="${s.key}" aria-pressed="false">${s.name}</button>`).join("");
+  const opts = SERVICES.map(s=>`<option value="${s.key}">${s.name}</option>`).join("");
+  $("#upSvc").innerHTML = opts;
+}
+renderServices();
+
+document.addEventListener("click", e => {
+  const add = e.target.closest("[data-add]");
+  if (add){ toggleService(add.dataset.add, add.closest("#svcGrid") ? true : false); return; }
+  const more = e.target.closest("[data-more]");
+  if (more){
+    const card = $("#svc-" + more.dataset.more);
+    const open = card.getAttribute("aria-expanded") !== "true";
+    card.setAttribute("aria-expanded", String(open));
+    more.textContent = open ? "Hide details" : "What’s included";
+  }
+  const sz = e.target.closest("[data-size]");
+  if (sz){ picked.set(sz.dataset.key, +sz.dataset.size); renderSizes(); renderEstimate(); }
+});
+
+function toggleService(key, fromCard){
+  if (picked.has(key)) picked.delete(key); else picked.set(key, 1);
+  document.querySelectorAll(`[data-add="${key}"]`).forEach(b => {
+    const on = picked.has(key);
+    b.setAttribute("aria-pressed", String(on));
+    if (b.closest("#svcGrid")) b.textContent = on ? "Added to quote ✓" : "Add to quote";
+  });
+  if (fromCard && picked.has(key)) toast(SERVICES.find(s=>s.key===key).name + " added to your quote");
+  $("#svcErr").textContent = "";
+  renderSizes(); renderEstimate();
+}
+function renderSizes(){
+  $("#sizes").innerHTML = [...picked].map(([key, idx]) => {
+    const s = SERVICES.find(x=>x.key===key);
+    return `<div class="size-row"><strong>${s.name}</strong>
+      <div><div class="seg" role="group" aria-label="${s.name} job size">${SIZE_LABELS.map((l,i)=>`<button type="button" data-key="${key}" data-size="${i}" aria-pressed="${i===idx}">${l}</button>`).join("")}</div>
+      <div style="color:var(--muted);font-size:.85rem;margin-top:4px">${s.sizes[idx]}</div></div></div>`;
+  }).join("");
+}
+function computeEstimate(){
+  const mult = $("#timeline").value === "asap" ? CONFIG.rushMultiplier : 1;
+  let lo = 0, hi = 0; const lines = [];
+  for (const [key, idx] of picked){
+    const s = SERVICES.find(x=>x.key===key); const [a,b] = s.ranges[idx];
+    lo += a*mult; hi += b*mult;
+    lines.push({name:s.name, size:SIZE_LABELS[idx], lo:a*mult, hi:b*mult});
+  }
+  return {lo, hi, lines, rush: mult > 1};
+}
+function renderEstimate(){
+  const e = computeEstimate();
+  $("#estLines").innerHTML = e.lines.length
+    ? e.lines.map(l=>`<li><span>${l.name} <span style="color:var(--muted)">(${l.size})</span></span><span>${fmt(l.lo)} to ${fmt(l.hi)}</span></li>`).join("") + (e.rush?`<li><span>Rush scheduling</span><span>+15%</span></li>`:"")
+    : `<li><span>Pick a service to start</span><span>—</span></li>`;
+  $("#estTotal").textContent = e.lines.length ? `${fmt(e.lo)} to ${fmt(e.hi)}` : "$0";
+}
+$("#timeline").addEventListener("change", renderEstimate);
+
+/* ===== Capabilities (shared gallery, stored requests) ===== */
+let DB = null, USER = null, ASSETS = null, CAN_EDIT = false;
+let photos = []; let filter = "all";
+
+function renderFilters(){
+  const keys = ["all", ...SERVICES.map(s=>s.key)];
+  $("#filters").innerHTML = keys.map(k => `<button type="button" class="chip-toggle" data-filter="${k}" aria-pressed="${k===filter}">${k==="all"?"All":SERVICES.find(s=>s.key===k).name}</button>`).join("");
+}
+$("#filters").addEventListener("click", e => { const b = e.target.closest("[data-filter]"); if(!b) return; filter = b.dataset.filter; renderFilters(); renderGallery(); });
+renderFilters();
+
+function renderGallery(){
+  const list = photos.filter(p => filter==="all" || p.service===filter);
+  if (!list.length){
+    $("#gallery").innerHTML = `<div class="empty" style="grid-column:1/-1">${
+      photos.length ? "No photos for this service yet. Try another filter."
+      : CAN_EDIT ? "No job photos yet. Use “Add job photos” to upload your first finished project."
+      : "Project photos are on the way. In the meantime, request a quote and ask us for references."}</div>`;
+    return;
+  }
+  $("#gallery").innerHTML = list.map(p => {
+    const svc = SERVICES.find(s=>s.key===p.service);
+    return `<div style="position:relative"><button type="button" class="shot" data-open="${esc(p.id)}" aria-label="View photo: ${esc(p.caption||svc?.name||"Job photo")}">
+      <img src="${esc(p.src)}" alt="${esc(p.caption||svc?.name||"Job photo")}" loading="lazy">
+      <span class="cap"><b>${esc(svc?svc.name:"")}</b>${esc(p.caption||"")}</span></button>
+      ${CAN_EDIT && p.dbId ? `<button type="button" class="del" data-del="${esc(p.dbId)}" data-asset="${esc(p.assetId)}">Remove</button>`:""}</div>`;
+  }).join("");
+}
+$("#gallery").addEventListener("click", async e => {
+  const o = e.target.closest("[data-open]");
+  if (o){ const p = photos.find(x=>x.id===o.dataset.open); $("#lbImg").src=p.src; $("#lbImg").alt=p.caption||"Job photo"; $("#lbCap").textContent=p.caption||""; $("#lb").showModal(); return; }
+  const d = e.target.closest("[data-del]");
+  if (d && DB){
+    if (!confirm("Remove this photo from the gallery?")) return;
+    try { await DB.doc("gallery/" + d.dataset.del).delete(); if (ASSETS && d.dataset.asset) { try { await ASSETS.delete(d.dataset.asset); } catch(_){} } toast("Photo removed"); }
+    catch(err){ toast("Couldn’t remove the photo. Try again."); }
+  }
+});
+$("#lbClose").addEventListener("click", () => $("#lb").close());
+$("#lb").addEventListener("click", e => { if (e.target.id === "lb") $("#lb").close(); });
+
+/* Uploader */
+let pendingFiles = [];
+$("#openUploader").addEventListener("click", () => { const u=$("#uploader"); u.classList.toggle("on"); $("#openUploader").textContent = u.classList.contains("on") ? "Close uploader" : "Add job photos"; });
+function addFiles(list){
+  for (const f of list){ if (f.type.startsWith("image/")) pendingFiles.push(f); }
+  $("#pending").innerHTML = pendingFiles.map(f => `<img src="${URL.createObjectURL(f)}" alt="">`).join("");
+  $("#upErr").textContent = pendingFiles.length ? `${pendingFiles.length} photo${pendingFiles.length>1?"s":""} ready to upload` : "";
+}
+$("#fileIn").addEventListener("change", e => addFiles(e.target.files));
+const drop = $("#drop");
+drop.addEventListener("keydown", e => { if (e.key==="Enter"||e.key===" "){ e.preventDefault(); $("#fileIn").click(); } });
+["dragenter","dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave","drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", e => addFiles(e.dataTransfer.files));
+$("#upBtn").addEventListener("click", async () => {
+  if (!pendingFiles.length){ $("#upErr").textContent = "Choose at least one photo first."; return; }
+  if (!ASSETS || !DB){ $("#upErr").textContent = "Uploading isn’t available in this view. Open the page from your own account to add photos."; return; }
+  const btn = $("#upBtn"); btn.disabled = true; let done = 0;
+  for (const f of pendingFiles){
+    $("#upErr").textContent = `Uploading ${done+1} of ${pendingFiles.length}…`;
+    try {
+      const r = await ASSETS.upload(f, f.type ? undefined : {type:"image/jpeg"});
+      await DB.collection("gallery").add({assetId:r.id, caption:$("#upCap").value.trim().slice(0,90), service:$("#upSvc").value, createdAt:Date.now()});
+      done++;
+    } catch(err){
+      $("#upErr").textContent = `Stopped after ${done} photo${done===1?"":"s"}: ${err && err.code==="too_large" ? "a file is over the size limit." : "the upload didn’t go through. Try again."}`;
+      btn.disabled = false; return;
+    }
+  }
+  pendingFiles = []; $("#pending").innerHTML = ""; $("#upCap").value = "";
+  $("#upErr").textContent = ""; btn.disabled = false; toast(`${done} photo${done>1?"s":""} uploaded`);
+});
+
+/* ===== Quote form ===== */
+$("#qForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const v = id => $("#"+id).value.trim();
+  const errs = [];
+  if (!picked.size){ $("#svcErr").textContent = "Pick at least one service."; errs.push(1); }
+  if (!v("name")) errs.push("your name");
+  if (!/\d{7,}/.test(v("phone").replace(/\D/g,""))) errs.push("a phone number");
+  if (v("email") && !/^\S+@\S+\.\S+$/.test(v("email"))) errs.push("a valid email");
+  if (!v("city")) errs.push("your city or ZIP");
+  const fieldErrs = errs.filter(x=>x!==1);
+  $("#formErr").textContent = fieldErrs.length ? "Please add " + fieldErrs.join(", ") + "." : "";
+  if (errs.length) return;
+
+  const est = computeEstimate();
+  const req = {
+    at: Date.now(), name:v("name"), phone:v("phone"), email:v("email"), city:v("city"), pref:v("pref"),
+    property:v("prop"), timeline:$("#timeline").selectedOptions[0].text, description:v("desc"),
+    services: est.lines.map(l=>`${l.name} (${l.size})`), estimate:`${fmt(est.lo)} to ${fmt(est.hi)}`, handled:false
+  };
+  const summary = `Quote request from ${req.name}\nPhone: ${req.phone}\nEmail: ${req.email||"-"}\nLocation: ${req.city}\nContact by: ${req.pref}\nProperty: ${req.property}\nTimeline: ${req.timeline}\nServices: ${req.services.join(", ")}\nBallpark: ${req.estimate}\n\nDetails:\n${req.description||"-"}`;
+  const mailto = `mailto:${CONFIG.email}?subject=${encodeURIComponent("Quote request: " + req.services.map(s=>s.split(" (")[0]).join(", "))}&body=${encodeURIComponent(summary)}`;
+
+  let stored = false;
+  if (DB && USER){
+    try {
+      const uid = await USER.id();
+      if (uid){
+        const ref = DB.doc("inquiries/" + uid);
+        const snap = await ref.get();
+        const prev = snap.exists ? (snap.data().requests || []) : [];
+        await ref.set({requests:[...prev, req].slice(-25)});
+        stored = true;
+      }
+    } catch(err){ stored = false; }
+  }
+  const c = $("#confirm");
+  c.innerHTML = stored
+    ? `<strong>Thanks, ${esc(req.name.split(" ")[0])}. Your request is in.</strong><p style="margin:.4rem 0 0">We’ll reach you by ${esc(req.pref.toLowerCase())} within one business day to set up a site visit.</p>`
+    : `<strong>Almost done: send your request by email.</strong><p style="margin:.4rem 0 .8rem">Your details are filled in. Press send in your email app, or call ${esc(CONFIG.phone)}.</p><a class="btn btn-red btn-sm" href="${mailto}">Open email with my request</a>`;
+  c.classList.add("on");
+  if (stored){ e.target.reset(); picked.clear(); document.querySelectorAll("[data-add]").forEach(b=>{b.setAttribute("aria-pressed","false"); if(b.closest("#svcGrid")) b.textContent="Add to quote";}); renderSizes(); renderEstimate(); }
+  c.scrollIntoView({block:"nearest"});
+});
+
+/* Owner inbox */
+let inquiryDocs = [];
+function renderInbox(){
+  const all = [];
+  for (const d of inquiryDocs) (d.requests||[]).forEach((r,i)=>all.push({...r, _doc:d.id, _i:i}));
+  all.sort((a,b)=>b.at-a.at);
+  $("#reqList").innerHTML = all.length ? all.map(r => `
+    <article class="req ${r.handled?"done":""}">
+      <header><strong>${esc(r.name)} · ${esc(r.city)}</strong><span style="color:var(--muted)">${new Date(r.at).toLocaleString()}</span></header>
+      <div>${esc(r.services.join(", "))} · <strong>${esc(r.estimate)}</strong> · ${esc(r.timeline)}</div>
+      <div><a href="tel:${esc(r.phone.replace(/[^\d+]/g,""))}">${esc(r.phone)}</a>${r.email?` · <a href="mailto:${esc(r.email)}">${esc(r.email)}</a>`:""} · prefers ${esc(r.pref)}</div>
+      ${r.description?`<div style="color:var(--muted)">${esc(r.description)}</div>`:""}
+      <div><button type="button" class="chip-toggle" data-handled="${esc(r._doc)}|${r._i}" aria-pressed="${!!r.handled}">${r.handled?"Contacted ✓":"Mark as contacted"}</button></div>
+    </article>`).join("") : `<div class="empty">No quote requests yet. New ones show up here as soon as they’re sent.</div>`;
+}
+$("#reqList").addEventListener("click", async e => {
+  const b = e.target.closest("[data-handled]"); if (!b || !DB) return;
+  const [docId, i] = b.dataset.handled.split("|");
+  const d = inquiryDocs.find(x=>x.id===docId); if (!d) return;
+  const reqs = d.requests.map(r=>({...r})); reqs[+i].handled = !reqs[+i].handled;
+  try { await DB.doc("inquiries/" + docId).set({requests:reqs}); } catch(err){ toast("Couldn’t update that request."); }
+});
+
+/* Start with an empty gallery, then light up shared features if available */
+renderGallery(); renderEstimate();
+(async () => {
+  if (!window.claude || typeof window.claude.use !== "function") return;
+  try {
+    [DB, USER] = await Promise.all([claude.use("db"), claude.use("user")]);
+    if (USER) CAN_EDIT = await USER.canEdit();
+    if (CAN_EDIT) ASSETS = await claude.use("assets");
+  } catch(e){}
+  if (ASSETS) $("#openUploader").hidden = false;
+  if (!DB){ renderGallery(); return; }
+  const timer = setTimeout(renderGallery, 10000);
+  DB.collection("gallery").orderBy("createdAt","desc").onSnapshot(snap => {
+    clearTimeout(timer);
+    photos = snap.docs.map(d => { const x = d.data(); return {id:d.id, dbId:d.id, assetId:x.assetId, src:"/_blob/" + x.assetId, caption:x.caption, service:x.service}; });
+    renderGallery();
+  }, () => { clearTimeout(timer); renderGallery(); });
+  if (CAN_EDIT){
+    $("#inbox").classList.add("on"); renderInbox();
+    DB.collection("inquiries").onSnapshot(snap => {
+      inquiryDocs = snap.docs.map(d => ({id:d.id, ...d.data()}));
+      renderInbox();
+    }, () => {});
+  }
+})();
+</script>
+</body>
+</html>
